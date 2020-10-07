@@ -2,7 +2,6 @@
 #define PROTOK_H
 
 #include "quantum.h"
-#include "led.h"
 
 /* ProtoK LEDs
  *   D6 Capslock LED
