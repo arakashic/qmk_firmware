@@ -39,11 +39,10 @@
 /* #define LOCKING_RESYNC_ENABLE */
 
 /* key combination for command */
-/*
 #define IS_COMMAND() ( \
-    keyboard_report->mods == (MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT)) \
+    keyboard_report->mods == (MOD_BIT(KC_LALT) | MOD_BIT(KC_RALT)) \
 )
-*/
+
 /* prevent stuck modifiers */
 /*
 #define PREVENT_STUCK_MODIFIERS
@@ -57,4 +56,10 @@
 #define RGBLIGHT_VAL_STEP 8
 #endif
 */
+
+#define ONESHOT_TAP_TOGGLE 5  /* Tapping this number of times holds the key until tapped once again. */
+#define ONESHOT_TIMEOUT 5000  /* Time (in ms) before the one shot key is released */
+
+#define TERMINAL_HELP
+
 #endif
