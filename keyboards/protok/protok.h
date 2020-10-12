@@ -7,8 +7,10 @@
  *   D6 Capslock LED
  */
 
+/*
 inline void protok_caps_led_on(void)  { setPinOutput(D6); writePinLow(D6); }
 inline void protok_caps_led_off(void) { setPinInput(D6); }
+*/
 
 #define LAYOUT( \
 	K000, K001, K002, K003, K004, K005, K006, K007, K008, K009, K010, K011, K012, K013, K014, K015, \
