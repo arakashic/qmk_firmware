@@ -30,5 +30,6 @@ NKRO_ENABLE = yes			# USB Nkey Rollover - if this doesn't work, see here: https:
 # BLUETOOTH_ENABLE = yes	# Enable Bluetooth with the Adafruit EZ-Key HID
 TERMINAL_ENABLE = yes
 OLED_DRIVER_ENABLE = yes
+AUDIO_ENABLE = yes
 
 LAYOUTS = default

@@ -8,8 +8,7 @@
 #define PRODUCT_ID      0x0010
 #define DEVICE_VER      0x0002
 #define MANUFACTURER    UGO
-#define PRODUCT         ProtoK Keyboard Model II Rev2
-#define DESCRIPTION     ProtoK Macro Keyboard Model II
+#define PRODUCT         ProtoK Keyboard Model II Rev2 Dev
 
 /* key matrix size */
 #define MATRIX_ROWS 1
@@ -17,7 +16,7 @@
 
 /* key matrix pins */
 #define MATRIX_ROW_PINS { B10 }
-#define MATRIX_COL_PINS { A13, A14, B12, A15, A8, A7, A6 }
+#define MATRIX_COL_PINS { A13, A14, B12, B0, B1, B2, B3 }
 #define UNUSED_PINS
 
 /* COL2ROW or ROW2COL */
@@ -61,5 +60,14 @@
 #define ONESHOT_TIMEOUT 5000  /* Time (in ms) before the one shot key is released */
 
 #define TERMINAL_HELP
+
+#define OLED_DISPLAY_128X64
+// #define OLED_DISPLAY_WIDTH  128
+// #define OLED_DISPLAY_HEIGHT 64
+// #define OLED_MATRIX_SIZE    1024
+// #define OLED_BLOCK_COUNT    16
+// #define OLED_BLOCK_SIZE     64
+
+#define OLED_SCROLL_TIMEOUT 5000
 
 #endif
