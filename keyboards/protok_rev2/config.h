@@ -68,6 +68,9 @@
 // #define OLED_BLOCK_COUNT    16
 // #define OLED_BLOCK_SIZE     64
 
-#define OLED_SCROLL_TIMEOUT 5000
+// #define OLED_SCROLL_TIMEOUT 5000
+// #define I2C_DRIVER I2CD2
 
+// #define I2C1_SCL 8
+// #define I2C1_SDA 9
 #endif
