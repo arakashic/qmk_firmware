@@ -86,3 +86,12 @@ void led_set_user(uint8_t usb_led) {
     /* } */
 
 }
+
+bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case RSFT_T(KC_SPC):
+            return true;
+        default:
+            return false;
+    }
+}
