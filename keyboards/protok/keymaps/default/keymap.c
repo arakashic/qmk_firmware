@@ -104,3 +104,15 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
             return false;
     }
 }
+
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case RSFT_T(KC_SPC):
+            return TAPPING_TERM + 600;
+        /* case LT(1, KC_GRV): */
+        /*     return 130; */
+        default:
+            return TAPPING_TERM;
+    }
+}
+
