@@ -67,9 +67,9 @@ void matrix_init_user(void) {
 
 void keyboard_post_init_user(void) {
     // Customise these values to desired behaviour
-    /* debug_enable=true; */
-    /* debug_matrix=true; */
-    /* debug_keyboard=true; */
+    debug_enable=true;
+    debug_matrix=true;
+    debug_keyboard=true;
     //debug_mouse=true;
 }
 void matrix_scan_user(void) {
@@ -100,6 +100,7 @@ bool led_update_user(led_t led_state) {
 #ifdef AUDIO_ENABLE
     static uint8_t caps_state = 0;
     if (caps_state != led_state.caps_lock) {
+        uprintf("LED Status Changed.\n");
         led_state.caps_lock ? PLAY_SONG(caps_on) : PLAY_SONG(caps_off);
         caps_state = led_state.caps_lock;
     }
@@ -153,7 +154,7 @@ bool led_update_user(led_t led_state) {
     /* }; */
 
     /* oled_write_P(qmk_logo, false); */
-}
+/* } */
 
 /* void render_logo(void) { */
 /*     static const char PROGMEM qmk_logo[] = { */
@@ -179,14 +180,17 @@ void oled_task_user(void) {
     oled_write_P(PSTR("Layer: "), false);
 
     switch (get_highest_layer(layer_state)) {
-        case _QWERTY:
+        case L_DEF:
             oled_write_P(PSTR("Default\n"), false);
             break;
-        case _FN:
+        case L_FUN:
             oled_write_P(PSTR("FN\n"), false);
             break;
-        case _ADJ:
-            oled_write_P(PSTR("ADJ\n"), false);
+        case L_CMD:
+            oled_write_P(PSTR("Command\n"), false);
+            break;
+        case L_SET:
+            oled_write_P(PSTR("Setup\n"), false);
             break;
         default:
             // Or use the write_ln shortcut over adding '\n' to the end of your string
