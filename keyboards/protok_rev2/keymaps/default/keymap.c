@@ -67,65 +67,64 @@ void matrix_init_user(void) {
 
 void keyboard_post_init_user(void) {
     // Customise these values to desired behaviour
-    debug_enable=true;
-    debug_matrix=true;
-    debug_keyboard=true;
+    /* debug_enable=true; */
+    /* debug_matrix=true; */
+    /* debug_keyboard=true; */
     //debug_mouse=true;
 }
 void matrix_scan_user(void) {
 }
 
+#ifdef AUDIO_ENABLE
+float my_song[][2] = SONG(QWERTY_SOUND);
+float caps_on[][2] = SONG(CAPS_LOCK_ON_SOUND);
+float caps_off[][2] = SONG(CAPS_LOCK_OFF_SOUND);
+#endif
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    float my_song[][2] = SONG(QWERTY_SOUND);
+#ifdef CONSOLE_ENABLE
+    uprintf("KL: kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u, interrupt: %b, count: %u\n",
+            keycode, record->event.key.col, record->event.key.row, record->event.pressed,
+            record->event.time, record->tap.interrupted, record->tap.count);
+#endif
+#ifdef AUDIO_ENABLE
     if (keycode == DEBUG && record->event.pressed) {
         PLAY_SONG(my_song);
-        print("debug pressed.\n");
+        uprintf("debug pressed.\n");
     }
+#endif
     return true;
 }
 
-void led_set_user(uint8_t usb_led) {
-
-    /* if (usb_led & (1 << USB_LED_NUM_LOCK)) { */
-    /* } else { */
-    /* } */
-
-    /* if (usb_led & (1 << USB_LED_CAPS_LOCK)) { */
-    /* } else { */
-    /* } */
-
-    /* if (usb_led & (1 << USB_LED_SCROLL_LOCK)) { */
-    /* } else { */
-    /* } */
-
-    /* if (usb_led & (1 << USB_LED_COMPOSE)) { */
-    /* } else { */
-    /* } */
-
-    /* if (usb_led & (1 << USB_LED_KANA)) { */
-    /* } else { */
-    /* } */
-
+bool led_update_user(led_t led_state) {
+#ifdef AUDIO_ENABLE
+    static uint8_t caps_state = 0;
+    if (caps_state != led_state.caps_lock) {
+        led_state.caps_lock ? PLAY_SONG(caps_on) : PLAY_SONG(caps_off);
+        caps_state = led_state.caps_lock;
+    }
+#endif
+    return true;
 }
 
 #ifdef OLED_DRIVER_ENABLE
 
-void render_status(void);
+/* void render_status(void); */
 /* void render_logo(void); */
 
-void render_status(void) {
+/* void render_status(void) { */
 
     // Render to mode icon
     /* static const char os_logo[][2][3] PROGMEM  ={{{0x95,0x96,0},{0xb5,0xb6,0}},{{0x97,0x98,0},{0xb7,0xb8,0}}}; */
 
-    oled_clear();
+    /* oled_clear(); */
 
-    oled_write_P(PSTR("A\n"), false);
-    oled_write_P(PSTR("BC\n"), false);
-    oled_write_P(PSTR("0123456789ABCDEFGHIJKL\n"), false);
-    oled_write_char(0x7f, false);
-    oled_write_char(0x0, false);
-    oled_write_pixel(64, 32, true);
+    /* oled_write_P(PSTR("A\n"), false); */
+    /* oled_write_P(PSTR("BC\n"), false); */
+    /* oled_write_P(PSTR("0123456789ABCDEFGHIJKL\n"), false); */
+    /* oled_write_char(0x7f, false); */
+    /* oled_write_char(0x0, false); */
+    /* oled_write_pixel(64, 32, true); */
     /* if (is_mac_mode()) { */
     /* oled_write_P(os_logo[0][0], false); */
     /* oled_write_P(PSTR("\n"), false); */
@@ -140,33 +139,12 @@ void render_status(void) {
 
     /* oled_write_P(eeconfig_read_debug() ? PSTR("DBG ") : PSTR("NDBG "), false); */
 
-    // Host Keyboard Layer Status
-    /* oled_write_P(PSTR("Layer: "), false); */
-
-    /* switch (get_highest_layer(layer_state)) { */
-    /* case _QWERTY: */
-    /*     oled_write_P(PSTR("Default\n"), false); */
-    /*     break; */
-    /* case _FUNCTION: */
-    /*     oled_write_P(PSTR("Function\n"), false); */
-    /*     break; */
-    /* case _COMMAND: */
-    /*     oled_write_P(PSTR("Command\n"), false); */
-    /*     break; */
-    /* case _SETUP: */
-    /*     oled_write_P(PSTR("Setup\n"), false); */
-    /*     break; */
-    /* default: */
-    /*     // Or use the write_ln shortcut over adding '\n' to the end of your string */
-    /*     oled_write_ln_P(PSTR("Undefined"), false); */
-    /* } */
-
     /* oled_write_P(PSTR("\n"), false); */
 
     /* // Host Keyboard LED Status */
     /* led_t led_state = host_keyboard_led_state(); */
     /* oled_write_P(led_state.num_lock ? PSTR("NUM ") : PSTR("NAH"), false); */
-    oled_write_P(host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK) ? PSTR("CAP ") : PSTR("NAH"), false);
+    /* oled_write_P(host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK) ? PSTR("CAP ") : PSTR("NAH"), false); */
     /* oled_write_P(led_state.scroll_lock ? PSTR("SCR ") : PSTR("NAH"), false); */
     /* static const char PROGMEM qmk_logo[] = { */
     /*     0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8A, 0x8B, 0x8C, 0x8D, 0x8E, 0x8F, 0x90, 0x91, 0x92, 0x93, 0x94, */
@@ -187,13 +165,39 @@ void render_status(void) {
 /*     oled_write_P(qmk_logo, false); */
 /* } */
 
-void oled_task_user(void) {
+/* void oled_task_user(void) { */
     /* if(is_keyboard_master()){ */
-    render_status();
+    /* render_status(); */
     /* }else{ */
     /* render_logo(); */
     /*   /1* render_rgbled_status(true); *1/ */
     /* } */
+/* } */
+
+void oled_task_user(void) {
+    // Host Keyboard Layer Status
+    oled_write_P(PSTR("Layer: "), false);
+
+    switch (get_highest_layer(layer_state)) {
+        case _QWERTY:
+            oled_write_P(PSTR("Default\n"), false);
+            break;
+        case _FN:
+            oled_write_P(PSTR("FN\n"), false);
+            break;
+        case _ADJ:
+            oled_write_P(PSTR("ADJ\n"), false);
+            break;
+        default:
+            // Or use the write_ln shortcut over adding '\n' to the end of your string
+            oled_write_ln_P(PSTR("Undefined"), false);
+    }
+
+    // Host Keyboard LED Status
+    led_t led_state = host_keyboard_led_state();
+    oled_write_P(led_state.num_lock ? PSTR("NUM ") : PSTR("    "), false);
+    oled_write_P(led_state.caps_lock ? PSTR("CAP ") : PSTR("    "), false);
+    oled_write_P(led_state.scroll_lock ? PSTR("SCR ") : PSTR("    "), false);
 }
 #endif
 
