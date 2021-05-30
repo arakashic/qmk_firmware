@@ -21,7 +21,7 @@
                            A9, A10,  B4,  B3 }
 #define UNUSED_PINS
 
-#define LED_CAPS_LOCK_PIN A13
+/* #define LED_CAPS_LOCK_PIN A13 */
 
 /* COL2ROW or ROW2COL */
 #define DIODE_DIRECTION COL2ROW
