@@ -85,4 +85,8 @@
 /* #define IGNORE_MOD_TAP_INTERRUPT_PER_KEY */
 /* #define TAPPING_FORCE_HOLD */
 
+#define AUDIO_PIN A5
+#define AUDIO_PIN_ALT A4
+#define AUDIO_PIN_ALT_AS_NEGATIVE
+
 #endif
