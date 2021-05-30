@@ -21,6 +21,8 @@
                            B7,  B6,  B4,  B3 }
 #define UNUSED_PINS
 
+#define LED_CAPS_LOCK_PIN A13
+
 /* COL2ROW or ROW2COL */
 #define DIODE_DIRECTION COL2ROW
 
@@ -88,5 +90,8 @@
 #define AUDIO_PIN A5
 #define AUDIO_PIN_ALT A4
 #define AUDIO_PIN_ALT_AS_NEGATIVE
+
+// DEBUG
+#define DEBUG_MATRIX_SCAN_RATE
 
 #endif
