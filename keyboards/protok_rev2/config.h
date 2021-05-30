@@ -18,7 +18,7 @@
 #define MATRIX_ROW_PINS { B2, B1, B0, A6, A7, A8, A15 }
 #define MATRIX_COL_PINS { A14, B12, B11, B10,  B9, B15, \
                            A2,  A1,  A0,  B8, B13, B14, \
-                           B7,  B6,  B4,  B3 }
+                           A9, A10,  B4,  B3 }
 #define UNUSED_PINS
 
 #define LED_CAPS_LOCK_PIN A13
@@ -65,7 +65,7 @@
 
 #define TERMINAL_HELP
 
-/* #define OLED_DISPLAY_128X64 */
+#define OLED_DISPLAY_128X64
 // #define OLED_DISPLAY_WIDTH  128
 // #define OLED_DISPLAY_HEIGHT 64
 // #define OLED_MATRIX_SIZE    1024
@@ -73,10 +73,11 @@
 // #define OLED_BLOCK_SIZE     64
 
 // #define OLED_SCROLL_TIMEOUT 5000
-#define I2C_DRIVER I2CD2
+/* #define I2C_DRIVER I2CD2 */
 
-// #define I2C1_SCL 8
-// #define I2C1_SDA 9
+/* #define I2C2_BANK GPIOB */
+/* #define I2C2_SCL 9 */
+/* #define I2C2_SDA 10 */
 
 /* configurations for mod-tap keys */
 /* #define TAPPING_TERM 200 */
