@@ -1,6 +1,6 @@
 #include "protok.h"
 #include "print.h"
-/* #include "song_list.h" */
+#include "song_list.h"
 
 enum layer_names {
     L_DEF = 0,
@@ -76,11 +76,11 @@ void matrix_scan_user(void) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    /* float my_song[][2] = SONG(QWERTY_SOUND); */
-    /* if (keycode == DEBUG && record->event.pressed) { */
-    /*     PLAY_SONG(my_song); */
-    /*     print("debug pressed.\n"); */
-    /* } */
+    float my_song[][2] = SONG(QWERTY_SOUND);
+    if (keycode == DEBUG && record->event.pressed) {
+        PLAY_SONG(my_song);
+        print("debug pressed.\n");
+    }
     return true;
 }
 
