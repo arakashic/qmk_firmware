@@ -11,12 +11,14 @@
 #define PRODUCT         ProtoK Keyboard Model II Rev2 Dev
 
 /* key matrix size */
-#define MATRIX_ROWS 1
-#define MATRIX_COLS 7
+#define MATRIX_ROWS 7
+#define MATRIX_COLS 16
 
 /* key matrix pins */
-#define MATRIX_ROW_PINS { B10 }
-#define MATRIX_COL_PINS { A13, A14, B12, B0, B1, B2, B3 }
+#define MATRIX_ROW_PINS { B2, B1, B0, A6, A7, A8, A15 }
+#define MATRIX_COL_PINS { A14, B12, B11, B10,  B9, B15, \
+                           A2,  A1,  A0,  B8, B13, B14, \
+                           B7,  B6,  B4,  B4 }
 #define UNUSED_PINS
 
 /* COL2ROW or ROW2COL */
@@ -61,7 +63,7 @@
 
 #define TERMINAL_HELP
 
-#define OLED_DISPLAY_128X64
+/* #define OLED_DISPLAY_128X64 */
 // #define OLED_DISPLAY_WIDTH  128
 // #define OLED_DISPLAY_HEIGHT 64
 // #define OLED_MATRIX_SIZE    1024
@@ -73,4 +75,14 @@
 
 // #define I2C1_SCL 8
 // #define I2C1_SDA 9
+
+/* configurations for mod-tap keys */
+/* #define TAPPING_TERM 200 */
+#define TAPPING_TERM_PER_KEY
+/* #define PERMISSIVE_HOLD */
+#define PERMISSIVE_HOLD_PER_KEY
+/* #define IGNORE_MOD_TAP_INTERRUPT */
+/* #define IGNORE_MOD_TAP_INTERRUPT_PER_KEY */
+/* #define TAPPING_FORCE_HOLD */
+
 #endif
