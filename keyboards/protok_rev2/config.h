@@ -13,18 +13,23 @@
 /* key matrix size */
 #define MATRIX_ROWS 7
 #define MATRIX_COLS 16
+#define MATRIX_COL_ADDR_BITS 4
+/* compensate extra wait due to col read */
+#define MATRIX_IO_DELAY 14
 
-/* key matrix pins */
-#define MATRIX_ROW_PINS { B2, B1, B0, A6, A7, A8, A15 }
-#define MATRIX_COL_PINS { A14, B12, B11, B10,  B9, B15, \
-                           A2,  A1,  A0,  B8, B13, B14, \
-                           A9, A10,  B4,  B3 }
+/* key matrix pins, using mux/demux on columns */
+#define MATRIX_ROW_PINS { B15, B9, B10, B11, B12, A14, A13 }
+/* #define MATRIX_COL_PINS { A14, B12, B11, B10,  B9, B15, \ */
+/*                            A2,  A1,  A0,  B8, B13, B14, \ */
+/*                            A9, A10,  B4,  B3 } */
+#define MATRIX_COL_SIG_PIN B0
+#define MATRIX_COL_ADDR_PINS { A15, A8, A7, A6 }
 #define UNUSED_PINS
 
 /* #define LED_CAPS_LOCK_PIN A13 */
 
 /* COL2ROW or ROW2COL */
-#define DIODE_DIRECTION COL2ROW
+#define DIODE_DIRECTION COL2ROW // Not used, just for info of the DIODE
 
 /* number of backlight levels */
 
