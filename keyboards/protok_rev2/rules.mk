@@ -33,5 +33,8 @@ TERMINAL_ENABLE = yes
 OLED_DRIVER_ENABLE = yes
 AUDIO_ENABLE = yes
 AUDIO_DRIVER = dac_basic
+CUSTOM_MATRIX = lite
 
 LAYOUTS = default
+
+SRC += matrix.c
