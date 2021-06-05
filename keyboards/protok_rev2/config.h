@@ -15,7 +15,7 @@
 #define MATRIX_COLS 16
 
 /* choose matrix mode */
-#define MATRIX_USE_COL_MUX
+#define MATRIX_USE_COL_IOEXT
 
 #if defined(MATRIX_USE_COL_MUX)
 /* Diode direction is COL2ROW */
@@ -27,6 +27,11 @@
 #define MATRIX_ROW_PINS { B15, B9, B10, B11, B12, A14, A13 }
 #define MATRIX_COL_SIG_PIN B0
 #define MATRIX_COL_ADDR_PINS { A15, A8, A7, A6 }
+#elif defined(MATRIX_USE_COL_IOEXT)
+/* Diode direction is COL2ROW */
+
+#define MATRIX_ROW_PINS { B15, B9, B10, B11, B12, A14, A13 }
+#define MATRIX_COL_SEL_PIN B8
 #else
 #define MATRIX_ROW_PINS { B15, B9, B10, B11, B12, A14, A13 }
 #define MATRIX_COL_PINS { A14, B12, B11, B10,  B9, B15, \
