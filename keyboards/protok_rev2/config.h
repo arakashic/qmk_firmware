@@ -13,23 +13,33 @@
 /* key matrix size */
 #define MATRIX_ROWS 7
 #define MATRIX_COLS 16
+
+/* choose matrix mode */
+#define MATRIX_USE_COL_MUX
+
+#if defined(MATRIX_USE_COL_MUX)
+/* Diode direction is COL2ROW */
 #define MATRIX_COL_ADDR_BITS 4
-/* compensate extra wait due to col read */
+/* compensate extra wait due to col read, 30us - 1us per col * 16 cols */
 #define MATRIX_IO_DELAY 14
 
 /* key matrix pins, using mux/demux on columns */
 #define MATRIX_ROW_PINS { B15, B9, B10, B11, B12, A14, A13 }
-/* #define MATRIX_COL_PINS { A14, B12, B11, B10,  B9, B15, \ */
-/*                            A2,  A1,  A0,  B8, B13, B14, \ */
-/*                            A9, A10,  B4,  B3 } */
 #define MATRIX_COL_SIG_PIN B0
 #define MATRIX_COL_ADDR_PINS { A15, A8, A7, A6 }
+#else
+#define MATRIX_ROW_PINS { B15, B9, B10, B11, B12, A14, A13 }
+#define MATRIX_COL_PINS { A14, B12, B11, B10,  B9, B15, \
+                           A2,  A1,  A0,  B8, B13, B14, \
+                           A9, A10,  B4,  B3 }
+/* COL2ROW or ROW2COL */
+#define DIODE_DIRECTION COL2ROW
+#endif
+
 #define UNUSED_PINS
 
 /* #define LED_CAPS_LOCK_PIN A13 */
 
-/* COL2ROW or ROW2COL */
-#define DIODE_DIRECTION COL2ROW // Not used, just for info of the DIODE
 
 /* number of backlight levels */
 
@@ -51,38 +61,13 @@
     keyboard_report->mods == (MOD_BIT(KC_LALT) | MOD_BIT(KC_RALT)) \
 )
 
-/* prevent stuck modifiers */
-/*
-#define PREVENT_STUCK_MODIFIERS
-
-
-#ifdef RGB_DI_PIN
-#define RGBLIGHT_ANIMATIONS
-#define RGBLED_NUM 0
-#define RGBLIGHT_HUE_STEP 8
-#define RGBLIGHT_SAT_STEP 8
-#define RGBLIGHT_VAL_STEP 8
-#endif
-*/
-
-#define ONESHOT_TAP_TOGGLE 5  /* Tapping this number of times holds the key until tapped once again. */
+/* Tapping this number of times holds the key until tapped once again. */
+// #define ONESHOT_TAP_TOGGLE 5
 #define ONESHOT_TIMEOUT 5000  /* Time (in ms) before the one shot key is released */
 
 #define TERMINAL_HELP
 
 #define OLED_DISPLAY_128X64
-// #define OLED_DISPLAY_WIDTH  128
-// #define OLED_DISPLAY_HEIGHT 64
-// #define OLED_MATRIX_SIZE    1024
-// #define OLED_BLOCK_COUNT    16
-// #define OLED_BLOCK_SIZE     64
-
-// #define OLED_SCROLL_TIMEOUT 5000
-/* #define I2C_DRIVER I2CD2 */
-
-/* #define I2C2_BANK GPIOB */
-/* #define I2C2_SCL 9 */
-/* #define I2C2_SDA 10 */
 
 /* configurations for mod-tap keys */
 /* #define TAPPING_TERM 200 */
@@ -96,8 +81,5 @@
 #define AUDIO_PIN A5
 #define AUDIO_PIN_ALT A4
 #define AUDIO_PIN_ALT_AS_NEGATIVE
-
-// DEBUG
-#define DEBUG_MATRIX_SCAN_RATE
 
 #endif
