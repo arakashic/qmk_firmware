@@ -5,9 +5,6 @@
 #include "debounce.h"
 #include "quantum.h"
 
-static const pin_t row_pins[MATRIX_ROWS] = MATRIX_ROW_PINS;
-static const pin_t col_addr_pins[MATRIX_COL_ADDR_BITS] = MATRIX_COL_ADDR_PINS;
-
 /* matrix state(1:on, 0:off) */
 extern matrix_row_t raw_matrix[MATRIX_ROWS];  // raw values
 extern matrix_row_t matrix[MATRIX_ROWS];      // debounced values
@@ -22,6 +19,11 @@ static inline void setPinOutput_writeLow(pin_t pin) {
 static inline void setPinInputHigh_atomic(pin_t pin) {
     ATOMIC_BLOCK_FORCEON { setPinInputHigh(pin); }
 }
+
+#ifdef MATRIX_USE_COL_MUX
+/* only for COL2ROW diode direction */
+static const pin_t row_pins[MATRIX_ROWS] = MATRIX_ROW_PINS;
+static const pin_t col_addr_pins[MATRIX_COL_ADDR_BITS] = MATRIX_COL_ADDR_PINS;
 
 // matrix code
 
@@ -113,3 +115,5 @@ uint8_t matrix_scan_custom(void) {
     matrix_scan_quantum();
     return (uint8_t)changed;
 }
+
+#endif /* MATRIX_USE_COL_MUX */
