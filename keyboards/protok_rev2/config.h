@@ -15,9 +15,11 @@
 #define MATRIX_COLS 16
 
 /* choose matrix mode */
+/* #define MATRIX_USE_COL_MUX */
 #define MATRIX_USE_COL_IOEXT
 
 #if defined(MATRIX_USE_COL_MUX)
+
 /* Diode direction is COL2ROW */
 #define MATRIX_COL_ADDR_BITS 4
 /* compensate extra wait due to col read, 30us - 1us per col * 16 cols */
@@ -27,18 +29,37 @@
 #define MATRIX_ROW_PINS { B15, B9, B10, B11, B12, A14, A13 }
 #define MATRIX_COL_SIG_PIN B0
 #define MATRIX_COL_ADDR_PINS { A15, A8, A7, A6 }
+
 #elif defined(MATRIX_USE_COL_IOEXT)
-/* Diode direction is COL2ROW */
 
 #define MATRIX_ROW_PINS { B15, B9, B10, B11, B12, A14, A13 }
-#define MATRIX_COL_SEL_PIN B8
+/* Diode direction is COL2ROW */
+
+#define IOEXT_USE_SPI
+
+#if defined(IOEXT_USE_SPI)
+
+#include "MCP23S17.h"
+#define MATRIX_COL_CS_PIN B8
+#define MATRIX_COL_RST_PIN B9
+extern MCP23S17_t matrix_col_dev;
+
+#elif defined(IOEXT_USE_I2C)
+
 #else
+#error "IOEXT protocol undefined"
+#endif
+
+
+#else
+
 #define MATRIX_ROW_PINS { B15, B9, B10, B11, B12, A14, A13 }
 #define MATRIX_COL_PINS { A14, B12, B11, B10,  B9, B15, \
                            A2,  A1,  A0,  B8, B13, B14, \
                            A9, A10,  B4,  B3 }
 /* COL2ROW or ROW2COL */
 #define DIODE_DIRECTION COL2ROW
+
 #endif
 
 #define UNUSED_PINS
