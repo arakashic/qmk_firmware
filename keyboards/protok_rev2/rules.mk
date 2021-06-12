@@ -37,4 +37,7 @@ CUSTOM_MATRIX = lite
 
 LAYOUTS = default
 
-SRC += matrix.c
+SRC += matrix.c \
+       MCP23S17.c
+
+QUANTUM_LIB_SRC = spi_master.c
