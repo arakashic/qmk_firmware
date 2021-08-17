@@ -1,6 +1,7 @@
 #include "protok.h"
 
-#include "spi_master.h"
+/* #include "spi_master.h" */
+#include "i2c_master.h"
 
 /* extern inline void protok_caps_led_on(void); */
 /* extern inline void protok_caps_led_off(void); */
@@ -40,6 +41,7 @@
 
 void keyboard_pre_init_kb()
 {
-    /* init SPI here so that matrix could use it */
-    spi_init();
+    /* /1* init SPI here so that matrix could use it *1/ */
+    /* spi_init(); */
+    /* i2c_init(); */
 }

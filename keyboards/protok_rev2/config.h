@@ -17,6 +17,7 @@
 /* choose matrix mode */
 /* #define MATRIX_USE_COL_MUX */
 /* #define MATRIX_USE_COL_IOEXT */
+#define MATRIX_USE_COL_23017
 
 #if defined(MATRIX_USE_COL_MUX)
 
@@ -41,6 +42,11 @@
 #define MATRIX_COL_RST_PIN B9
 
 extern MCP23S17_t matrix_col_dev;
+
+#elif defined(MATRIX_USE_COL_23017)
+
+#define MATRIX_ROW_PINS { B15, B9, B10, B11, B12, A14, A13 }
+/* Diode direction is COL2ROW */
 
 #else
 
