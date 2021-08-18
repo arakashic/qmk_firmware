@@ -38,6 +38,6 @@ CUSTOM_MATRIX = lite
 LAYOUTS = default
 
 SRC += matrix.c \
-       MCP23017.c
+       MCP23x17.c
 
 QUANTUM_LIB_SRC = i2c_master.c

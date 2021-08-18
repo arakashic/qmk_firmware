@@ -1,5 +1,5 @@
-#ifndef _MCP23017_H
-#define _MCP23017_H
+#ifndef _MCP23x17_H
+#define _MCP23x17_H
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -8,6 +8,13 @@
 
 #define MCP_PORTA 0
 #define MCP_PORTB 1
+
+#define MCP_WRITE 0x00
+#define MCP_READ 0x01
+#define MCP_CMD 0b01000000
+#define MCP_ADDR_WRITE(dev) (MCP_CMD | (dev)->addr_s | MCP_WRITE)
+#define MCP_ADDR_READ(dev) (MCP_CMD | (dev)->addr_s | MCP_READ)
+
 
 enum {
     MCP_PIN_OUTPUT = 0,
@@ -35,7 +42,7 @@ enum {
     MCP_NUM_PINS
 };
 
-enum MCP23017_regs {
+enum MCP23x17_regs {
     MCP_IODIRA,     MCP_IODIRB,
     MCP_IPOLA,      MCP_IPOLB,
     MCP_GPINTENA,   MCP_GPINTENB,
@@ -49,6 +56,9 @@ enum MCP23017_regs {
     MCP_OLATA,      MCP_OLATB,
     MCP_NUM_REGS
 };
+
+#define MCP23017
+#ifdef MCP23017
 
 typedef struct MCP23017 {
     uint8_t addr;  /* 3-bit chip address */
@@ -76,5 +86,7 @@ uint8_t mcp_read_port(MCP23017_t *dev, uint8_t port);
 /* void mcp_write_allport(MCP23017_t *dev, uint16_t val); */
 
 void mcp_print_all(MCP23017_t *dev);
+
+#endif
 
 #endif
