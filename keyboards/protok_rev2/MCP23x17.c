@@ -1,5 +1,7 @@
 
-#include "MCP23017.h"
+#include "MCP23x17.h"
+
+#ifdef MCP23017
 #include "i2c_master.h"
 
 #define I2C_STATUS_CHECK(var) \
@@ -24,12 +26,6 @@
 
 #define HIGH 1
 #define LOW 0
-
-#define MCP_WRITE 0x00
-#define MCP_READ 0x01
-#define MCP_CMD 0b01000000
-#define MCP_ADDR_WRITE(dev) (MCP_CMD | (dev)->addr_s | MCP_WRITE)
-#define MCP_ADDR_READ(dev) (MCP_CMD | (dev)->addr_s | MCP_READ)
 
 i2c_status_t mcp_status = I2C_STATUS_SUCCESS;
 
@@ -121,3 +117,5 @@ uint8_t mcp_read_port(MCP23017_t *dev, uint8_t port)
         return dev->reg[MCP_GPIOB];
     }
 }
+
+#endif
