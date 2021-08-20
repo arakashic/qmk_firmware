@@ -142,7 +142,7 @@ static void unselect_row(uint8_t row) { setPinInputHigh_atomic(row_pins[row]); }
 
 static void init_pins(void) {
     i2c_init();
-    wait_us(10);
+    wait_us(1000);
     /* force reset */
     mcp_init_dev(&matrix_col_dev, 0U);
     /* PORT A/B output, PORT A as row select, PORT B as col read */
@@ -150,8 +150,10 @@ static void init_pins(void) {
     mcp_write_register(&matrix_col_dev, MCP_IOCONB, 0b00001000);
     mcp_write_register16(&matrix_col_dev, MCP_IODIRA, 0xFFFFu);
     mcp_write_register16(&matrix_col_dev, MCP_GPPUA, 0xFFFFu);
-    mcp_write_port16(&matrix_col_dev, 0xffffu);
+    wait_us(10);
+    mcp_read_all(&matrix_col_dev);
     mcp_save_mode(&matrix_col_dev);
+    wait_us(10);
     /* setup rows */
     for (uint8_t x = 0; x < MATRIX_ROWS; x++) {
         setPinInputHigh_atomic(row_pins[x]);
@@ -163,14 +165,16 @@ static bool read_cols_on_row(matrix_row_t current_matrix[], uint8_t current_row)
     matrix_row_t current_row_value = 0;
     uint16_t data = 0;
 
+    /* mcp_write_port16(&matrix_col_dev, 0xffffu); */
+    /* wait_us(10); */
+
     // Select row
     select_row(current_row);
     matrix_output_select_delay();
 
-    mcp_write_port16(&matrix_col_dev, 0xffffu);
-    wait_us(1);
+    /* wait_us(10); */
     data = mcp_read_port16(&matrix_col_dev);
-    /* if (data != 0xffffu) { */
+    /* if (data != 0xFFFFu) { */
     /*     uprintf("row %d value %x\n", current_row, ~data); */
     /* } */
     current_row_value = ~data;
