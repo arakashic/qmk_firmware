@@ -21,6 +21,9 @@ static inline void setPinInputHigh_atomic(pin_t pin) {
     ATOMIC_BLOCK_FORCEON { setPinInputHigh(pin); }
 }
 
+static inline void setPinInputLow_atomic(pin_t pin) {
+    ATOMIC_BLOCK_FORCEON { setPinInputLow(pin); }
+}
 
 #ifdef MATRIX_USE_COL_MUL
 /* only for COL2ROW diode direction */
@@ -126,8 +129,8 @@ uint8_t matrix_scan_custom(void) {
 
 #include "MCP23x17.h"
 #include "i2c_master.h"
-/* only for COL2ROW diode direction */
-MCP23017_t matrix_col_dev;      // debounced values
+/* only for COL2ROW diode direction, cols as input accept active low */
+MCP23017_t matrix_col_dev;
 
 static const pin_t row_pins[MATRIX_ROWS] = MATRIX_ROW_PINS;
 
@@ -137,44 +140,40 @@ static void select_row(uint8_t row) { setPinOutput_writeLow(row_pins[row]); }
 
 static void unselect_row(uint8_t row) { setPinInputHigh_atomic(row_pins[row]); }
 
-static void unselect_rows(void) {
+static void init_pins(void) {
+    i2c_init();
+    wait_us(10);
+    /* force reset */
+    mcp_init_dev(&matrix_col_dev, 0U);
+    /* PORT A/B output, PORT A as row select, PORT B as col read */
+    mcp_write_register(&matrix_col_dev, MCP_IOCONA, 0b00001000);
+    mcp_write_register(&matrix_col_dev, MCP_IOCONB, 0b00001000);
+    mcp_write_register16(&matrix_col_dev, MCP_IODIRA, 0xFFFFu);
+    mcp_write_register16(&matrix_col_dev, MCP_GPPUA, 0xFFFFu);
+    mcp_write_port16(&matrix_col_dev, 0xffffu);
+    mcp_save_mode(&matrix_col_dev);
+    /* setup rows */
     for (uint8_t x = 0; x < MATRIX_ROWS; x++) {
         setPinInputHigh_atomic(row_pins[x]);
     }
 }
 
-static void init_pins(void) {
-    /* i2c_init(); */
-    /* wait_ms(1000); */
-    /* force reset */
-    mcp_init_dev(&matrix_col_dev, 0U);
-    /* mcp_begin(&matrix_col_dev); */
-    /* for (uint8_t i = 0; i < MCP_NUM_PINS; i++) { */
-    /*     mcp_pin_mode(&matrix_col_dev, i, MCP_PIN_INPUT); */
-    /* } */
-    unselect_rows();
-}
-
 static bool read_cols_on_row(matrix_row_t current_matrix[], uint8_t current_row) {
     // Start with a clear matrix row
     matrix_row_t current_row_value = 0;
+    uint16_t data = 0;
 
     // Select row
     select_row(current_row);
     matrix_output_select_delay();
 
-    /* uprintf("read\n"); */
-    /* mcp_read_register(&matrix_col_dev, MCP_IOCONA); */
-    /* mcp_print_all(&matrix_col_dev); */
-    /* uprintf("read gpio\n"); */
-    /* mcp_read_register(&matrix_col_dev, MCP_GPIOA); */
-    /* mcp_print_all(&matrix_col_dev); */
-    /* uprintf("write\n"); */
-    /* mcp_write_register(&matrix_col_dev, MCP_IOCONA, 0x18); */
-    /* mcp_print_all(&matrix_col_dev); */
-    /* wait_ms(1000); */
-    uint8_t data = mcp_read_port(&matrix_col_dev, MCP_PORTA);
-    uprintf("port A=%d\n", data);
+    mcp_write_port16(&matrix_col_dev, 0xffffu);
+    wait_us(1);
+    data = mcp_read_port16(&matrix_col_dev);
+    /* if (data != 0xffffu) { */
+    /*     uprintf("row %d value %x\n", current_row, ~data); */
+    /* } */
+    current_row_value = ~data;
 
     // Unselect row
     unselect_row(current_row);
@@ -206,6 +205,9 @@ void matrix_init_custom(void) {
 uint8_t matrix_scan_custom(void) {
     bool changed = false;
 
+    /* static uint16_t time_elapsed; */
+    /* time_elapsed = timer_read(); */
+
     // Set row, read cols
     for (uint8_t current_row = 0; current_row < MATRIX_ROWS; current_row++) {
         changed |= read_cols_on_row(raw_matrix, current_row);
@@ -214,6 +216,10 @@ uint8_t matrix_scan_custom(void) {
     debounce(raw_matrix, matrix, MATRIX_ROWS, changed);
 
     matrix_scan_quantum();
+
+    /* time_elapsed = timer_read() - time_elapsed; */
+    /* uprintf("time elapsed %d ms\n", time_elapsed); */
+
     return (uint8_t)changed;
 }
 
