@@ -61,31 +61,28 @@ enum MCP23x17_regs {
 #ifdef MCP23017
 
 typedef struct MCP23017 {
-    uint8_t addr;  /* 3-bit chip address */
     uint8_t addr_s;  /* shifted ready to use address */
+    bool state_saved;
 
     uint8_t reg[MCP_NUM_REGS];   /* copy of the 22 internal registers of MCP23017 */
+    uint8_t saved_reg[MCP_NUM_REGS];   /* copy of the 22 internal registers of MCP23017 */
 } MCP23017_t;
 
 void mcp_init_dev(MCP23017_t *dev, uint8_t addr);
+void mcp_save_mode(MCP23017_t *dev);
+void mcp_reset(MCP23017_t *dev);
 
 void mcp_read_register(MCP23017_t *dev, uint8_t addr);
+void mcp_read_register16(MCP23017_t *dev, uint8_t addr);
 void mcp_write_register(MCP23017_t *dev, uint8_t addr, uint8_t value);
+void mcp_write_register16(MCP23017_t *dev, uint8_t addr, uint16_t value);
 void mcp_read_all(MCP23017_t *dev);
-/* void mcp_write_all(MCP23017_t *dev); */
-uint8_t mcp_read_port(MCP23017_t *dev, uint8_t port);
-
-/* void mcp_begin(MCP23017_t *dev); */
-/* void mcp_pin_mode(MCP23017_t *dev, uint8_t pin, uint8_t mode); */
-/* void mcp_write_pin(MCP23017_t *dev, uint8_t pin, uint8_t value); */
-/* uint8_t mcp_read_pin(MCP23017_t *dev, uint8_t pin); */
-
-/* uint8_t mcp_read_port(MCP23017_t *dev, uint8_t port); */
-/* uint16_t mcp_read_allport(MCP23017_t *dev); */
-/* void mcp_write_port(MCP23017_t *dev, uint8_t port, uint8_t val); */
-/* void mcp_write_allport(MCP23017_t *dev, uint16_t val); */
-
+void mcp_write_all(MCP23017_t *dev);
 void mcp_print_all(MCP23017_t *dev);
+
+uint8_t mcp_read_port(MCP23017_t *dev, uint8_t port);
+uint16_t mcp_read_port16(MCP23017_t *dev);
+void mcp_write_port16(MCP23017_t *dev, uint16_t value);
 
 #endif
 
