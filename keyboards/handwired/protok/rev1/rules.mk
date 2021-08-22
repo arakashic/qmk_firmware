@@ -31,4 +31,3 @@ NKRO_ENABLE = yes			# USB Nkey Rollover - if this doesn't work, see here: https:
 TERMINAL_ENABLE = yes
 # OLED_DRIVER_ENABLE = yes
 
-LAYOUTS = default
