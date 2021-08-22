@@ -1,6 +1,7 @@
 #include "protok.h"
 #include "print.h"
 #include "song_list.h"
+#include "analog.h"
 
 enum layer_names {
     L_DEF = 0,
@@ -62,6 +63,12 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
     return MACRO_NONE;
 }
 
+void keyboard_pre_init_user(void)
+{
+    setPinOutput(A8);
+    writePinHigh(A8);
+}
+
 void matrix_init_user(void) {
 }
 
@@ -82,16 +89,21 @@ float caps_off[][2] = SONG(CAPS_LOCK_OFF_SOUND);
 #endif
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-#ifdef CONSOLE_ENABLE
-    uprintf("KL: kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u, interrupt: %b, count: %u\n",
-            keycode, record->event.key.col, record->event.key.row, record->event.pressed,
-            record->event.time, record->tap.interrupted, record->tap.count);
-#endif
+    uint16_t x_value = 0;
+    uint16_t y_value = 0;
+    x_value = analogReadPin(A6);
+    y_value = analogReadPin(A7);
 #ifdef AUDIO_ENABLE
     if (keycode == DEBUG && record->event.pressed) {
         PLAY_SONG(my_song);
         uprintf("debug pressed.\n");
     }
+#endif
+#ifdef CONSOLE_ENABLE
+    uprintf("KL: kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u, interrupt: %b, count: %u\n",
+            keycode, record->event.key.col, record->event.key.row, record->event.pressed,
+            record->event.time, record->tap.interrupted, record->tap.count);
+    uprintf("ADC: A6 %d, A7 %d\n", x_value, y_value);
 #endif
     return true;
 }
