@@ -38,4 +38,5 @@ CUSTOM_MATRIX = lite
 SRC += matrix.c \
        MCP23x17.c
 
-QUANTUM_LIB_SRC = i2c_master.c
+QUANTUM_LIB_SRC = i2c_master.c \
+		  analog.c
