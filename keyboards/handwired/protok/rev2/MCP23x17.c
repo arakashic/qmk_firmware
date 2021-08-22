@@ -31,8 +31,7 @@
 
 i2c_status_t mcp_status = I2C_STATUS_SUCCESS;
 
-void mcp_init_dev(MCP23017_t *dev, uint8_t addr)
-{
+void mcp_init_dev(MCP23017_t *dev, uint8_t addr) {
     dev->addr_s = (addr & 0b0111) << 1;
     dev->state_saved = false;
 
@@ -83,8 +82,7 @@ void mcp_init_dev(MCP23017_t *dev, uint8_t addr)
     dev->saved_reg[MCP_OLATB] = 0x00;
 }
 
-void mcp_save_mode(MCP23017_t *dev)
-{
+void mcp_save_mode(MCP23017_t *dev) {
     for (uint8_t i = 0; i < MCP_NUM_REGS; ++i) {
         dev->saved_reg[i] = dev->reg[i];
     }
@@ -93,8 +91,7 @@ void mcp_save_mode(MCP23017_t *dev)
     dev->state_saved = true;
 }
 
-void mcp_reset(MCP23017_t *dev)
-{
+void mcp_reset(MCP23017_t *dev) {
     if (!dev->state_saved) {
         return;
     }
@@ -114,8 +111,7 @@ void mcp_reset(MCP23017_t *dev)
     goto fn_exit;
 }
 
-void mcp_read_register(MCP23017_t *dev, uint8_t addr)
-{
+void mcp_read_register(MCP23017_t *dev, uint8_t addr) {
     mcp_status = i2c_readReg(MCP_ADDR_READ(dev), addr, &dev->reg[addr], sizeof(uint8_t), I2C_TIMEOUT);
     I2C_STATUS_CHECK(mcp_status);
 
@@ -128,8 +124,7 @@ void mcp_read_register(MCP23017_t *dev, uint8_t addr)
     goto fn_exit;
 }
 
-void mcp_read_register16(MCP23017_t *dev, uint8_t addr)
-{
+void mcp_read_register16(MCP23017_t *dev, uint8_t addr) {
     uint8_t data[2] = { 0, 0 };
     if (!MCP_SEQ_MODE_ON(dev)) {
         uprintf("Cannot operate 16 bit register without sequential mode enabled.\n");
@@ -150,8 +145,7 @@ void mcp_read_register16(MCP23017_t *dev, uint8_t addr)
     goto fn_exit;
 }
 
-void mcp_write_register(MCP23017_t *dev, uint8_t addr, uint8_t value)
-{
+void mcp_write_register(MCP23017_t *dev, uint8_t addr, uint8_t value) {
     mcp_status = i2c_writeReg(MCP_ADDR_WRITE(dev), addr, &value, sizeof(uint8_t), I2C_TIMEOUT);
     I2C_STATUS_CHECK(mcp_status);
 
@@ -166,8 +160,7 @@ void mcp_write_register(MCP23017_t *dev, uint8_t addr, uint8_t value)
     goto fn_exit;
 }
 
-void mcp_write_register16(MCP23017_t *dev, uint8_t addr, uint16_t value)
-{
+void mcp_write_register16(MCP23017_t *dev, uint8_t addr, uint16_t value) {
     uint8_t data[2] = { value & 0x00ff, (value & 0xff00) >> 8 };
     if (!MCP_SEQ_MODE_ON(dev)) {
         uprintf("Cannot operate 16 bit register without sequential mode enabled.\n");
@@ -188,8 +181,7 @@ void mcp_write_register16(MCP23017_t *dev, uint8_t addr, uint16_t value)
     goto fn_exit;
 }
 
-void mcp_read_all(MCP23017_t *dev)
-{
+void mcp_read_all(MCP23017_t *dev) {
     int i = 0;
     if (MCP_SEQ_MODE_ON(dev)) {
         mcp_status = i2c_readReg(MCP_ADDR_READ(dev), MCP_IODIRA, dev->reg,
@@ -210,8 +202,7 @@ void mcp_read_all(MCP23017_t *dev)
     goto fn_exit;
 }
 
-void mcp_write_all(MCP23017_t *dev)
-{
+void mcp_write_all(MCP23017_t *dev) {
     int i = 0;
     if (MCP_SEQ_MODE_ON(dev)) {
         mcp_status = i2c_writeReg(MCP_ADDR_WRITE(dev), MCP_IODIRA, dev->reg,
@@ -232,8 +223,7 @@ void mcp_write_all(MCP23017_t *dev)
     goto fn_exit;
 }
 
-void mcp_print_all(MCP23017_t *dev)
-{
+void mcp_print_all(MCP23017_t *dev) {
     if (mcp_status != I2C_STATUS_SUCCESS) {
         uprintf("mcp_print_all: MCP_STATUS == ERROR\n");
         return;
@@ -245,8 +235,7 @@ void mcp_print_all(MCP23017_t *dev)
     uprintf("\n");
 }
 
-uint8_t mcp_read_port(MCP23017_t *dev, uint8_t port)
-{
+uint8_t mcp_read_port(MCP23017_t *dev, uint8_t port) {
     if (port == MCP_PORTA) {
         mcp_read_register(dev, MCP_GPIOA);
         return dev->reg[MCP_GPIOA];
@@ -256,8 +245,7 @@ uint8_t mcp_read_port(MCP23017_t *dev, uint8_t port)
     }
 }
 
-void mcp_write_port(MCP23017_t *dev, uint8_t port, uint8_t value)
-{
+void mcp_write_port(MCP23017_t *dev, uint8_t port, uint8_t value) {
     if (port == MCP_PORTA) {
         mcp_write_register(dev, MCP_GPIOA, value);
     } else {
@@ -265,16 +253,14 @@ void mcp_write_port(MCP23017_t *dev, uint8_t port, uint8_t value)
     }
 }
 
-uint16_t mcp_read_port16(MCP23017_t *dev)
-{
+uint16_t mcp_read_port16(MCP23017_t *dev) {
     uint16_t ret = 0;
     mcp_read_register16(dev, MCP_GPIOA);
     ret = dev->reg[MCP_GPIOA] | (dev->reg[MCP_GPIOB] << 8);
     return ret;
 }
 
-void mcp_write_port16(MCP23017_t *dev, uint16_t value)
-{
+void mcp_write_port16(MCP23017_t *dev, uint16_t value) {
     mcp_write_register16(dev, MCP_GPIOA, value);
 }
 
