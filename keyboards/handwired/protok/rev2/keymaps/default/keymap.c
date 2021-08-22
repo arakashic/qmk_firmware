@@ -1,7 +1,8 @@
 #include "protok.h"
 #include "print.h"
 #include "song_list.h"
-#include "analog.h"
+/* #include "analog.h" */
+#include "joystick.h"
 
 enum layer_names {
     L_DEF = 0,
@@ -56,6 +57,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 // clang-format on
 
+#ifdef ANALOG_JOYSTICK_ENABLE
+joystick_config_t joystick_axes[JOYSTICK_AXES_COUNT] = {
+    [0] = JOYSTICK_AXIS_IN_OUT(JOYSTICK_X, JOYSTICK_SELECT, 5, 144, 250),
+    [1] = JOYSTICK_AXIS_IN_OUT(JOYSTICK_Y, JOYSTICK_SELECT, 5, 131, 250)
+};
+#endif
+
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
     /* keyevent_t event = record->event; */
 
@@ -91,10 +99,10 @@ float caps_off[][2] = SONG(CAPS_LOCK_OFF_SOUND);
 #endif
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    uint16_t x_value = 0;
-    uint16_t y_value = 0;
-    x_value = analogReadPin(A6);
-    y_value = analogReadPin(A7);
+    /* uint16_t x_value = 0; */
+    /* uint16_t y_value = 0; */
+    /* x_value = analogReadPin(A6); */
+    /* y_value = analogReadPin(A7); */
 #ifdef AUDIO_ENABLE
     if (keycode == DEBUG && record->event.pressed) {
         PLAY_SONG(my_song);
@@ -105,7 +113,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     uprintf("KL: kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u, interrupt: %b, count: %u\n",
             keycode, record->event.key.col, record->event.key.row, record->event.pressed,
             record->event.time, record->tap.interrupted, record->tap.count);
-    uprintf("ADC: A6 %d, A7 %d\n", x_value, y_value);
+    /* uprintf("ADC: A6 %d, A7 %d\n", x_value, y_value); */
 #endif
     return true;
 }
