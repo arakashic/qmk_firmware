@@ -35,8 +35,6 @@ AUDIO_ENABLE = yes
 AUDIO_DRIVER = dac_basic
 CUSTOM_MATRIX = lite
 
-LAYOUTS = default
-
 SRC += matrix.c \
        MCP23x17.c
 
