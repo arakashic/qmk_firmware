@@ -65,8 +65,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
     return MACRO_NONE;
 }
 
-void keyboard_pre_init_user(void)
-{
+void keyboard_pre_init_user(void) {
     setPinOutput(A8);
     writePinHigh(A8);
 }
@@ -81,6 +80,7 @@ void keyboard_post_init_user(void) {
     debug_keyboard=true;
     //debug_mouse=true;
 }
+
 void matrix_scan_user(void) {
 }
 
