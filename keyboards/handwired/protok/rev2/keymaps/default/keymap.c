@@ -2,7 +2,7 @@
 #include "print.h"
 #include "song_list.h"
 #include "analog.h"
-/* #include "joystick.h" */
+#include "joystick.h"
 
 enum layer_names {
     L_DEF = 0,
@@ -57,12 +57,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 // clang-format on
 
-/* #ifdef ANALOG_JOYSTICK_ENABLE */
-/* joystick_config_t joystick_axes[JOYSTICK_AXES_COUNT] = { */
-/*     [0] = JOYSTICK_AXIS_IN_OUT(JOYSTICK_X, JOYSTICK_SELECT, 5, 131, 250), */
-/*     [1] = JOYSTICK_AXIS_IN_OUT(JOYSTICK_Y, JOYSTICK_SELECT, 5, 131, 250) */
-/* }; */
-/* #endif */
+#ifdef ANALOG_JOYSTICK_ENABLE
+joystick_config_t joystick_axes[JOYSTICK_AXES_COUNT] = {
+    [0] = JOYSTICK_AXIS_IN_OUT_GROUND(JOYSTICK_X, JOYSTICK_VCC, JOYSTICK_GND, 5, 127, 249),
+    [1] = JOYSTICK_AXIS_IN_OUT_GROUND(JOYSTICK_Y, JOYSTICK_VCC, JOYSTICK_GND, 5, 127, 249)
+};
+#endif
 
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
     /* keyevent_t event = record->event; */
@@ -74,10 +74,10 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
 }
 
 void keyboard_pre_init_user(void) {
-    setPinOutput(JOYSTICK_ENABLE);
-    setPinOutput(JOYSTICK_GROUND);
-    writePinHigh(JOYSTICK_ENABLE);
-    writePinLow(JOYSTICK_GROUND);
+    /* setPinOutput(JOYSTICK_VCC); */
+    /* setPinOutput(JOYSTICK_GND); */
+    /* writePinHigh(JOYSTICK_VCC); */
+    /* writePinLow(JOYSTICK_GND); */
 }
 
 void matrix_init_user(void) {
@@ -92,6 +92,16 @@ void keyboard_post_init_user(void) {
 }
 
 void matrix_scan_user(void) {
+    int16_t val = (((uint32_t)timer_read() % 5000 - 2500) * 255) / 5000;
+
+    if (val != joystick_status.axes[0]) {
+        joystick_status.axes[0] = val;
+        joystick_status.status |= JS_UPDATED;
+    }
+    if (val != joystick_status.axes[1]) {
+        joystick_status.axes[1] = val;
+        joystick_status.status |= JS_UPDATED;
+    }
 }
 
 #ifdef AUDIO_ENABLE
@@ -101,10 +111,10 @@ float caps_off[][2] = SONG(CAPS_LOCK_OFF_SOUND);
 #endif
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    uint16_t x_value = 0;
-    uint16_t y_value = 0;
-    x_value = analogReadPin(JOYSTICK_X);
-    y_value = analogReadPin(JOYSTICK_Y);
+    /* uint16_t x_value = 0; */
+    /* uint16_t y_value = 0; */
+    /* x_value = analogReadPin(JOYSTICK_X); */
+    /* y_value = analogReadPin(JOYSTICK_Y); */
 #ifdef AUDIO_ENABLE
     if (keycode == DEBUG && record->event.pressed) {
         PLAY_SONG(my_song);
@@ -115,7 +125,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     uprintf("KL: kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u, interrupt: %b, count: %u\n",
             keycode, record->event.key.col, record->event.key.row, record->event.pressed,
             record->event.time, record->tap.interrupted, record->tap.count);
-    uprintf("ADC: A6 %d, A7 %d\n", x_value, y_value);
+    /* uprintf("ADC: X %d, Y %d\n", x_value, y_value); */
 #endif
     return true;
 }
