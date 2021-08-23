@@ -32,7 +32,7 @@
 
 #elif defined(MATRIX_USE_COL_23017)
 
-#define MATRIX_ROW_PINS { A7, A8, B10, B11, B12, A14, A13 }
+#define MATRIX_ROW_PINS { A8, A15, B10, B11, B12, A14, A13 }
 /* Diode direction is COL2ROW */
 
 #else
@@ -96,9 +96,9 @@
 
 #define JOYSTICK_BUTTON_COUNT 0
 #define JOYSTICK_AXES_COUNT 2
-#define JOYSTICK_VCC B2
-#define JOYSTICK_GND B3
-#define JOYSTICK_X B0
-#define JOYSTICK_Y B1
+#define JOYSTICK_VCC B0
+#define JOYSTICK_GND B1
+#define JOYSTICK_X A7
+#define JOYSTICK_Y A6
 
 #endif
