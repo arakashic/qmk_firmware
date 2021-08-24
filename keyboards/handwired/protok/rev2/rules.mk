@@ -34,6 +34,7 @@ OLED_DRIVER_ENABLE = yes
 AUDIO_ENABLE = yes
 AUDIO_DRIVER = dac_basic
 CUSTOM_MATRIX = lite
+ENCODER_ENABLE = yes
 
 SRC += matrix.c \
        MCP23x17.c
