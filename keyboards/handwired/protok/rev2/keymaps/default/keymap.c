@@ -64,6 +64,19 @@ joystick_config_t joystick_axes[JOYSTICK_AXES_COUNT] = {
 };
 #endif
 
+#ifdef ENCODER_ENABLE
+bool encoder_update_user(uint8_t index, bool clockwise) {
+    if (index == 0) { /* First encoder */
+        if (clockwise) {
+            tap_code(KC_PGDN);
+        } else {
+            tap_code(KC_PGUP);
+        }
+    }
+    return true;
+}
+#endif
+
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
     /* keyevent_t event = record->event; */
 
@@ -74,8 +87,8 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
 }
 
 void keyboard_pre_init_user(void) {
-    /* setPinOutput(JOYSTICK_VCC); */
-    /* setPinOutput(JOYSTICK_GND); */
+    setPinOutput(JOYSTICK_VCC);
+    setPinOutput(JOYSTICK_GND);
     /* writePinHigh(JOYSTICK_VCC); */
     /* writePinLow(JOYSTICK_GND); */
 }
