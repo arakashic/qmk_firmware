@@ -59,8 +59,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 #ifdef ANALOG_JOYSTICK_ENABLE
 joystick_config_t joystick_axes[JOYSTICK_AXES_COUNT] = {
-    [0] = JOYSTICK_AXIS_IN_OUT_GROUND(JOYSTICK_X, JOYSTICK_VCC, JOYSTICK_GND, 5, 127, 249),
-    [1] = JOYSTICK_AXIS_IN_OUT_GROUND(JOYSTICK_Y, JOYSTICK_VCC, JOYSTICK_GND, 5, 127, 249)
+    [0] = JOYSTICK_AXIS_IN_OUT(JOYSTICK_X, JOYSTICK_VCC, 0, 2047, 4096),
+    [1] = JOYSTICK_AXIS_IN_OUT(JOYSTICK_Y, JOYSTICK_VCC, 0, 2047, 4096)
 };
 #endif
 
@@ -88,9 +88,6 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
 
 void keyboard_pre_init_user(void) {
     setPinOutput(JOYSTICK_VCC);
-    setPinOutput(JOYSTICK_GND);
-    /* writePinHigh(JOYSTICK_VCC); */
-    /* writePinLow(JOYSTICK_GND); */
 }
 
 void matrix_init_user(void) {
@@ -128,6 +125,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     /* uint16_t y_value = 0; */
     /* x_value = analogReadPin(JOYSTICK_X); */
     /* y_value = analogReadPin(JOYSTICK_Y); */
+
+#ifdef ANALOG_JOYSTICK_ENABLE
+    uprintf("x value %d, y value %d\n", joystick_status.axes[0], joystick_status.axes[1]);
+#endif
 #ifdef AUDIO_ENABLE
     if (keycode == DEBUG && record->event.pressed) {
         PLAY_SONG(my_song);
