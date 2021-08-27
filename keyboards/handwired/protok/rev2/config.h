@@ -66,10 +66,6 @@
 /* Locking resynchronize hack */
 /* #define LOCKING_RESYNC_ENABLE */
 
-/* key combination for command */
-#define IS_COMMAND() ( \
-    keyboard_report->mods == (MOD_BIT(KC_LALT) | MOD_BIT(KC_RALT)) \
-)
 
 /* Tapping this number of times holds the key until tapped once again. */
 // #define ONESHOT_TAP_TOGGLE 5
@@ -94,7 +90,7 @@
 
 #define ADC_RESOLUTION ADC_CFGR_RES_12BITS
 
-#define JOYSTICK_AXES_RESOLUTION 12
+#define JOYSTICK_AXES_RESOLUTION 8
 #define JOYSTICK_BUTTON_COUNT 0
 #define JOYSTICK_AXES_COUNT 2
 #define JOYSTICK_VCC B9

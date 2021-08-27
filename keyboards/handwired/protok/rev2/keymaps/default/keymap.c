@@ -98,20 +98,20 @@ void keyboard_post_init_user(void) {
     debug_enable=true;
     debug_matrix=true;
     debug_keyboard=true;
-    //debug_mouse=true;
+    debug_mouse=true;
 }
 
 void matrix_scan_user(void) {
-    int16_t val = (((uint32_t)timer_read() % 5000 - 2500) * 255) / 5000;
+    /* int16_t val = (((uint32_t)timer_read() % 5000 - 2500) * 255) / 5000; */
 
-    if (val != joystick_status.axes[0]) {
-        joystick_status.axes[0] = val;
-        joystick_status.status |= JS_UPDATED;
-    }
-    if (val != joystick_status.axes[1]) {
-        joystick_status.axes[1] = val;
-        joystick_status.status |= JS_UPDATED;
-    }
+    /* if (val != joystick_status.axes[0]) { */
+    /*     joystick_status.axes[0] = val; */
+    /*     joystick_status.status |= JS_UPDATED; */
+    /* } */
+    /* if (val != joystick_status.axes[1]) { */
+    /*     joystick_status.axes[1] = val; */
+    /*     joystick_status.status |= JS_UPDATED; */
+    /* } */
 }
 
 #ifdef AUDIO_ENABLE
@@ -127,7 +127,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     /* y_value = analogReadPin(JOYSTICK_Y); */
 
 #ifdef ANALOG_JOYSTICK_ENABLE
-    uprintf("x value %d, y value %d\n", joystick_status.axes[0], joystick_status.axes[1]);
+    printf("x value %d, y value %d\n", joystick_status.axes[0], joystick_status.axes[1]);
+    /* uprintf("x value %d, y value %d\n", x_value, y_value); */
 #endif
 #ifdef AUDIO_ENABLE
     if (keycode == DEBUG && record->event.pressed) {
@@ -136,7 +137,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 #endif
 #ifdef CONSOLE_ENABLE
-    uprintf("KL: kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u, interrupt: %b, count: %u\n",
+    print("done\n");
+    printf("KL: kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u, interrupt: %b, count: %u\n",
             keycode, record->event.key.col, record->event.key.row, record->event.pressed,
             record->event.time, record->tap.interrupted, record->tap.count);
     /* uprintf("ADC: X %d, Y %d\n", x_value, y_value); */
@@ -249,7 +251,13 @@ void oled_task_user(void) {
     led_t led_state = host_keyboard_led_state();
     oled_write_P(led_state.num_lock ? PSTR("NUM ") : PSTR("    "), false);
     oled_write_P(led_state.caps_lock ? PSTR("CAP ") : PSTR("    "), false);
-    oled_write_P(led_state.scroll_lock ? PSTR("SCR ") : PSTR("    "), false);
+    oled_write_P(led_state.scroll_lock ? PSTR("SCR \n") : PSTR("    \n"), false);
+
+    // command
+    oled_write_P(debug_enable ? PSTR("D") : PSTR(" "), false);
+    oled_write_P(debug_keyboard ? PSTR("K") : PSTR(" "), false);
+    oled_write_P(debug_matrix ? PSTR("X") : PSTR(" "), false);
+    oled_write_P(debug_mouse ? PSTR("M\n") : PSTR(" \n"), false);
 }
 #endif
 
