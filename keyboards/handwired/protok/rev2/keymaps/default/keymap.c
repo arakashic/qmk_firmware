@@ -158,7 +158,7 @@ bool led_update_user(led_t led_state) {
     return true;
 }
 
-#ifdef OLED_DRIVER_ENABLE
+#ifdef OLED_ENABLE
 
 /* void render_status(void); */
 /* void render_logo(void); */
@@ -258,6 +258,9 @@ void oled_task_user(void) {
     oled_write_P(debug_keyboard ? PSTR("K") : PSTR(" "), false);
     oled_write_P(debug_matrix ? PSTR("X") : PSTR(" "), false);
     oled_write_P(debug_mouse ? PSTR("M\n") : PSTR(" \n"), false);
+
+    uint16_t eeconfig_keymap = eeconfig_read_keymap();
+    oled_write_P((eeconfig_keymap & EECONFIG_KEYMAP_SWAP_LALT_LGUI) ? PSTR("SLAG\n") : PSTR("\n"), false);
 }
 #endif
 
