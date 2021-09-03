@@ -1,5 +1,4 @@
-#ifndef _MCP23x17_H
-#define _MCP23x17_H
+#pragma once
 
 #include <stdint.h>
 #include <stdbool.h>
@@ -83,7 +82,5 @@ void mcp_print_all(MCP23017_t *dev);
 uint8_t mcp_read_port(MCP23017_t *dev, uint8_t port);
 uint16_t mcp_read_port16(MCP23017_t *dev);
 void mcp_write_port16(MCP23017_t *dev, uint16_t value);
-
-#endif
 
 #endif
