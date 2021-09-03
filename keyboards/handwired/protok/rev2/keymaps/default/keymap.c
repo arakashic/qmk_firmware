@@ -1,8 +1,8 @@
 #include "protok.h"
-#include "print.h"
 #include "song_list.h"
 #include "analog.h"
 #include "joystick.h"
+#include "log.h"
 
 enum layer_names {
     L_DEF = 0,
@@ -95,10 +95,10 @@ void matrix_init_user(void) {
 
 void keyboard_post_init_user(void) {
     // Customise these values to desired behaviour
-    debug_enable=true;
-    debug_matrix=true;
-    debug_keyboard=true;
-    debug_mouse=true;
+    debug_enable=false;
+    debug_matrix=false;
+    debug_keyboard=false;
+    debug_mouse=false;
 }
 
 void matrix_scan_user(void) {
@@ -126,22 +126,31 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     /* x_value = analogReadPin(JOYSTICK_X); */
     /* y_value = analogReadPin(JOYSTICK_Y); */
 
+#ifdef __ENABLE_LOG
+    if (keycode == DEBUG && record->event.pressed) {
+        log_init(LOG_DEBUG);
+    }
+    if (debug_enable) {
+        log_init(LOG_DEBUG);
+    } else {
+        log_init(LOG_INFO);
+    }
+#endif
+
 #ifdef ANALOG_JOYSTICK_ENABLE
-    printf("x value %d, y value %d\n", joystick_status.axes[0], joystick_status.axes[1]);
+    log_debug("x value %d, y value %d\n", joystick_status.axes[0], joystick_status.axes[1]);
     /* uprintf("x value %d, y value %d\n", x_value, y_value); */
 #endif
 #ifdef AUDIO_ENABLE
     if (keycode == DEBUG && record->event.pressed) {
         PLAY_SONG(my_song);
-        uprintf("debug pressed.\n");
+        log_debug("debug pressed.\n");
     }
 #endif
 #ifdef CONSOLE_ENABLE
-    print("done\n");
-    printf("KL: kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u, interrupt: %b, count: %u\n",
-            keycode, record->event.key.col, record->event.key.row, record->event.pressed,
-            record->event.time, record->tap.interrupted, record->tap.count);
-    /* uprintf("ADC: X %d, Y %d\n", x_value, y_value); */
+    log_debug("KL: kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u, interrupt: %b, count: %u\n",
+              keycode, record->event.key.col, record->event.key.row, record->event.pressed,
+              record->event.time, record->tap.interrupted, record->tap.count);
 #endif
     return true;
 }
@@ -150,7 +159,7 @@ bool led_update_user(led_t led_state) {
 #ifdef AUDIO_ENABLE
     static uint8_t caps_state = 0;
     if (caps_state != led_state.caps_lock) {
-        uprintf("LED Status Changed.\n");
+        log_debug("LED Status Changed.\n");
         led_state.caps_lock ? PLAY_SONG(caps_on) : PLAY_SONG(caps_off);
         caps_state = led_state.caps_lock;
     }

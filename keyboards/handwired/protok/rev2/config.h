@@ -101,4 +101,6 @@
 #define ENCODERS_PAD_B { B3 }
 #define ENCODER_RESOLUTION 2
 
+#define __ENABLE_LOG 1
+
 #endif

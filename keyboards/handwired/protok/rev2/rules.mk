@@ -29,7 +29,7 @@ NKRO_ENABLE = yes			# USB Nkey Rollover - if this doesn't work, see here: https:
 # MIDI_ENABLE = YES			# MIDI controls
 # UNICODE_ENABLE = YES		# Unicode
 # BLUETOOTH_ENABLE = yes	# Enable Bluetooth with the Adafruit EZ-Key HID
-TERMINAL_ENABLE = yes
+# TERMINAL_ENABLE = yes
 OLED_ENABLE = yes
 OLED_DRIVER = SSD1306
 AUDIO_ENABLE = yes
@@ -38,6 +38,7 @@ CUSTOM_MATRIX = lite
 ENCODER_ENABLE = yes
 
 SRC += matrix.c \
+       log.c \
        MCP23x17.c
 
 QUANTUM_LIB_SRC = i2c_master.c
