@@ -102,5 +102,6 @@
 #define ENCODER_RESOLUTION 2
 
 #define __ENABLE_LOG 1
+/* #define DEBUG_MATRIX_SCAN_RATE */
 
 #endif
