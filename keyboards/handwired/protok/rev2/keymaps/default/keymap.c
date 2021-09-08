@@ -1,7 +1,12 @@
 #include "protok.h"
 #include "song_list.h"
 #include "analog.h"
+#ifdef ANALOG_JOYSTICK_ENABLE
 #include "joystick.h"
+#endif
+#ifdef THUMBSTICK_ENABLE
+#include "thumbstick.h"
+#endif
 #include "log.h"
 
 enum layer_names {
@@ -87,7 +92,9 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
 }
 
 void keyboard_pre_init_user(void) {
-    setPinOutput(JOYSTICK_VCC);
+#ifdef THUMBSTICK_ENABLE
+    setPinOutput(THUMBSTICK_VCC);
+#endif
 }
 
 void matrix_init_user(void) {
