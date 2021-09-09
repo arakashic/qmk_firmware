@@ -37,17 +37,26 @@ AUDIO_DRIVER = dac_basic
 CUSTOM_MATRIX = lite
 ENCODER_ENABLE = yes
 THUMBSTICK_ENABLE = yes
+RAW_ENABLE = yes
 
 SRC += matrix.c \
-       log.c \
        MCP23x17.c
 
 QUANTUM_LIB_SRC = i2c_master.c
+
+ifeq ($(strip $(CONSOLE_ENABLE)), yes)
+    SRC += log.c
+endif
 
 ifeq ($(strip $(THUMBSTICK_ENABLE)), yes)
     POINTING_DEVICE_ENABLE = yes
     OPT_DEFS += -DTHUMBSTICK_ENABLE
     SRC += analog.c
     SRC += thumbstick.c
+endif
+
+ifeq ($(strip $(RAW_ENABLE)), yes)
+    OPT_DEFS += -DRAW_ENABLE
+    SRC += raw.c
 endif
 

@@ -4,9 +4,9 @@
 #include "config_common.h"
 
 /* USB Device descriptor parameter */
-#define VENDOR_ID       0x0FAC
-#define PRODUCT_ID      0x0010
-#define DEVICE_VER      0x0002
+#define VENDOR_ID       0x1209
+#define PRODUCT_ID      0x88BD
+#define DEVICE_VER      0x0003
 #define MANUFACTURER    UGO
 #define PRODUCT         ProtoK Keyboard Model II Rev2 Dev
 
@@ -92,8 +92,10 @@
 #define ENCODERS_PAD_B { B3 }
 #define ENCODER_RESOLUTION 2
 
+#ifdef CONSOLE_ENABLE
 #define __ENABLE_LOG 1
 /* #define DEBUG_MATRIX_SCAN_RATE */
+#endif
 
 #ifdef THUMBSTICK_ENABLE
 

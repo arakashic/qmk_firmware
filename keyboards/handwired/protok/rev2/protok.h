@@ -3,6 +3,10 @@
 
 #include "quantum.h"
 
+#ifdef RAW_ENABLE
+#include "raw.h"
+#endif
+
 /* ProtoK LEDs
  *   D6 Capslock LED
  */
