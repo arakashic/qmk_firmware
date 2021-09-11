@@ -38,6 +38,7 @@ CUSTOM_MATRIX = lite
 ENCODER_ENABLE = yes
 THUMBSTICK_ENABLE = yes
 RAW_ENABLE = yes
+EEPROM_DRIVER = i2c
 
 SRC += matrix.c \
        MCP23x17.c
