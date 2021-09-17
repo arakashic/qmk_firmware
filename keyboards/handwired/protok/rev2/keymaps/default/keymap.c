@@ -8,6 +8,9 @@
 #include "thumbstick.h"
 #endif
 #include "log.h"
+#ifdef RAW_ENABLE
+#include "raw.h"
+#endif
 
 enum layer_names {
     L_DEF = 0,
@@ -302,6 +305,21 @@ void oled_task_user(void) {
     oled_write_P(PSTR("\n"), false);
     // Line 6:
     oled_write_P(PSTR("> "), false);
+#ifdef RAW_ENABLE
+    switch (protok_os_type) {
+        case OS_TYPE_WIN:
+            oled_write_P(PSTR("WIN  "), false);
+            break;
+        case OS_TYPE_LINUX:
+            oled_write_P(PSTR("LINUX"), false);
+            break;
+        case OS_TYPE_MAC:
+            oled_write_P(PSTR("MAC  "), false);
+            break;
+        default:
+            break;
+    }
+#endif
     oled_write_P(PSTR("\n"), false);
 }
 #endif
