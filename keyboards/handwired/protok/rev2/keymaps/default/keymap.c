@@ -11,6 +11,14 @@
 #ifdef RAW_ENABLE
 #include "raw.h"
 #endif
+#include <stdbool.h>
+
+bool d2r_auto_enabled = false;
+
+enum custom_keycode {
+    FOO = SAFE_RANGE,
+    KC_D2R_AUTO
+};
 
 enum layer_names {
     L_DEF = 0,
@@ -79,7 +87,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            KC_F20 , KC_TAB ,                  KC_Q   , KC_W    , KC_E    , KC_R    , KC_T   , KC_Y          , KC_U    , KC_I    , KC_O    , KC_P    , KC_LBRC , KC_RBRC , KC_BSPC  ,
            KC_F19 , KC_LCTL,           KC_A   , KC_S    , KC_D    , KC_F    , KC_G   , KC_H          , KC_J    , KC_K    , KC_L    , KC_SCLN , KC_QUOT , KC_BSLS , MO(L_FUN),
            KC_F18 ,                KC_LSFT , KC_Z   , KC_X    , KC_C    , KC_V    , KC_B   , KC_N          , KC_M    , KC_COMM , KC_DOT  , KC_SLSH ,           KC_RSFT , KC_UP   ,
-           MO(L_CMD), XXXXXXX       ,         KC_HYPR , KC_LGUI , KC_LALT , KC_SPC , RSFT_T(KC_SPC) , RSFT_T(KC_SPC), KC_ENT, KC_RALT , KC_RGUI , KC_LEFT , KC_DOWN , KC_RGHT),
+           MO(L_CMD), KC_D2R_AUTO ,         KC_HYPR , KC_LGUI , KC_LALT , KC_SPC , RSFT_T(KC_SPC) , RSFT_T(KC_SPC), KC_ENT, KC_RALT , KC_RGUI , KC_LEFT , KC_DOWN , KC_RGHT),
 
     /* additional func */
     LAYOUT(
@@ -178,6 +186,8 @@ void keyboard_post_init_user(void) {
     debug_matrix=false;
     debug_keyboard=false;
     debug_mouse=false;
+
+    d2r_auto_enabled = false;
 }
 
 void matrix_scan_user(void) {
@@ -204,6 +214,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     /* uint16_t y_value = 0; */
     /* x_value = analogReadPin(JOYSTICK_X); */
     /* y_value = analogReadPin(JOYSTICK_Y); */
+    if (keycode == KC_D2R_AUTO && record->event.pressed) {
+        if (d2r_auto_enabled) {
+            d2r_auto_enabled = false;
+        } else {
+            d2r_auto_enabled = true;
+        }
+    }
 
 #ifdef __ENABLE_LOG
     if (keycode == DEBUG && record->event.pressed) {
@@ -232,6 +249,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
               record->event.time, record->tap.interrupted, record->tap.count);
 #endif
     return true;
+}
+
+void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (d2r_auto_enabled) {
+        switch (keycode) {
+            case KC_A:
+            case KC_S:
+            case KC_D:
+            case KC_F:
+            case KC_Q:
+            case KC_W:
+            case KC_E:
+            case KC_R:
+            case KC_C:
+            case KC_V:
+                if (!record->event.pressed) {
+                    tap_code(KC_MS_BTN2);
+                }
+            default:
+                break;
+        }
+    }
 }
 
 bool led_update_user(led_t led_state) {
@@ -377,6 +416,7 @@ void oled_task_user(void) {
 
     // Line 4:
     oled_write_P(PSTR("> "), false);
+    oled_write_P((d2r_auto_enabled) ? PSTR("AUTO ACT") : PSTR("        "), false);
     oled_write_P(PSTR("\n"), false);
     // Line 5:
     oled_write_P(PSTR("> "), false);
