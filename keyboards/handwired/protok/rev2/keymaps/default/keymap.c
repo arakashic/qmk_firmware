@@ -36,26 +36,6 @@ enum {
     BSPC_TO_SYM,
 };
 
-typedef enum {
-    TD_NONE,
-    TD_UNKNOWN,
-    TD_SINGLE_TAP,
-    TD_SINGLE_HOLD,
-    TD_SINGLE_TAP_HOLD
-} td_state_t;
-
-typedef struct {
-    bool is_press_action;
-    td_state_t state;
-} td_tap_t;
-
-// Function associated with all tap dances
-td_state_t cur_dance(qk_tap_dance_state_t *state);
-
-// Functions associated with individual tap dances
-void ql_finished(qk_tap_dance_state_t *state, void *user_data);
-void ql_reset(qk_tap_dance_state_t *state, void *user_data);
-
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -273,6 +253,22 @@ void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
+layer_state_t layer_state_set_user(layer_state_t state) {
+    switch (get_highest_layer(state)) {
+        case L_DEF:
+        case L_GAME:
+        case L_GAMEPAD:
+        case L_FUN:
+        case L_SYM:
+        case L_NAV:
+        case L_SET:
+        case L_CMD:
+        default: //  for any other layers, or the default layer
+            d2r_auto_enabled = false;
+    }
+  return state;
+}
+
 bool led_update_user(led_t led_state) {
 #ifdef AUDIO_ENABLE
     static uint8_t caps_state = 0;
@@ -286,71 +282,6 @@ bool led_update_user(led_t led_state) {
 }
 
 #ifdef OLED_ENABLE
-
-/* void render_status(void); */
-/* void render_logo(void); */
-
-/* void render_status(void) { */
-
-    // Render to mode icon
-    /* static const char os_logo[][2][3] PROGMEM  ={{{0x95,0x96,0},{0xb5,0xb6,0}},{{0x97,0x98,0},{0xb7,0xb8,0}}}; */
-
-    /* oled_clear(); */
-
-    /* oled_write_P(PSTR("A\n"), false); */
-    /* oled_write_P(PSTR("BC\n"), false); */
-    /* oled_write_P(PSTR("0123456789ABCDEFGHIJKL\n"), false); */
-    /* oled_write_char(0x7f, false); */
-    /* oled_write_char(0x0, false); */
-    /* oled_write_pixel(64, 32, true); */
-    /* if (is_mac_mode()) { */
-    /* oled_write_P(os_logo[0][0], false); */
-    /* oled_write_P(PSTR("\n"), false); */
-    /* oled_write_P(os_logo[0][1], false); */
-    /* }else{ */
-    /* oled_write_P(os_logo[1][0], false); */
-    /* oled_write_P(PSTR("\n"), false); */
-    /* oled_write_P(os_logo[1][1], false); */
-    /* } */
-
-    /* oled_write_P(PSTR(" "), false); */
-
-    /* oled_write_P(eeconfig_read_debug() ? PSTR("DBG ") : PSTR("NDBG "), false); */
-
-    /* oled_write_P(PSTR("\n"), false); */
-
-    /* // Host Keyboard LED Status */
-    /* led_t led_state = host_keyboard_led_state(); */
-    /* oled_write_P(led_state.num_lock ? PSTR("NUM ") : PSTR("NAH"), false); */
-    /* oled_write_P(host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK) ? PSTR("CAP ") : PSTR("NAH"), false); */
-    /* oled_write_P(led_state.scroll_lock ? PSTR("SCR ") : PSTR("NAH"), false); */
-    /* static const char PROGMEM qmk_logo[] = { */
-    /*     0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8A, 0x8B, 0x8C, 0x8D, 0x8E, 0x8F, 0x90, 0x91, 0x92, 0x93, 0x94, */
-    /*     0xA0, 0xA1, 0xA2, 0xA3, 0xA4, 0xA5, 0xA6, 0xA7, 0xA8, 0xA9, 0xAA, 0xAB, 0xAC, 0xAD, 0xAE, 0xAF, 0xB0, 0xB1, 0xB2, 0xB3, 0xB4, */
-    /*     0xC0, 0xC1, 0xC2, 0xC3, 0xC4, 0xC5, 0xC6, 0xC7, 0xC8, 0xC9, 0xCA, 0xCB, 0xCC, 0xCD, 0xCE, 0xCF, 0xD0, 0xD1, 0xD2, 0xD3, 0xD4, 0x00 */
-    /* }; */
-
-    /* oled_write_P(qmk_logo, false); */
-/* } */
-
-/* void render_logo(void) { */
-/*     static const char PROGMEM qmk_logo[] = { */
-/*         0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8A, 0x8B, 0x8C, 0x8D, 0x8E, 0x8F, 0x90, 0x91, 0x92, 0x93, 0x94, */
-/*         0xA0, 0xA1, 0xA2, 0xA3, 0xA4, 0xA5, 0xA6, 0xA7, 0xA8, 0xA9, 0xAA, 0xAB, 0xAC, 0xAD, 0xAE, 0xAF, 0xB0, 0xB1, 0xB2, 0xB3, 0xB4, */
-/*         0xC0, 0xC1, 0xC2, 0xC3, 0xC4, 0xC5, 0xC6, 0xC7, 0xC8, 0xC9, 0xCA, 0xCB, 0xCC, 0xCD, 0xCE, 0xCF, 0xD0, 0xD1, 0xD2, 0xD3, 0xD4, 0x00 */
-/*     }; */
-
-/*     oled_write_P(qmk_logo, false); */
-/* } */
-
-/* void oled_task_user(void) { */
-    /* if(is_keyboard_master()){ */
-    /* render_status(); */
-    /* }else{ */
-    /* render_logo(); */
-    /*   /1* render_rgbled_status(true); *1/ */
-    /* } */
-/* } */
 
 void oled_task_user(void) {
     // Line 0:
@@ -473,57 +404,3 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
             return TAPPING_TERM;
     }
 }
-
-// Determine the current tap dance state
-td_state_t cur_dance(qk_tap_dance_state_t *state) {
-    if (state->count == 1) {
-        if (!state->pressed) return TD_SINGLE_TAP;
-        else return TD_SINGLE_HOLD;
-    }
-    /* else if (state->count == 2) return TD_DOUBLE_TAP; */
-    else return TD_UNKNOWN;
-}
-
-// Initialize tap structure associated with example tap dance key
-static td_tap_t ql_tap_state = {
-    .is_press_action = true,
-    .state = TD_NONE
-};
-
-// Functions that control what our tap dance key does
-void ql_finished(qk_tap_dance_state_t *state, void *user_data) {
-    ql_tap_state.state = cur_dance(state);
-    switch (ql_tap_state.state) {
-        case TD_SINGLE_TAP:
-            tap_code(KC_BSPC);
-            break;
-        case TD_SINGLE_HOLD:
-            layer_on(L_SYM);
-            break;
-        /* case TD_DOUBLE_TAP: */
-        /*     // Check to see if the layer is already set */
-        /*     if (layer_state_is(_MY_LAYER)) { */
-        /*         // If already set, then switch it off */
-        /*         layer_off(_MY_LAYER); */
-        /*     } else { */
-        /*         // If not already set, then switch the layer on */
-        /*         layer_on(_MY_LAYER); */
-        /*     } */
-        /*     break; */
-        default:
-            break;
-    }
-}
-
-void ql_reset(qk_tap_dance_state_t *state, void *user_data) {
-    // If the key was held down and now is released then switch off the layer
-    if (ql_tap_state.state == TD_SINGLE_HOLD) {
-        layer_off(L_SYM);
-    }
-    ql_tap_state.state = TD_NONE;
-}
-
-// Associate our tap dance key with its functionality
-qk_tap_dance_action_t tap_dance_actions[] = {
-    [BSPC_TO_SYM] = ACTION_TAP_DANCE_FN_ADVANCED_TIME(NULL, ql_finished, ql_reset, 275)
-};
