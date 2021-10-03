@@ -39,7 +39,7 @@ ENCODER_ENABLE = yes
 THUMBSTICK_ENABLE = yes
 RAW_ENABLE = yes
 EEPROM_DRIVER = i2c
-TAP_DANCE_ENABLE = yes
+# TAP_DANCE_ENABLE = yes
 
 SRC += matrix.c \
        MCP23x17.c
