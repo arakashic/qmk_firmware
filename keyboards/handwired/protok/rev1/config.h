@@ -62,6 +62,8 @@
 
 #define TERMINAL_HELP
 
+#define OLED_DISPLAY_128X64
+
 /* configurations for mod-tap keys */
 /* #define TAPPING_TERM 200 */
 #define TAPPING_TERM_PER_KEY
