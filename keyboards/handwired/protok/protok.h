@@ -12,8 +12,9 @@ inline void protok_caps_led_on(void)  { setPinOutput(D6); writePinLow(D6); }
 inline void protok_caps_led_off(void) { setPinInput(D6); }
 */
 
+
 // clang-format off
-#define LAYOUT( \
+#define LAYOUT_gen1( \
 	K000, K001, K002, K003, K004, K005, K006, K007, K008, K009, K010, K011, K012, K013, K014, K015, \
 	K100, K101, K102, K103, K104, K105, K106, K107, K108, K109, K110, K111, K112, K113, K114, K115, \
 	K200, K201, K202, K203, K204, K205, K206, K207, K208, K209, K210, K211, K212, K213, K214, K215, \
