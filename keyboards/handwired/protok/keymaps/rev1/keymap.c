@@ -1,17 +1,4 @@
 #include "protok.h"
-#include "song_list.h"
-#include "analog.h"
-#ifdef ANALOG_JOYSTICK_ENABLE
-#include "joystick.h"
-#endif
-#ifdef THUMBSTICK_ENABLE
-#include "thumbstick.h"
-#endif
-#include "log.h"
-#ifdef RAW_ENABLE
-#include "raw.h"
-#endif
-#include <stdbool.h>
 
 bool d2r_auto_enabled = false;
 
@@ -40,7 +27,7 @@ enum {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     /* base layer PC */
-    LAYOUT(
+    LAYOUT_gen1(
            KC_ESC , XXXXXXX       , KC_F13  , KC_F14 , KC_F15  , KC_F16  , KC_F17  , KC_F18 , KC_F19        , KC_F20  , KC_F21  , KC_F22  , KC_PSCR , KC_CLCK , KC_PAUS , KC_INS  ,
            KC_WBAK, KC_ESC        , KC_F1   , KC_F2  , KC_F3   , KC_F4   , KC_F5   , KC_F6  , KC_F7         , KC_F8   , KC_F9   , KC_F10  , KC_F11  , KC_F12  , KC_HOME , KC_PGUP ,
            KC_DEL , KC_GRV        , KC_1    , KC_2   , KC_3    , KC_4    , KC_5    , KC_6   , KC_7          , KC_8    , KC_9    , KC_0    , KC_MINS , KC_EQL  , KC_END  , KC_PGDN ,
@@ -50,7 +37,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            MO(L_CMD), XXXXXXX       ,         KC_HYPR , KC_LGUI , KC_LALT , LT(L_SYM, KC_BSPC) , RSFT_T(KC_SPC) , RSFT_T(KC_SPC), KC_ENT, KC_RALT , KC_RGUI , KC_LEFT , KC_DOWN , KC_RGHT),
 
     /* Game layer */
-    LAYOUT(
+    LAYOUT_gen1(
            KC_ESC , XXXXXXX       , KC_F13  , KC_F14 , KC_F15  , KC_F16  , KC_F17  , KC_F18 , KC_F19        , KC_F20  , KC_F21  , KC_F22  , KC_PSCR , KC_CLCK , KC_PAUS , KC_INS  ,
            KC_WBAK, KC_ESC        , KC_F1   , KC_F2  , KC_F3   , KC_F4   , KC_F5   , KC_F6  , KC_F7         , KC_F8   , KC_F9   , KC_F10  , KC_F11  , KC_F12  , KC_HOME , KC_PGUP ,
            KC_DEL , KC_GRV        , KC_1    , KC_2   , KC_3    , KC_4    , KC_5    , KC_6   , KC_7          , KC_8    , KC_9    , KC_0    , KC_MINS , KC_EQL  , KC_END  , KC_PGDN ,
@@ -60,7 +47,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            MO(L_CMD), XXXXXXX       ,         KC_HYPR , KC_LGUI , KC_LALT , KC_SPC , RSFT_T(KC_SPC) , RSFT_T(KC_SPC), KC_ENT, KC_RALT , KC_RGUI , KC_LEFT , KC_DOWN , KC_RGHT),
 
     /* Game Pad layer */
-    LAYOUT(
+    LAYOUT_gen1(
            KC_ESC , KC_F24        , KC_F13  , KC_F14 , KC_F15  , KC_F16  , KC_F17  , KC_F18 , KC_F19        , KC_F20  , KC_F21  , KC_F22  , KC_PSCR , KC_CLCK , KC_PAUS , KC_INS  ,
            KC_F23 , KC_F17        , KC_F1   , KC_F2  , KC_F3   , KC_F4   , KC_F5   , KC_F6  , KC_F7         , KC_F8   , KC_F9   , KC_F10  , KC_F11  , KC_F12  , KC_HOME , KC_PGUP ,
            KC_F21 , KC_GRV        , KC_1    , KC_2   , KC_3    , KC_4    , KC_5    , KC_6   , KC_7          , KC_8    , KC_9    , KC_0    , KC_MINS , KC_EQL  , KC_END  , KC_PGDN ,
@@ -70,7 +57,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            MO(L_CMD), KC_D2R_AUTO ,         KC_HYPR , KC_LGUI , KC_LALT , KC_SPC , RSFT_T(KC_SPC) , RSFT_T(KC_SPC), KC_ENT, KC_RALT , KC_RGUI , KC_LEFT , KC_DOWN , KC_RGHT),
 
     /* additional func */
-    LAYOUT(
+    LAYOUT_gen1(
            KC_PWR , KC_SLEP, KC_WAKE, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
            _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
            KC_MPLY, KC_MSTP, KC_MPRV, KC_MNXT, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
@@ -80,7 +67,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            _______, _______,          _______, _______, _______, _______, KC_SPC , KC_RSFT, _______,          KC_1   , _______, _______, _______, _______),
 
     /* symbol layer */
-    LAYOUT(
+    LAYOUT_gen1(
            XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
            XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
            XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
@@ -90,7 +77,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_4   ,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX),
 
     /* NAV layer */
-    LAYOUT(
+    LAYOUT_gen1(
            XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
            XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
            XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
@@ -100,7 +87,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_5   ,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX),
 
     /* bootmagic key layer */
-    LAYOUT(
+    LAYOUT_gen1(
            LAG_SWP, LAG_NRM, RAG_SWP, RAG_NRM, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX ,
            AG_NORM, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
            NK_TOGG, NK_ON  , NK_OFF , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
@@ -110,7 +97,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_3   ,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX),
 
     /* command jump layer */
-    LAYOUT(
+    LAYOUT_gen1(
           TERM_OFF, TERM_ON, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, DEBUG  , EEP_RST, RESET  , OSL(L_SET),
            XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
            KC_ACL2, XXXXXXX, TO(L_DEF), TO(L_GAME), TO(L_GAMEPAD), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
@@ -122,26 +109,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 // clang-format on
 
-#ifdef ANALOG_JOYSTICK_ENABLE
-joystick_config_t joystick_axes[JOYSTICK_AXES_COUNT] = {
-    [0] = JOYSTICK_AXIS_IN_OUT(JOYSTICK_X, JOYSTICK_VCC, 0, 2047, 4096),
-    [1] = JOYSTICK_AXIS_IN_OUT(JOYSTICK_Y, JOYSTICK_VCC, 0, 2047, 4096)
-};
-#endif
-
-#ifdef ENCODER_ENABLE
-bool encoder_update_user(uint8_t index, bool clockwise) {
-    if (index == 0) { /* First encoder */
-        if (clockwise) {
-            tap_code(KC_PGDN);
-        } else {
-            tap_code(KC_PGUP);
-        }
-    }
-    return true;
-}
-#endif
-
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
     /* keyevent_t event = record->event; */
 
@@ -151,13 +118,10 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
     return MACRO_NONE;
 }
 
-void keyboard_pre_init_user(void) {
-#ifdef THUMBSTICK_ENABLE
-    setPinOutput(THUMBSTICK_VCC);
-#endif
+void matrix_init_user(void) {
 }
 
-void matrix_init_user(void) {
+void matrix_scan_user(void) {
 }
 
 void keyboard_post_init_user(void) {
@@ -170,30 +134,7 @@ void keyboard_post_init_user(void) {
     d2r_auto_enabled = false;
 }
 
-void matrix_scan_user(void) {
-    /* int16_t val = (((uint32_t)timer_read() % 5000 - 2500) * 255) / 5000; */
-
-    /* if (val != joystick_status.axes[0]) { */
-    /*     joystick_status.axes[0] = val; */
-    /*     joystick_status.status |= JS_UPDATED; */
-    /* } */
-    /* if (val != joystick_status.axes[1]) { */
-    /*     joystick_status.axes[1] = val; */
-    /*     joystick_status.status |= JS_UPDATED; */
-    /* } */
-}
-
-#ifdef AUDIO_ENABLE
-float my_song[][2] = SONG(QWERTY_SOUND);
-float caps_on[][2] = SONG(CAPS_LOCK_ON_SOUND);
-float caps_off[][2] = SONG(CAPS_LOCK_OFF_SOUND);
-#endif
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    /* uint16_t x_value = 0; */
-    /* uint16_t y_value = 0; */
-    /* x_value = analogReadPin(JOYSTICK_X); */
-    /* y_value = analogReadPin(JOYSTICK_Y); */
     if (keycode == KC_D2R_AUTO && record->event.pressed) {
         if (d2r_auto_enabled) {
             d2r_auto_enabled = false;
@@ -202,32 +143,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
     }
 
-#ifdef __ENABLE_LOG
-    if (keycode == DEBUG && record->event.pressed) {
-        log_init(LOG_DEBUG);
-    }
-    if (debug_enable) {
-        log_init(LOG_DEBUG);
-    } else {
-        log_init(LOG_INFO);
-    }
-#endif
-
-#ifdef ANALOG_JOYSTICK_ENABLE
-    log_debug("x value %d, y value %d\n", joystick_status.axes[0], joystick_status.axes[1]);
-    /* uprintf("x value %d, y value %d\n", x_value, y_value); */
-#endif
-#ifdef AUDIO_ENABLE
-    if (keycode == DEBUG && record->event.pressed) {
-        PLAY_SONG(my_song);
-        log_debug("debug pressed.\n");
-    }
-#endif
-#ifdef CONSOLE_ENABLE
-    log_debug("KL: kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u, interrupt: %b, count: %u\n",
-              keycode, record->event.key.col, record->event.key.row, record->event.pressed,
-              record->event.time, record->tap.interrupted, record->tap.count);
-#endif
     return true;
 }
 
@@ -269,16 +184,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
   return state;
 }
 
-bool led_update_user(led_t led_state) {
-#ifdef AUDIO_ENABLE
-    static uint8_t caps_state = 0;
-    if (caps_state != led_state.caps_lock) {
-        log_debug("LED Status Changed.\n");
-        led_state.caps_lock ? PLAY_SONG(caps_on) : PLAY_SONG(caps_off);
-        caps_state = led_state.caps_lock;
-    }
-#endif
-    return true;
+void led_set_user(uint8_t usb_led) {
 }
 
 #ifdef OLED_ENABLE
@@ -404,3 +310,4 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
             return TAPPING_TERM;
     }
 }
+
