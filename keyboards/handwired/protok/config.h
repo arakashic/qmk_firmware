@@ -3,6 +3,29 @@
 
 #include "config_common.h"
 
+#ifdef REV1
+/* USB Device descriptor parameter */
+#define VENDOR_ID       0x0FAC
+#define PRODUCT_ID      0x0010
+#define DEVICE_VER      0x0001
+#define MANUFACTURER    UGO
+#define PRODUCT         ProtoK Keyboard Model II
+#define DESCRIPTION     ProtoK Macro Keyboard Model II
+
+/* key matrix size */
+#define MATRIX_ROWS 7
+#define MATRIX_COLS 16
+
+/* key matrix pins */
+#define MATRIX_ROW_PINS { D3, D2, B7, B3, B2, B1, B0 }
+#define MATRIX_COL_PINS { F0, F1, F4, F5, F6, F7, E6, D6, D7, B4, B5, B6, D4, D5, C7, C6 }
+#define UNUSED_PINS
+
+/* COL2ROW or ROW2COL */
+#define DIODE_DIRECTION COL2ROW
+#endif
+
+#ifdef REV2
 /* USB Device descriptor parameter */
 #define VENDOR_ID       0x1209
 #define PRODUCT_ID      0x88BD
@@ -17,36 +40,20 @@
 /* choose matrix mode */
 /* #define MATRIX_USE_COL_MUX */
 #define MATRIX_USE_COL_23017
-
-#if defined(MATRIX_USE_COL_MUX)
-
-/* Diode direction is COL2ROW */
-#define MATRIX_COL_ADDR_BITS 4
-/* compensate extra wait due to col read, 30us - 1us per col * 16 cols */
-#define MATRIX_IO_DELAY 14
-
-/* key matrix pins, using mux/demux on columns */
-#define MATRIX_ROW_PINS { B15, B9, B10, B11, B12, A14, A13 }
-#define MATRIX_COL_SIG_PIN B0
-#define MATRIX_COL_ADDR_PINS { A15, A8, A7, A6 }
-
-#elif defined(MATRIX_USE_COL_23017)
-
 #define MATRIX_ROW_PINS { A8, A15, B10, B11, B12, A14, A13 }
-/* Diode direction is COL2ROW */
-
-#else
-
-#define MATRIX_ROW_PINS { B15, B9, B10, B11, B12, A14, A13 }
-#define MATRIX_COL_PINS { A14, B12, B11, B10,  B9, B15, \
-                           A2,  A1,  A0,  B8, B13, B14, \
-                           A9, A10,  B4,  B3 }
-/* COL2ROW or ROW2COL */
-#define DIODE_DIRECTION COL2ROW
-
 #endif
 
-#define UNUSED_PINS
+
+/* /1* Diode direction is COL2ROW *1/ */
+/* #define MATRIX_COL_ADDR_BITS 4 */
+/* /1* compensate extra wait due to col read, 30us - 1us per col * 16 cols *1/ */
+/* #define MATRIX_IO_DELAY 14 */
+
+/* /1* key matrix pins, using mux/demux on columns *1/ */
+/* #define MATRIX_ROW_PINS { B15, B9, B10, B11, B12, A14, A13 } */
+/* #define MATRIX_COL_SIG_PIN B0 */
+/* #define MATRIX_COL_ADDR_PINS { A15, A8, A7, A6 } */
+
 
 /* #define LED_CAPS_LOCK_PIN A13 */
 
@@ -70,8 +77,6 @@
 /* Tapping this number of times holds the key until tapped once again. */
 // #define ONESHOT_TAP_TOGGLE 5
 #define ONESHOT_TIMEOUT 5000  /* Time (in ms) before the one shot key is released */
-
-#define TERMINAL_HELP
 
 #define OLED_DISPLAY_128X64
 
@@ -112,8 +117,10 @@
 
 #endif
 
+#ifdef I2C_EEPROM
 #define EXTERNAL_EEPROM_I2C_BASE_ADDRESS 0b10100000
 #define EXTERNAL_EEPROM_BYTE_COUNT 32768
 #define EXTERNAL_EEPROM_PAGE_SIZE 64
+#endif
 
 #endif
