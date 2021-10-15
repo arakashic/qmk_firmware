@@ -5,13 +5,12 @@ BOOTLOADER = stm32-dfu
 
 OLED_ENABLE = yes
 OLED_DRIVER = SSD1306
-# AUDIO_ENABLE = yes
-# AUDIO_DRIVER = dac_basic
 CUSTOM_MATRIX = lite
-# ENCODER_ENABLE = yes
-# THUMBSTICK_ENABLE = yes
+ENCODER_ENABLE = yes
+THUMBSTICK_ENABLE = yes
+# F411 only have 3 endpoints, disable this for now. Will need to merge with console
 # RAW_ENABLE = yes
-# EEPROM_DRIVER = i2c
+EEPROM_DRIVER = spi
 # TAP_DANCE_ENABLE = yes
 # need to define it here to avoid qmk build problem
 # JOYSTICK_ENABLE = analog
