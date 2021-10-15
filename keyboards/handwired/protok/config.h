@@ -43,6 +43,24 @@
 #define MATRIX_ROW_PINS { A8, A15, B10, B11, B12, A14, A13 }
 #endif
 
+#ifdef REV3
+/* USB Device descriptor parameter */
+#define VENDOR_ID       0x1209
+#define PRODUCT_ID      0x88BD
+#define DEVICE_VER      0x0004
+#define MANUFACTURER    UGO
+#define PRODUCT         ProtoK Keyboard Model II Rev3 Dev
+
+/* key matrix size */
+#define MATRIX_ROWS 7
+#define MATRIX_COLS 16
+
+/* choose matrix mode */
+/* #define MATRIX_USE_COL_MUX */
+#define MATRIX_USE_COL_23017
+#define MATRIX_ROW_PINS { B8, B9, A8, A15, B3, B4, B5 }
+#endif
+
 
 /* /1* Diode direction is COL2ROW *1/ */
 /* #define MATRIX_COL_ADDR_BITS 4 */
