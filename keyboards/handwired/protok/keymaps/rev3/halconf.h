@@ -17,9 +17,8 @@
 #pragma once
 
 #define HAL_USE_I2C TRUE
-/* #define HAL_USE_ADC TRUE */
-/* #undef HAL_USE_SPI */
-/* #define HAL_USE_SPI TRUE */
+#define HAL_USE_ADC TRUE
+#define HAL_USE_SPI TRUE
 /* #undef SPI_USE_WAIT */
 /* #define SPI_USE_WAIT TRUE */
 /* #undef SPI_SELECT_MODE */
