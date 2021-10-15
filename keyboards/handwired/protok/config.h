@@ -44,6 +44,9 @@
 #endif
 
 #ifdef REV3
+#undef STM32_BOOTLOADER_ADDRESS
+#define STM32_BOOTLOADER_ADDRESS 0x08000000
+
 /* USB Device descriptor parameter */
 #define VENDOR_ID       0x1209
 #define PRODUCT_ID      0x88BD
