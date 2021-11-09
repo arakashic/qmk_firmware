@@ -295,6 +295,10 @@ bool led_update_user(led_t led_state) {
 
 #ifdef OLED_ENABLE
 
+oled_rotation_t oled_init_user(oled_rotation_t rotation) {
+    return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
+}
+
 void oled_task_user(void) {
     // Line 0:
     oled_write_P(PSTR("> "), false);
