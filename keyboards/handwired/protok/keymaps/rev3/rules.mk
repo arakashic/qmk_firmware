@@ -7,7 +7,7 @@ OLED_ENABLE = yes
 OLED_DRIVER = SSD1306
 CUSTOM_MATRIX = lite
 ENCODER_ENABLE = yes
-THUMBSTICK_ENABLE = yes
+# THUMBSTICK_ENABLE = yes
 
 KEYBOARD_SHARED_EP = yes
 # F411 only have 3 endpoints, disable this for now. Will need to merge with console
@@ -18,6 +18,7 @@ EEPROM_DRIVER = i2c
 # JOYSTICK_ENABLE = analog
 
 SRC += matrix.c \
+       analog.c \
        MCP23x17.c
 
 QUANTUM_LIB_SRC = i2c_master.c
