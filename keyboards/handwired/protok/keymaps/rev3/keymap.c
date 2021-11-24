@@ -121,12 +121,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 // clang-format on
 
-/* #ifdef ANALOG_JOYSTICK_ENABLE */
+#ifdef ANALOG_JOYSTICK_ENABLE
 joystick_config_t joystick_axes[JOYSTICK_AXES_COUNT] = {
     [0] = JOYSTICK_AXIS_IN_OUT(JOYSTICK_X, JOYSTICK_VCC, 0, 2047, 4096),
     [1] = JOYSTICK_AXIS_IN_OUT(JOYSTICK_Y, JOYSTICK_VCC, 0, 2047, 4096)
 };
-/* #endif */
+#endif
 
 #ifdef ENCODER_ENABLE
 bool encoder_update_user(uint8_t index, bool clockwise) {
@@ -168,7 +168,6 @@ void keyboard_pre_init_user(void) {
 #ifdef THUMBSTICK_ENABLE
     setPinOutput(THUMBSTICK_VCC);
 #endif
-    setPinOutput(THUMBSTICK_VCC);
 }
 
 void matrix_init_user(void) {
@@ -223,14 +222,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 #endif
 
-/* #ifdef ANALOG_JOYSTICK_ENABLE */
+#ifdef ANALOG_JOYSTICK_ENABLE
     uint16_t x_value = 0;
     uint16_t y_value = 0;
     x_value = analogReadPin(JOYSTICK_X);
     y_value = analogReadPin(JOYSTICK_Y);
     /* log_debug("x value %d, y value %d\n", joystick_status.axes[0], joystick_status.axes[1]); */
     uprintf("x value %d, y value %d\n", x_value, y_value);
-/* #endif */
+#endif
 #ifdef AUDIO_ENABLE
     if (keycode == DEBUG && record->event.pressed) {
         PLAY_SONG(my_song);
