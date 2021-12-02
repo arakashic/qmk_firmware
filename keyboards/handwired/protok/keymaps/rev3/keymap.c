@@ -300,7 +300,7 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
 }
 
-void oled_task_user(void) {
+bool oled_task_user(void) {
     // Line 0:
     oled_write_P(PSTR("> "), false);
     // Host Keyboard Layer Status
@@ -390,6 +390,8 @@ void oled_task_user(void) {
     }
 #endif
     oled_write_P(PSTR("\n"), false);
+
+    return true;
 }
 #endif
 
