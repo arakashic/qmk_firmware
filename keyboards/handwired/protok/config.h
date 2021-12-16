@@ -95,7 +95,7 @@
 
 #define ENCODERS_PAD_A { B15, B13, A9 }
 #define ENCODERS_PAD_B { B14, B12, A8 }
-#define ENCODER_RESOLUTIONS { 2, 2, 2 }
+#define ENCODER_RESOLUTIONS { 2, 2, 1 }
 
 #define UNUSED_PINS { B10, B2, B1, B0, A7, A6, A5, A4, A0 }
 
