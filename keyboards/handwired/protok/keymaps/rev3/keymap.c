@@ -155,15 +155,6 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 }
 #endif
 
-const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
-    /* keyevent_t event = record->event; */
-
-    switch (id) {
-
-    }
-    return MACRO_NONE;
-}
-
 void keyboard_pre_init_user(void) {
 #ifdef THUMBSTICK_ENABLE
     setPinOutput(THUMBSTICK_VCC);
