@@ -14,17 +14,9 @@
 #endif
 #include <stdbool.h>
 
-bool d2r_auto_enabled = false;
-
-enum custom_keycode {
-    FOO = SAFE_RANGE,
-    KC_D2R_AUTO
-};
-
 enum layer_names {
     L_DEF = 0,
     L_GAME,
-    L_GAMEPAD,
     L_FUN,
     L_SYM,
     L_NAV,
@@ -58,16 +50,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            XXXXXXX  ,                     KC_LSPO , KC_Z   , KC_X    , KC_C    , KC_V    , KC_B   , KC_N          , KC_M    , KC_COMM , KC_DOT  , KC_SLSH ,           KC_RSPC , KC_PGUP ,
            MO(L_CMD), XXXXXXX           , XXXXXXX , KC_HYPR, KC_LGUI           , KC_LALT , KC_BSPC, KC_SPC        , KC_ENT  , KC_RALT , KC_RGUI , KC_LCTL , XXXXXXX , KC_UP   , KC_PGDN ,
                                                                                                                                                             KC_LEFT , KC_DOWN , KC_RGHT),
-    /* Game Pad layer PC */
-    LAYOUT_gen2(
-           KC_ESC                       , KC_F1   , KC_F2  , KC_F3   , KC_F4   , KC_F5   , KC_F6  , KC_F7         , KC_F8   , KC_F9   , KC_F10  , KC_F11  , KC_F12  , KC_CLCK , KC_INS  ,
-           KC_ESC   , KC_GRV            , KC_1    , KC_2   , KC_3    , KC_4    , KC_5    , KC_6   , KC_7          , KC_8    , KC_9    , KC_0    , KC_MINS , KC_EQL  , KC_HOME , KC_END  ,
-           KC_F21   , KC_TAB                      , KC_Q   , KC_W    , KC_E    , KC_R    , KC_T   , KC_Y          , KC_U    , KC_I    , KC_O    , KC_P    , KC_LBRC , KC_RBRC , KC_DEL  ,
-           KC_F19   , KC_LCTL                     , KC_A   , KC_S    , KC_D    , KC_F    , KC_G   , KC_H          , KC_J    , KC_K    , KC_L    , KC_SCLN , KC_QUOT , KC_BSLS , MO(L_FUN),
-           KC_F18   ,                     KC_LSPO , KC_Z   , KC_X    , KC_C    , KC_V    , KC_B   , KC_N          , KC_M    , KC_COMM , KC_DOT  , KC_SLSH ,           KC_RSPC , KC_PGUP ,
-           MO(L_CMD), KC_F23            , KC_F17  , KC_D2R_AUTO , KC_LGUI           , KC_LALT , KC_SPC , KC_SPC        , KC_ENT  , KC_RALT , KC_RGUI , KC_LCTL , XXXXXXX , KC_UP   , KC_PGDN ,
-                                                                                                                                                            KC_LEFT , KC_DOWN , KC_RGHT),
-
     /* additional func */
     LAYOUT_gen2(
            _______,          KC_PWR , KC_SLEP, KC_WAKE, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
@@ -111,7 +93,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* command jump layer */
     LAYOUT_gen2(
            XXXXXXX         , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, DEBUG  , EEP_RST, RESET  , OSL(L_SET),
-           KC_ACL2, XXXXXXX,TO(L_DEF),TO(L_GAME),TO(L_GAMEPAD), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+           KC_ACL2, XXXXXXX,TO(L_DEF),TO(L_GAME),XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
            KC_ACL1, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
            KC_ACL0, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
            XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX,
@@ -170,8 +152,6 @@ void keyboard_post_init_user(void) {
     debug_matrix=false;
     debug_keyboard=false;
     debug_mouse=false;
-
-    d2r_auto_enabled = false;
 }
 
 void matrix_scan_user(void) {
@@ -194,14 +174,6 @@ float caps_off[][2] = SONG(CAPS_LOCK_OFF_SOUND);
 #endif
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (keycode == KC_D2R_AUTO && record->event.pressed) {
-        if (d2r_auto_enabled) {
-            d2r_auto_enabled = false;
-        } else {
-            d2r_auto_enabled = true;
-        }
-    }
-
 #ifdef __ENABLE_LOG
     if (keycode == DEBUG && record->event.pressed) {
         log_init(LOG_DEBUG);
@@ -235,44 +207,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (d2r_auto_enabled) {
-        switch (keycode) {
-            case KC_A:
-            case KC_S:
-            case KC_D:
-            case KC_F:
-            case KC_Q:
-            case KC_W:
-            case KC_E:
-            case KC_R:
-            case KC_C:
-            case KC_V:
-                if (!record->event.pressed) {
-                    tap_code(KC_MS_BTN2);
-                }
-            default:
-                break;
-        }
-    }
-}
-
-layer_state_t layer_state_set_user(layer_state_t state) {
-    switch (get_highest_layer(state)) {
-        case L_DEF:
-        case L_GAME:
-        case L_GAMEPAD:
-        case L_FUN:
-        case L_SYM:
-        case L_NAV:
-        case L_SET:
-        case L_CMD:
-        default: //  for any other layers, or the default layer
-            d2r_auto_enabled = false;
-    }
-  return state;
-}
-
 bool led_update_user(led_t led_state) {
 #ifdef AUDIO_ENABLE
     static uint8_t caps_state = 0;
@@ -303,9 +237,6 @@ bool oled_task_user(void) {
             break;
         case L_GAME:
             oled_write_P(PSTR("Game"), false);
-            break;
-        case L_GAMEPAD:
-            oled_write_P(PSTR("GamePad"), false);
             break;
         case L_FUN:
             oled_write_P(PSTR("FN"), false);
@@ -355,7 +286,6 @@ bool oled_task_user(void) {
 
     // Line 4:
     oled_write_P(PSTR("> "), false);
-    oled_write_P((d2r_auto_enabled) ? PSTR("AUTO ACT") : PSTR("        "), false);
     oled_write_P(PSTR("\n"), false);
     // Line 5:
     oled_write_P(PSTR("> "), false);
