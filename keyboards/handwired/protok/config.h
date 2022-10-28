@@ -10,7 +10,6 @@
 #define DEVICE_VER      0x0001
 #define MANUFACTURER    UGO
 #define PRODUCT         ProtoK Keyboard Model II
-#define DESCRIPTION     ProtoK Macro Keyboard Model II
 
 /* key matrix size */
 #define MATRIX_ROWS 7
@@ -19,7 +18,6 @@
 /* key matrix pins */
 #define MATRIX_ROW_PINS { D3, D2, B7, B3, B2, B1, B0 }
 #define MATRIX_COL_PINS { F0, F1, F4, F5, F6, F7, E6, D6, D7, B4, B5, B6, D4, D5, C7, C6 }
-#define UNUSED_PINS
 
 /* COL2ROW or ROW2COL */
 #define DIODE_DIRECTION COL2ROW
@@ -97,8 +95,6 @@
 #define ENCODERS_PAD_B { B14, B12, A8 }
 #define ENCODER_RESOLUTIONS { 2, 2, 1 }
 
-#define UNUSED_PINS { B10, B2, B1, B0, A7, A6, A5, A4, A0 }
-
 #ifdef THUMBSTICK_ENABLE
 
 #define THUMBSTICK_RAW_RES 12
@@ -145,10 +141,6 @@
 
 
 /* number of backlight levels */
-
-#ifdef BACKLIGHT_PIN
-#define BACKLIGHT_LEVELS 0
-#endif
 
 /* Set 0 if debouncing isn't needed */
 /* #define DEBOUNCING_DELAY 5 */
