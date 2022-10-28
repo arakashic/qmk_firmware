@@ -110,7 +110,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     /* command jump layer */
     LAYOUT_gen2(
-           XXXXXXX         ,TERM_OFF, TERM_ON, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, DEBUG  , EEP_RST, RESET  , OSL(L_SET),
+           XXXXXXX         , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, DEBUG  , EEP_RST, RESET  , OSL(L_SET),
            KC_ACL2, XXXXXXX,TO(L_DEF),TO(L_GAME),TO(L_GAMEPAD), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
            KC_ACL1, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
            KC_ACL0, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
@@ -228,7 +228,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 #endif
 #ifdef CONSOLE_ENABLE
-    log_debug("KL: kc: 0x%04X, col: %u, row: %u, pressed: %b, time: %u, interrupt: %b, count: %u\n",
+    log_debug("KL: kc: 0x%04X, col: %u, row: %u, pressed: %x, time: %u, interrupt: %x, count: %u\n",
               keycode, record->event.key.col, record->event.key.row, record->event.pressed,
               record->event.time, record->tap.interrupted, record->tap.count);
 #endif
