@@ -7,3 +7,6 @@ EXTRAKEY_ENABLE = yes		# Audio control and System control
 CONSOLE_ENABLE = yes		# Console for debug
 COMMAND_ENABLE = yes		# Commands for debug and configuration, diable because of
                                 # conflicting with space cadet key
+MCU = STM32F411
+BOARD = BLACKPILL_STM32_F411
+BOOTLOADER = stm32-dfu

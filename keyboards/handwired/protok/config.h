@@ -1,15 +1,8 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#include "config_common.h"
-
 #ifdef REV1
 /* USB Device descriptor parameter */
-#define VENDOR_ID       0x0FAC
-#define PRODUCT_ID      0x0010
-#define DEVICE_VER      0x0001
-#define MANUFACTURER    UGO
-#define PRODUCT         ProtoK Keyboard Model II
 
 /* key matrix size */
 #define MATRIX_ROWS 7
@@ -25,11 +18,6 @@
 
 #ifdef REV2
 /* USB Device descriptor parameter */
-#define VENDOR_ID       0x1209
-#define PRODUCT_ID      0x88BD
-#define DEVICE_VER      0x0003
-#define MANUFACTURER    UGO
-#define PRODUCT         ProtoK Keyboard Model II Rev2 Dev
 
 /* key matrix size */
 #define MATRIX_ROWS 7
@@ -76,11 +64,6 @@
 #define STM32_BOOTLOADER_ADDRESS 0x08000000
 
 /* USB Device descriptor parameter */
-#define VENDOR_ID       0x1209
-#define PRODUCT_ID      0x88BD
-#define DEVICE_VER      0x0004
-#define MANUFACTURER    UGO
-#define PRODUCT         ProtoK Keyboard Model II Rev3 Dev
 
 /* key matrix size */
 #define MATRIX_ROWS 7
@@ -163,9 +146,6 @@
 #define TAPPING_TERM_PER_KEY
 /* #define PERMISSIVE_HOLD */
 #define PERMISSIVE_HOLD_PER_KEY
-/* #define IGNORE_MOD_TAP_INTERRUPT */
-#define IGNORE_MOD_TAP_INTERRUPT_PER_KEY
-#define TAPPING_FORCE_HOLD
 
 #ifdef CONSOLE_ENABLE
 #define __ENABLE_LOG 1

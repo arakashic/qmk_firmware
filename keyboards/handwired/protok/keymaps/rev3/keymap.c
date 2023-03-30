@@ -1,5 +1,4 @@
 #include "protok.h"
-#include "song_list.h"
 #include "analog.h"
 #ifdef ANALOG_JOYSTICK_ENABLE
 #include "joystick.h"
@@ -29,20 +28,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     /* base layer PC */
     LAYOUT_gen2(
-           KC_MUTE                       , KC_F1   , KC_F2  , KC_F3   , KC_F4   , KC_F5   , KC_F6  , KC_F7         , KC_F8   , KC_F9   , KC_F10  , KC_F11  , KC_F12  , KC_CLCK , KC_INS  ,
+           KC_MUTE                      , KC_F1   , KC_F2  , KC_F3   , KC_F4   , KC_F5   , KC_F6  , KC_F7         , KC_F8   , KC_F9   , KC_F10  , KC_F11  , KC_F12  , KC_CAPS , KC_INS  ,
            KC_DEL   , KC_GRV            , KC_1    , KC_2   , KC_3    , KC_4    , KC_5    , KC_6   , KC_7          , KC_8    , KC_9    , KC_0    , KC_MINS , KC_EQL  , KC_HOME , KC_END  ,
            KC_HOME  , LT(L_NAV, KC_TAB)           , KC_Q   , KC_W    , KC_E    , KC_R    , KC_T   , KC_Y          , KC_U    , KC_I    , KC_O    , KC_P    , KC_LBRC , KC_RBRC , KC_DEL  ,
            KC_END   , LCTL_T(KC_ESC)              , KC_A   , KC_S    , KC_D    , KC_F    , KC_G   , KC_H          , KC_J    , KC_K    , KC_L    , KC_SCLN , KC_QUOT , KC_BSLS , MO(L_FUN),
-           XXXXXXX  ,                     KC_LSPO , KC_Z   , KC_X    , KC_C    , KC_V    , KC_B   , KC_N          , KC_M    , KC_COMM , KC_DOT  , KC_SLSH ,           KC_RSPC , KC_PGUP   ,
+           XXXXXXX  ,                     SC_LSPO , KC_Z   , KC_X    , KC_C    , KC_V    , KC_B   , KC_N          , KC_M    , KC_COMM , KC_DOT  , KC_SLSH ,           SC_RSPC , KC_PGUP   ,
            MO(L_CMD), XXXXXXX           , XXXXXXX , KC_HYPR, KC_LGUI , KC_LALT , LT(L_SYM, KC_BSPC) , RSFT_T(KC_SPC) , KC_ENT, KC_RALT, KC_RGUI , KC_LCTL , XXXXXXX , KC_UP   , KC_PGDN ,
                                                                                                                                                             KC_LEFT , KC_DOWN , KC_RGHT),
     /* Game layer PC */
     LAYOUT_gen2(
-           KC_ESC                       , KC_F1   , KC_F2  , KC_F3   , KC_F4   , KC_F5   , KC_F6  , KC_F7         , KC_F8   , KC_F9   , KC_F10  , KC_F11  , KC_F12  , KC_CLCK , KC_INS  ,
+           KC_ESC                       , KC_F1   , KC_F2  , KC_F3   , KC_F4   , KC_F5   , KC_F6  , KC_F7         , KC_F8   , KC_F9   , KC_F10  , KC_F11  , KC_F12  , KC_CAPS , KC_INS  ,
            KC_ESC   , KC_GRV            , KC_1    , KC_2   , KC_3    , KC_4    , KC_5    , KC_6   , KC_7          , KC_8    , KC_9    , KC_0    , KC_MINS , KC_EQL  , KC_HOME , KC_END  ,
            KC_HOME  , KC_TAB                      , KC_Q   , KC_W    , KC_E    , KC_R    , KC_T   , KC_Y          , KC_U    , KC_I    , KC_O    , KC_P    , KC_LBRC , KC_RBRC , KC_BSPC ,
            KC_END   , LCTL_T(KC_ESC)              , KC_A   , KC_S    , KC_D    , KC_F    , KC_G   , KC_H          , KC_J    , KC_K    , KC_L    , KC_SCLN , KC_QUOT , KC_BSLS , MO(L_FUN),
-           KC_DEL   ,                     KC_LSPO , KC_Z   , KC_X    , KC_C    , KC_V    , KC_B   , KC_N          , KC_M    , KC_COMM , KC_DOT  , KC_SLSH ,           KC_RSPC , KC_PGUP ,
+           KC_DEL   ,                     SC_LSPO , KC_Z   , KC_X    , KC_C    , KC_V    , KC_B   , KC_N          , KC_M    , KC_COMM , KC_DOT  , KC_SLSH ,           SC_RSPC , KC_PGUP ,
            MO(L_CMD), XXXXXXX           , XXXXXXX , KC_HYPR, KC_LGUI           , KC_LALT , KC_SPC , KC_SPC        , KC_ENT  , KC_RALT , KC_RGUI , KC_LCTL , XXXXXXX , KC_UP   , KC_PGDN ,
                                                                                                                                                             KC_LEFT , KC_DOWN , KC_RGHT),
     /* additional func */
@@ -87,7 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     /* command jump layer */
     LAYOUT_gen2(
-           XXXXXXX         , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, DEBUG  , EEP_RST, RESET  , OSL(L_SET),
+           XXXXXXX         , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, DB_TOGG,  EE_CLR, QK_RBT , OSL(L_SET),
            KC_ACL2, XXXXXXX,TO(L_DEF),TO(L_GAME),XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
            KC_ACL1, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
            KC_ACL0, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
@@ -169,7 +168,7 @@ float caps_off[][2] = SONG(CAPS_LOCK_OFF_SOUND);
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #ifdef __ENABLE_LOG
-    if (keycode == DEBUG && record->event.pressed) {
+    if (keycode == DB_TOGG && record->event.pressed) {
         log_init(LOG_DEBUG);
     }
     if (debug_enable) {
@@ -188,7 +187,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     uprintf("x value %d, y value %d\n", x_value, y_value);
 #endif
 #ifdef AUDIO_ENABLE
-    if (keycode == DEBUG && record->event.pressed) {
+    if (keycode == DB_TOGG && record->event.pressed) {
         PLAY_SONG(my_song);
         log_debug("debug pressed.\n");
     }
@@ -310,12 +309,12 @@ bool oled_task_user(void) {
 }
 #endif
 
-bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case RSFT_T(KC_SPC):
-            return true;
-        default:
             return false;
+        default:
+            return true;
     }
 }
 

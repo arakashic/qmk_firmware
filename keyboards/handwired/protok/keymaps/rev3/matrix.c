@@ -104,7 +104,6 @@ void matrix_init_custom(void) {
 
     debounce_init(MATRIX_ROWS);
 
-    matrix_init_quantum();
 }
 
 uint8_t matrix_scan_custom(void) {
@@ -203,7 +202,6 @@ void matrix_init_custom(void) {
 
     debounce_init(MATRIX_ROWS);
 
-    matrix_init_quantum();
 }
 
 uint8_t matrix_scan_custom(void) {
@@ -219,7 +217,6 @@ uint8_t matrix_scan_custom(void) {
 
     debounce(raw_matrix, matrix, MATRIX_ROWS, changed);
 
-    matrix_scan_quantum();
 
     /* time_elapsed = timer_read() - time_elapsed; */
     /* uprintf("time elapsed %d ms\n", time_elapsed); */

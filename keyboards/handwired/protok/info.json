@@ -1,0 +1,11 @@
+{
+    "manufacturer": "UGO",
+    "url": "",
+    "maintainer": "ugo",
+    "keyboard_name": "ProtoK Keyboard Model II",
+    "usb": {
+        "vid": "0x1209",
+        "pid": "0x88BD",
+        "device_version": "0.4.0"
+    }
+}
