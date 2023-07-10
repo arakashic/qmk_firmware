@@ -2,8 +2,9 @@
 #include "MCP23x17.h"
 #include "log.h"
 
-#ifdef MCP23017
 #include "i2c_master.h"
+
+#define I2C_TIMEOUT 100
 
 #define I2C_STATUS_CHECK(var) \
     do { \
@@ -264,5 +265,3 @@ uint16_t mcp_read_port16(MCP23017_t *dev) {
 void mcp_write_port16(MCP23017_t *dev, uint16_t value) {
     mcp_write_register16(dev, MCP_GPIOA, value);
 }
-
-#endif

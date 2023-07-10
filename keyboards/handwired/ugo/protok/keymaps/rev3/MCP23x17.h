@@ -3,7 +3,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "util.h"
-#include "quantum.h"
 
 #define MCP_PORTA 0
 #define MCP_PORTB 1
