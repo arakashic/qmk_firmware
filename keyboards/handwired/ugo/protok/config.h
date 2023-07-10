@@ -4,13 +4,6 @@
 #undef STM32_BOOTLOADER_ADDRESS
 #define STM32_BOOTLOADER_ADDRESS 0x08000000
 
-/* USB Device descriptor parameter */
-#define VENDOR_ID       0x1209
-#define PRODUCT_ID      0x88BD
-#define DEVICE_VER      0x0004
-#define MANUFACTURER    UGO
-#define PRODUCT         ProtoK Keyboard Model II Rev3 Dev
-
 /* key matrix size */
 #define MATRIX_ROWS 7
 #define MATRIX_COLS 16
