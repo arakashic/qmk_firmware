@@ -45,10 +45,9 @@
 /* configurations for mod-tap keys */
 /* #define TAPPING_TERM 200 */
 #define TAPPING_TERM_PER_KEY
-/* #define PERMISSIVE_HOLD */
 #define PERMISSIVE_HOLD_PER_KEY
-/* #define IGNORE_MOD_TAP_INTERRUPT */
-#define TAPPING_FORCE_HOLD
+// #define TAPPING_FORCE_HOLD
+#define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 
 #ifdef CONSOLE_ENABLE
 #define __ENABLE_LOG 1

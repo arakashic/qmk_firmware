@@ -143,6 +143,10 @@ void keyboard_post_init_user(void) {
     debug_matrix=false;
     debug_keyboard=false;
     debug_mouse=false;
+
+#ifdef OLED_ENABLE
+    oled_clear();
+#endif
 }
 
 void matrix_scan_user(void) {
@@ -224,7 +228,7 @@ bool oled_task_user(void) {
             // Or use the write_ln shortcut over adding '\n' to the end of your string
             oled_write_ln_P(PSTR("Undefined"), false);
     }
-    oled_write_ln_P(PSTR("\n"), false);
+    oled_write_P(PSTR("\n"), false);
 
     // Line 1:
     oled_write_P(PSTR("> "), false);
@@ -268,12 +272,14 @@ bool oled_task_user(void) {
 }
 #endif
 
-bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case RSFT_T(KC_SPC):
-            return true;
-        default:
+        case LT(1, KC_BSPC):
+            // Immediately select the hold action when another key is pressed.
             return false;
+        default:
+            // Do not select the hold action when another key is pressed.
+            return true;
     }
 }
 
