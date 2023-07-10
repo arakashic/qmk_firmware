@@ -8,6 +8,7 @@ OLED_DRIVER = SSD1306
 CUSTOM_MATRIX = lite
 ENCODER_ENABLE = yes
 # THUMBSTICK_ENABLE = yes
+DYNAMIC_TAPPING_TERM_ENABLE = yes
 
 KEYBOARD_SHARED_EP = yes
 # F411 only have 3 endpoints, disable this for now. Will need to merge with console
