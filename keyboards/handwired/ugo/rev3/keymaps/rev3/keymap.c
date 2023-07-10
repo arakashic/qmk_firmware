@@ -1,5 +1,4 @@
 #include "protok.h"
-#include "song_list.h"
 #include "analog.h"
 #ifdef ANALOG_JOYSTICK_ENABLE
 #include "joystick.h"
@@ -9,9 +8,6 @@
 #include "thumbstick.h"
 #endif
 #include "log.h"
-#ifdef RAW_ENABLE
-#include "raw.h"
-#endif
 #include <stdbool.h>
 
 enum layer_names {
@@ -161,12 +157,6 @@ void matrix_scan_user(void) {
     /* } */
 }
 
-#ifdef AUDIO_ENABLE
-float my_song[][2] = SONG(QWERTY_SOUND);
-float caps_on[][2] = SONG(CAPS_LOCK_ON_SOUND);
-float caps_off[][2] = SONG(CAPS_LOCK_OFF_SOUND);
-#endif
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #ifdef __ENABLE_LOG
     if (keycode == DEBUG && record->event.pressed) {
@@ -187,28 +177,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     /* log_debug("x value %d, y value %d\n", joystick_status.axes[0], joystick_status.axes[1]); */
     uprintf("x value %d, y value %d\n", x_value, y_value);
 #endif
-#ifdef AUDIO_ENABLE
-    if (keycode == DEBUG && record->event.pressed) {
-        PLAY_SONG(my_song);
-        log_debug("debug pressed.\n");
-    }
-#endif
 #ifdef CONSOLE_ENABLE
     log_debug("KL: kc: 0x%04X, col: %u, row: %u, pressed: %x, time: %u, interrupt: %x, count: %u\n",
               keycode, record->event.key.col, record->event.key.row, record->event.pressed,
               record->event.time, record->tap.interrupted, record->tap.count);
-#endif
-    return true;
-}
-
-bool led_update_user(led_t led_state) {
-#ifdef AUDIO_ENABLE
-    static uint8_t caps_state = 0;
-    if (caps_state != led_state.caps_lock) {
-        log_debug("LED Status Changed.\n");
-        led_state.caps_lock ? PLAY_SONG(caps_on) : PLAY_SONG(caps_off);
-        caps_state = led_state.caps_lock;
-    }
 #endif
     return true;
 }
@@ -289,21 +261,6 @@ bool oled_task_user(void) {
     oled_write_P(PSTR("\n"), false);
     // Line 6:
     oled_write_P(PSTR("> "), false);
-#ifdef RAW_ENABLE
-    switch (protok_os_type) {
-        case OS_TYPE_WIN:
-            oled_write_P(PSTR("WIN  "), false);
-            break;
-        case OS_TYPE_LINUX:
-            oled_write_P(PSTR("LINUX"), false);
-            break;
-        case OS_TYPE_MAC:
-            oled_write_P(PSTR("MAC  "), false);
-            break;
-        default:
-            break;
-    }
-#endif
     oled_write_P(PSTR("\n"), false);
 
     return true;

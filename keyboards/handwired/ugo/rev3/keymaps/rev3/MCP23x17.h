@@ -14,7 +14,6 @@
 #define MCP_ADDR_WRITE(dev) (MCP_CMD | (dev)->addr_s | MCP_WRITE)
 #define MCP_ADDR_READ(dev) (MCP_CMD | (dev)->addr_s | MCP_READ)
 
-
 enum {
     MCP_PIN_OUTPUT = 0,
     MCP_PIN_INPUT,
@@ -56,9 +55,6 @@ enum MCP23x17_regs {
     MCP_NUM_REGS
 };
 
-#define MCP23017
-#ifdef MCP23017
-
 typedef struct MCP23017 {
     uint8_t addr_s;  /* shifted ready to use address */
     bool state_saved;
@@ -82,5 +78,3 @@ void mcp_print_all(MCP23017_t *dev);
 uint8_t mcp_read_port(MCP23017_t *dev, uint8_t port);
 uint16_t mcp_read_port16(MCP23017_t *dev);
 void mcp_write_port16(MCP23017_t *dev, uint16_t value);
-
-#endif
