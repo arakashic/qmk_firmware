@@ -1,0 +1,11 @@
+{
+    "manufacturer": "UGO",
+    "maintainer": "ugo",
+    "usb": {
+        "vid": "0x1209",
+        "pid": "0x88BD",
+        "device_version": "0.0.3"
+    },
+    "keyboard_name": "Protok Keyboard Model II",
+    "development_board": "blackpill_f411"
+}
