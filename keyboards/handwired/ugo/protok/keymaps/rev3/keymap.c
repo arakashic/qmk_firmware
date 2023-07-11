@@ -1,6 +1,7 @@
 #include "protok.h"
 #include "analog.h"
 #include "quantum.h"
+#include "os_detection.h"
 #ifdef ANALOG_JOYSTICK_ENABLE
 #include "joystick.h"
 #endif
@@ -20,6 +21,8 @@ enum layer_names {
     L_SET,
     L_CMD
 };
+
+os_variant_t os = OS_UNSURE;
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -143,10 +146,24 @@ void keyboard_post_init_user(void) {
     debug_matrix=false;
     debug_keyboard=false;
     debug_mouse=false;
-
 #ifdef OLED_ENABLE
     oled_clear();
 #endif
+}
+
+void housekeeping_task_user(void)
+{
+    os_variant_t new_os = detected_host_os();
+    if (os != new_os) {
+        os = new_os;
+        keymap_config.raw = eeconfig_read_keymap();
+        if (os == OS_MACOS || os == OS_IOS) {
+            keymap_config.swap_lalt_lgui = true;
+        } else {
+            keymap_config.swap_lalt_lgui = false;
+        }
+        eeconfig_update_keymap(keymap_config.raw);
+    }
 }
 
 void matrix_scan_user(void) {
@@ -225,8 +242,7 @@ bool oled_task_user(void) {
             oled_write_P(PSTR("Command"), false);
             break;
         default:
-            // Or use the write_ln shortcut over adding '\n' to the end of your string
-            oled_write_ln_P(PSTR("Undefined"), false);
+            oled_write_P(PSTR("Undefined"), false);
     }
     oled_write_P(PSTR("\n"), false);
 
@@ -257,6 +273,25 @@ bool oled_task_user(void) {
 
     // Line 4:
     oled_write_P(PSTR("> "), false);
+    switch (os) {
+        case OS_UNSURE:
+            oled_write_P(PSTR("Unsure"), false);
+            break;
+        case OS_LINUX:
+            oled_write_P(PSTR("Linux"), false);
+            break;
+        case OS_WINDOWS:
+            oled_write_P(PSTR("Win"), false);
+            break;
+        case OS_MACOS:
+            oled_write_P(PSTR("Mac"), false);
+            break;
+        case OS_IOS:
+            oled_write_P(PSTR("iOS"), false);
+            break;
+        default:
+            oled_write_P(PSTR("Undefined"), false);
+    }
     oled_write_P(PSTR("\n"), false);
     // Line 5:
     oled_write_P(PSTR("> "), false);
@@ -300,5 +335,14 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
             return 130;
         default:
             return TAPPING_TERM;
+    }
+}
+
+uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case RSFT_T(KC_SPC):
+            return 50;
+        default:
+            return QUICK_TAP_TERM;
     }
 }
