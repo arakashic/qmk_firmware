@@ -10,6 +10,9 @@ ENCODER_ENABLE = yes
 # THUMBSTICK_ENABLE = yes
 DYNAMIC_TAPPING_TERM_ENABLE = yes
 
+OS_DETECTION_ENABLE = yes
+OS_DETECTION_DEBUG_ENABLE = yes
+
 KEYBOARD_SHARED_EP = yes
 # F411 only have 3 endpoints, disable this for now. Will need to merge with console
 EEPROM_DRIVER = i2c
