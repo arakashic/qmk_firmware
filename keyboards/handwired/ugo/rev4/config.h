@@ -18,3 +18,16 @@
 //#define NO_ACTION_LAYER
 //#define NO_ACTION_TAPPING
 //#define NO_ACTION_ONESHOT
+
+// SPI Configuration (needed for FRAM and FLASH)
+#define SPI_DRIVER SPID1
+#define SPI_SCK_PIN B3
+#define SPI_MOSI_PIN B5
+#define SPI_MISO_PIN B4
+
+// 74HC165 configuration
+// #define REGISTER_CS_PIN A8
+// #define REGISTER_LD_PIN B0
+#define REGISTER_CS_PIN C14
+#define REGISTER_LD_PIN C15
+#define REGISTER_BYTES 2
