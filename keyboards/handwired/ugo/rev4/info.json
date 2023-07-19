@@ -12,10 +12,6 @@
         "mousekey": true,
         "nkro": false
     },
-    "matrix_pins": {
-        "cols": ["A7", "A6", "A5", "A1"],
-        "rows": ["B13", "B14", "B15", "B1"]
-    },
     "processor": "STM32F411",
     "url": "",
     "usb": {

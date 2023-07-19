@@ -19,6 +19,10 @@
 //#define NO_ACTION_TAPPING
 //#define NO_ACTION_ONESHOT
 
+/* key matrix size */
+#define MATRIX_ROWS 4
+#define MATRIX_COLS 4
+
 // SPI Configuration (needed for FRAM and FLASH)
 #define SPI_DRIVER SPID1
 #define SPI_SCK_PIN B3
