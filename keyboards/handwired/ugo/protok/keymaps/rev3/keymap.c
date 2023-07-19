@@ -57,7 +57,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     /* symbol layer */
     LAYOUT_gen2(
-           XXXXXXX         , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+           XXXXXXX         , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  KC_NUM, KC_CAPS, KC_SCRL,
            XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
            XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, KC_EXLM, XXXXXXX, XXXXXXX, XXXXXXX, KC_UNDS, KC_CIRC, XXXXXXX, KC_PLUS, XXXXXXX, XXXXXXX, XXXXXXX,
            XXXXXXX, XXXXXXX,          KC_AT  , KC_DLR , KC_PERC, KC_ASTR, KC_AMPR, KC_HASH, KC_LBRC, KC_RBRC, KC_LCBR, KC_RCBR, XXXXXXX, XXXXXXX, XXXXXXX,
@@ -220,7 +220,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-#ifdef OLED_ENABLE
+// #ifdef OLED_ENABLE
 
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
@@ -228,7 +228,7 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 
 bool oled_task_user(void) {
     // Line 0:
-    oled_write_P(PSTR("> "), false);
+    oled_write_P(PSTR("\x80\x81\x82\x83 "), false);
     // Host Keyboard Layer Status
     oled_write_P(PSTR("Layer: "), false);
 
@@ -260,17 +260,20 @@ bool oled_task_user(void) {
     oled_write_P(PSTR("\n"), false);
 
     // Line 1:
-    oled_write_P(PSTR("> "), false);
+    oled_write_P(PSTR("\xa0\xa1\xa2\xa3 "), false);
     // Host Keyboard LED Status
     led_t led_state = host_keyboard_led_state();
-    oled_write_P(led_state.num_lock ? PSTR("NUM ") : PSTR("    "), false);
-    oled_write_P(led_state.caps_lock ? PSTR("CAP ") : PSTR("    "), false);
-    oled_write_P(led_state.scroll_lock ? PSTR("SCR ") : PSTR("    "), false);
+    oled_write_P(led_state.num_lock ? PSTR("\x86\x87") : PSTR("  "), false);
+    oled_write_P(led_state.caps_lock ? PSTR("\x84\x85") : PSTR("  "), false);
+    oled_write_P(led_state.scroll_lock ? PSTR("\x88\x89") : PSTR("  "), false);
     oled_write_P(PSTR("\n"), false);
 
     // Line 2:
-    oled_write_P(PSTR("> "), false);
+    oled_write_P(PSTR("\xc0\xc1\xc2\xc3 "), false);
     // command
+    oled_write_P(led_state.num_lock ? PSTR("\xa6\xa7") : PSTR("  "), false);
+    oled_write_P(led_state.caps_lock ? PSTR("\xa4\xa5") : PSTR("  "), false);
+    oled_write_P(led_state.scroll_lock ? PSTR("\xa8\xa9") : PSTR("  "), false);
     oled_write_P(debug_enable ? PSTR("D") : PSTR(" "), false);
     oled_write_P(debug_keyboard ? PSTR("K") : PSTR(" "), false);
     oled_write_P(debug_matrix ? PSTR("X") : PSTR(" "), false);
@@ -278,9 +281,9 @@ bool oled_task_user(void) {
     oled_write_P(PSTR("\n"), false);
 
     // Line 3:
-    oled_write_P(PSTR("> "), false);
+    oled_write_P(PSTR(">    "), false);
     uint16_t eeconfig_keymap = eeconfig_read_keymap();
-    oled_write_P((eeconfig_keymap & EECONFIG_KEYMAP_SWAP_LALT_LGUI) ? PSTR("SLAG ") : PSTR("     "), false);
+    oled_write_P((eeconfig_keymap & EECONFIG_KEYMAP_SWAP_LALT_LGUI) ? PSTR("\x8a\x8b ") : PSTR("   "), false);
     oled_write_P((eeconfig_keymap & EECONFIG_KEYMAP_SWAP_RALT_RGUI) ? PSTR("SRAG ") : PSTR("     "), false);
     oled_write_P(PSTR("\n"), false);
 
@@ -288,26 +291,45 @@ bool oled_task_user(void) {
     oled_write_P(PSTR("> "), false);
     switch (os) {
         case OS_UNSURE:
-            oled_write_P(PSTR("Unsure"), false);
+            oled_write_P(PSTR("  "), false);
             break;
         case OS_LINUX:
-            oled_write_P(PSTR("Linux"), false);
+            oled_write_P(PSTR("\x99\x9a"), false);
             break;
         case OS_WINDOWS:
-            oled_write_P(PSTR("Win"), false);
+            oled_write_P(PSTR("\x97\x98"), false);
             break;
         case OS_MACOS:
-            oled_write_P(PSTR("Mac"), false);
+            oled_write_P(PSTR("\x95\x96"), false);
             break;
         case OS_IOS:
-            oled_write_P(PSTR("iOS"), false);
+            oled_write_P(PSTR("\x95\x96"), false);
             break;
         default:
-            oled_write_P(PSTR("Undefined"), false);
+            oled_write_P(PSTR("  "), false);
     }
     oled_write_P(PSTR("\n"), false);
     // Line 5:
     oled_write_P(PSTR("> "), false);
+    switch (os) {
+        case OS_UNSURE:
+            oled_write_P(PSTR("  "), false);
+            break;
+        case OS_LINUX:
+            oled_write_P(PSTR("\xb9\xba"), false);
+            break;
+        case OS_WINDOWS:
+            oled_write_P(PSTR("\xb7\xb8"), false);
+            break;
+        case OS_MACOS:
+            oled_write_P(PSTR("\xb5\xb6"), false);
+            break;
+        case OS_IOS:
+            oled_write_P(PSTR("\xb5\xb6"), false);
+            break;
+        default:
+            oled_write_P(PSTR("  "), false);
+    }
     oled_write_P(PSTR("\n"), false);
     // Line 6:
     oled_write_P(PSTR("> "), false);
@@ -318,7 +340,7 @@ bool oled_task_user(void) {
 
     return true;
 }
-#endif
+// #endif
 
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
