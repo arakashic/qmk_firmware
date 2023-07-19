@@ -41,6 +41,7 @@
 #define ONESHOT_TIMEOUT 5000  /* Time (in ms) before the one shot key is released */
 
 #define OLED_DISPLAY_128X64
+#define OLED_FONT_H "keyboards/handwired/ugo/protok/keymaps/rev3/glcdfont.c"
 
 /* configurations for mod-tap keys */
 /* #define TAPPING_TERM 200 */
