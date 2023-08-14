@@ -20,8 +20,8 @@
 //#define NO_ACTION_ONESHOT
 
 /* key matrix size */
-#define MATRIX_ROWS 4
-#define MATRIX_COLS 4
+#define MATRIX_ROWS 2
+#define MATRIX_COLS 8
 
 // SPI Configuration (needed for FRAM and FLASH)
 #define SPI_DRIVER SPID1
@@ -34,4 +34,4 @@
 // #define REGISTER_LD_PIN B0
 #define REGISTER_CS_PIN C14
 #define REGISTER_LD_PIN C15
-#define REGISTER_BYTES 2
+#define REGISTER_BYTES 13
