@@ -20,8 +20,8 @@
 //#define NO_ACTION_ONESHOT
 
 /* key matrix size */
-#define MATRIX_ROWS 2
-#define MATRIX_COLS 8
+#define MATRIX_ROWS 7
+#define MATRIX_COLS 16
 
 // SPI Configuration (needed for FRAM and FLASH)
 #define SPI_DRIVER SPID1
