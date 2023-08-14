@@ -20,15 +20,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * │ 0 │ . │Ent│ + │
      * └───┴───┴───┴───┘
      */
-    [0] = LAYOUT_ortho_4x4(
-        KC_P7,   KC_P8,   KC_P9,   KC_PSLS,
-        KC_P4,   KC_P5,   KC_P6,   KC_PAST,
-        KC_P1,   KC_P2,   KC_P3,   KC_PMNS,
-        KC_P0,   KC_PDOT, KC_PENT, KC_PPLS
+    [0] = LAYOUT_ortho_8x2(
+        KC_7,   KC_8,   KC_9,   KC_PSLS, KC_4,   KC_5,   KC_6,   KC_PAST,
+        KC_1,   KC_2,   KC_3,   KC_PMNS, KC_0,   KC_PDOT, KC_PENT, KC_PPLS
     )
 };
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+// bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // uint8_t buf[REGISTER_BYTES] = { 0, 0 };
     // bool ret = true;
     // spi_status_t spi_ret = SPI_STATUS_SUCCESS;
@@ -65,12 +63,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     //         }
     //         break;
     // }
-    return false;
-};
+//     return false;
+// };
 
 void keyboard_post_init_user(void) {
     debug_enable   = true;
     debug_matrix   = true;
-    debug_keyboard = true;
-    debug_mouse    = true;
+    // debug_keyboard = true;
+    // debug_mouse    = true;
 }
