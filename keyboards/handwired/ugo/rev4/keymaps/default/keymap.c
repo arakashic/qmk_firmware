@@ -7,7 +7,9 @@
 
 enum custom_keycodes {
     SPI_READ = SAFE_RANGE,
+    XAP_KEY_START,
     XAP_K1,
+    XAP_N_KEYS
 };
 
 enum layer_names {
@@ -99,10 +101,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 };
 
+typedef struct {
+    uint8_t type;
+    uint8_t modifier;
+    uint16_t keycode;
+} xap_keyevent_t;
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    static xap_keyevent_t ev;
     switch (keycode) {
         case XAP_K1:
-            xap_broadcast_user(&keycode, 2);
+            ev.type = record->event.pressed;
+            ev.modifier = 0;
+            ev.keycode = keycode;
+            xap_broadcast_user(&ev, sizeof(xap_keyevent_t));
             return false;
         default:
             return true;
