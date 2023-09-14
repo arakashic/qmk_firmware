@@ -34,7 +34,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            KC_HOME  , PK_TAB , KC_Q   , KC_W   , KC_E   , KC_R   , KC_T   , EXT_KEY, KC_Y   , KC_U   , KC_I   , KC_O   , KC_P   , KC_LBRC, KC_RBRC, KC_DEL ,
            KC_END   , PK_LCTL, KC_A   , KC_S   , KC_D   , KC_F   , KC_G   , EXT_KEY, KC_H   , KC_J   , KC_K   , KC_L   , KC_SCLN, KC_QUOT, KC_BSLS, MO(L_FUN),
            XXXXXXX  , SC_LSPO, KC_Z   , KC_X   , KC_C   , KC_V   , KC_B   , EXT_KEY, KC_N   , KC_M   , KC_COMM, KC_DOT , KC_SLSH, SC_RSPC, KC_PGUP, EXT_KEY,
-           MO(L_CMD), XXXXXXX, XXXXXXX, KC_HYPR, KC_LGUI, KC_LALT, PK_BSPC, EXT_KEY, PK_SPC , KC_ENT , KC_RALT, KC_RGUI, KC_LCTL, XXXXXXX, KC_UP  , KC_PGDN,
+           MO(L_CMD),  XAP_K1, XXXXXXX, KC_HYPR, KC_LGUI, KC_LALT, PK_BSPC, EXT_KEY, PK_SPC , KC_ENT , KC_RALT, KC_RGUI, KC_LCTL, XXXXXXX, KC_UP  , KC_PGDN,
                                                                                                                                   KC_LEFT, KC_DOWN, KC_RGHT
     ),
     /* Game layer PC */
@@ -94,7 +94,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            KC_ACL1  , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, EXT_KEY, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
            KC_ACL0  , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, EXT_KEY, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
            XXXXXXX  , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, EXT_KEY, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, EXT_KEY,
-           XXXXXXX  , XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, EXT_KEY, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+           XXXXXXX  , QK_BOOT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, EXT_KEY, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                                                                                                                   XXXXXXX, XXXXXXX, XXXXXXX
     ),
 };
@@ -102,6 +102,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case XAP_K1:
+            xap_broadcast_user(&keycode, 2);
             return false;
         default:
             return true;
@@ -114,3 +115,14 @@ void keyboard_post_init_user(void) {
     // debug_keyboard = true;
     // debug_mouse    = true;
 }
+
+// void housekeeping_task_user(void) {
+//     static uint32_t timer = 0;
+//     static uint8_t count = 0;
+//     if (timer_elapsed32(timer) > 1000) {
+//         timer = timer_read32();
+//         count++;
+//
+//         xap_broadcast(0x03, &count, 1);
+//     }
+// }
