@@ -7,6 +7,7 @@
 
 enum custom_keycodes {
     SPI_READ = SAFE_RANGE,
+    XAP_K1,
 };
 
 enum layer_names {
@@ -34,7 +35,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            KC_END   , PK_LCTL, KC_A   , KC_S   , KC_D   , KC_F   , KC_G   , EXT_KEY, KC_H   , KC_J   , KC_K   , KC_L   , KC_SCLN, KC_QUOT, KC_BSLS, MO(L_FUN),
            XXXXXXX  , SC_LSPO, KC_Z   , KC_X   , KC_C   , KC_V   , KC_B   , EXT_KEY, KC_N   , KC_M   , KC_COMM, KC_DOT , KC_SLSH, SC_RSPC, KC_PGUP, EXT_KEY,
            MO(L_CMD), XXXXXXX, XXXXXXX, KC_HYPR, KC_LGUI, KC_LALT, PK_BSPC, EXT_KEY, PK_SPC , KC_ENT , KC_RALT, KC_RGUI, KC_LCTL, XXXXXXX, KC_UP  , KC_PGDN,
-                                                                                                                                KC_LEFT, KC_DOWN, KC_RGHT
+                                                                                                                                  KC_LEFT, KC_DOWN, KC_RGHT
     ),
     /* Game layer PC */
     [L_GAME] = LAYOUT_split(
@@ -44,7 +45,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            KC_END   , PK_LCTL, KC_A   , KC_S   , KC_D   , KC_F   , KC_G   , EXT_KEY, KC_H   , KC_J   , KC_K   , KC_L   , KC_SCLN, KC_QUOT, KC_BSLS, MO(L_FUN),
            XXXXXXX  , SC_LSPO, KC_Z   , KC_X   , KC_C   , KC_V   , KC_B   , EXT_KEY, KC_N   , KC_M   , KC_COMM, KC_DOT , KC_SLSH, SC_RSPC, KC_PGUP, EXT_KEY,
            MO(L_CMD), XXXXXXX, XXXXXXX, KC_HYPR, KC_LGUI, KC_LALT, KC_SPC , EXT_KEY, KC_SPC , KC_ENT , KC_RALT, KC_RGUI, KC_LCTL, KC_DEL , KC_UP  , KC_PGDN,
-                                                                                                                                KC_LEFT, KC_DOWN, KC_RGHT
+                                                                                                                                  KC_LEFT, KC_DOWN, KC_RGHT
     ),
     /* additional func */
     [L_FUN] = LAYOUT_split(
@@ -98,49 +99,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 };
 
-// bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    // uint8_t buf[REGISTER_BYTES] = { 0, 0 };
-    // bool ret = true;
-    // spi_status_t spi_ret = SPI_STATUS_SUCCESS;
-    // switch (keycode) {
-    //     case SPI_READ:
-    //         if (record->event.pressed) {
-    //             printf("Hello world! ");
-    //             memset(buf, 0, REGISTER_BYTES);
-    //             writePinLow(REGISTER_LD_PIN);
-    //             wait_us(10);
-    //             writePinHigh(REGISTER_LD_PIN);
-    //             wait_us(100);
-    //             ret = spi_start(REGISTER_CS_PIN, false, 0, 64);
-    //             if (ret) {
-    //                 // spi_ret = spi_receive(&buf, REGISTER_BYTES);
-    //                 spi_ret = spi_receive(buf, REGISTER_BYTES);
-    //                 if (spi_ret == SPI_STATUS_SUCCESS) {
-    //                     printf("SPI read: ");
-    //                     for (int i = 0; i< REGISTER_BYTES; i++) {
-    //                         printf("0x%x ", buf[i]);
-    //                     }
-    //                     printf("\n");
-    //                 } else {
-    //                     printf("SPI read error\n");
-    //                 }
-    //                 spi_stop();
-    //             } else {
-    //                 printf("SPI start error\n");
-    //             }
-    //             wait_us(100);
-    //             writePinLow(REGISTER_LD_PIN);
-    //             wait_us(10);
-    //             writePinHigh(REGISTER_LD_PIN);
-    //         }
-    //         break;
-    // }
-//     return false;
-// };
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case XAP_K1:
+            return false;
+        default:
+            return true;
+    }
+}
 
 void keyboard_post_init_user(void) {
-    debug_enable   = true;
-    debug_matrix   = true;
+    // debug_enable   = true;
+    // debug_matrix   = true;
     // debug_keyboard = true;
     // debug_mouse    = true;
 }
