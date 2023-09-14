@@ -3,8 +3,8 @@ CUSTOM_MATRIX=lite
 
 KEYBOARD_SHARED_EP=yes
 
-EEPROM_DRIVER=wear_leveling
-WEAR_LEVELING_DRIVER=spi_flash
+# EEPROM_DRIVER=wear_leveling
+# WEAR_LEVELING_DRIVER=spi_flash
 FLASH_DRIVER = spi
 
 XAP_ENABLE=yes

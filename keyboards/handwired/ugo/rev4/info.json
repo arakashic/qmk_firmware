@@ -4,6 +4,11 @@
     "maintainer": "UGO",
     "bootloader": "stm32-dfu",
     "diode_direction": "COL2ROW",
+    "dynamic_keymap": { "layer_count": 7 },
+    "eeprom": {
+        "driver": "wear_leveling",
+        "wear_leveling": { "driver": "spi_flash" }
+    },
     "features": {
         "bootmagic": true,
         "command": false,
