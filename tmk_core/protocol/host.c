@@ -30,6 +30,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #    include "joystick.h"
 #endif
 
+#ifdef MULTIAXIS_ENABLE
+#    include "multiaxis.h"
+#endif
+
 #ifdef BLUETOOTH_ENABLE
 #    include "bluetooth.h"
 #    include "outputselect.h"
@@ -232,6 +236,44 @@ void host_digitizer_send(digitizer_t *digitizer) {
 #endif
 
 __attribute__((weak)) void send_digitizer(report_digitizer_t *report) {}
+
+#ifdef MULTIAXIS_ENABLE
+void host_multiaxis_send(multiaxis_t *multiaxis) {
+    if (!driver) return;
+
+    report_multiaxis_t report = {
+#    ifdef MULTIAXIS_SHARED_EP
+        .report_id = REPORT_ID_MULTIAXIS,
+#    endif
+#    if MULTIAXIS_AXIS_COUNT > 0
+        .axes =
+            {
+                multiaxis->axes[0],
+
+#        if MULTIAXIS_AXIS_COUNT >= 2
+                multiaxis->axes[1],
+#        endif
+#        if MULTIAXIS_AXIS_COUNT >= 3
+                multiaxis->axes[2],
+#        endif
+#        if MULTIAXIS_AXIS_COUNT >= 4
+                multiaxis->axes[3],
+#        endif
+#        if MULTIAXIS_AXIS_COUNT >= 5
+                multiaxis->axes[4],
+#        endif
+#        if MULTIAXIS_AXIS_COUNT >= 6
+                multiaxis->axes[5],
+#        endif
+            },
+#    endif
+    };
+
+    send_multiaxis(&report);
+}
+#endif
+
+__attribute__((weak)) void send_multiaxis(report_multiaxis_t *report) {}
 
 #ifdef PROGRAMMABLE_BUTTON_ENABLE
 void host_programmable_button_send(uint32_t data) {

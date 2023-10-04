@@ -93,6 +93,9 @@ union {
 #ifdef JOYSTICK_ENABLE
     report_joystick_t joystick;
 #endif
+#ifdef MULTIAXIS_ENABLE
+    report_multiaxis_t multiaxis;
+#endif
 } universal_report_blank = {0};
 
 /* ---------------------------------------------------------
@@ -227,6 +230,24 @@ static const USBEndpointConfig digitizer_ep_config = {
     DIGITIZER_EPSIZE,       /* IN maximum packet size */
     0,                      /* OUT maximum packet size */
     &digitizer_ep_state,    /* IN Endpoint state */
+    NULL,                   /* OUT endpoint state */
+    usb_lld_endpoint_fields /* USB driver specific endpoint fields */
+};
+#endif
+
+#if defined(MULTIAXIS_ENABLE) && !defined(MULTIAXIS_SHARED_EP)
+/* multiaxis endpoint state structure */
+static USBInEndpointState multiaxis_ep_state;
+
+/* multiaxis endpoint initialization structure (IN) - see USBEndpointConfig comment at top of file */
+static const USBEndpointConfig multiaxis_ep_config = {
+    USB_EP_MODE_TYPE_INTR,  /* Interrupt EP */
+    NULL,                   /* SETUP packet notification callback */
+    dummy_usb_cb,           /* IN notification callback */
+    NULL,                   /* OUT notification callback */
+    MULTIAXIS_EPSIZE,        /* IN maximum packet size */
+    0,                      /* OUT maximum packet size */
+    &multiaxis_ep_state,     /* IN Endpoint state */
     NULL,                   /* OUT endpoint state */
     usb_lld_endpoint_fields /* USB driver specific endpoint fields */
 };
@@ -536,6 +557,9 @@ static void usb_event_cb(USBDriver *usbp, usbevent_t event) {
 #endif
 #if defined(DIGITIZER_ENABLE) && !defined(DIGITIZER_SHARED_EP)
             usbInitEndpointI(usbp, DIGITIZER_IN_EPNUM, &digitizer_ep_config);
+#endif
+#if defined(MULTIAXIS_ENABLE) && !defined(MULTIAXIS_SHARED_EP)
+            usbInitEndpointI(usbp, MULTIAXIS_IN_EPNUM, &multiaxis_ep_config);
 #endif
             for (int i = 0; i < NUM_USB_DRIVERS; i++) {
 #ifdef USB_ENDPOINTS_ARE_REORDERABLE
@@ -956,6 +980,12 @@ void send_joystick(report_joystick_t *report) {
 void send_digitizer(report_digitizer_t *report) {
 #ifdef DIGITIZER_ENABLE
     send_report(DIGITIZER_IN_EPNUM, report, sizeof(report_digitizer_t));
+#endif
+}
+
+void send_multiaxis(report_multiaxis_t *report) {
+#ifdef MULTIAXIS_ENABLE
+    send_report(MULTIAXIS_IN_EPNUM, report, sizeof(report_multiaxis_t));
 #endif
 }
 

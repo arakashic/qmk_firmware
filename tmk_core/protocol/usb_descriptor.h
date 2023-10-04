@@ -146,6 +146,13 @@ typedef struct {
     USB_Descriptor_Endpoint_t  Digitizer_INEndpoint;
 #endif
 
+#if defined(MULTIAXIS_ENABLE) && !defined(MULTIAXIS_SHARED_EP)
+    // Multiaxis HID Interface
+    USB_Descriptor_Interface_t Multiaxis_Interface;
+    USB_HID_Descriptor_HID_t   Multiaxis_HID;
+    USB_Descriptor_Endpoint_t  Multiaxis_INEndpoint;
+#endif
+
 #ifdef XAP_ENABLE
     // XAP HID Interface
     USB_Descriptor_Interface_t Xap_Interface;
@@ -201,6 +208,10 @@ enum usb_interfaces {
 
 #if defined(DIGITIZER_ENABLE) && !defined(DIGITIZER_SHARED_EP)
     DIGITIZER_INTERFACE,
+#endif
+
+#if defined(MULTIAXIS_ENABLE) && !defined(MULTIAXIS_SHARED_EP)
+    MULTIAXIS_INTERFACE,
 #endif
 
 #ifdef XAP_ENABLE
@@ -294,6 +305,14 @@ enum usb_endpoints {
 #    endif
 #endif
 
+#ifdef MULTIAXIS_ENABLE
+#    if !defined(MULTIAXIS_SHARED_EP)
+    MULTIAXIS_IN_EPNUM = NEXT_EPNUM,
+#    else
+#        define MULTIAXIS_IN_EPNUM SHARED_IN_EPNUM
+#    endif
+#endif
+
 #ifdef XAP_ENABLE
     XAP_IN_EPNUM = NEXT_EPNUM,
 #    if STM32_USB_USE_OTG1
@@ -328,6 +347,7 @@ enum usb_endpoints {
 #define CDC_EPSIZE 16
 #define JOYSTICK_EPSIZE 8
 #define DIGITIZER_EPSIZE 8
+#define MULTIAXIS_EPSIZE 8
 #define XAP_EPSIZE 64
 
 uint16_t get_usb_descriptor(const uint16_t wValue, const uint16_t wIndex, const uint16_t wLength, const void** const DescriptorAddress);

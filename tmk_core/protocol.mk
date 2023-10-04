@@ -94,6 +94,19 @@ ifeq ($(strip $(DIGITIZER_ENABLE)), yes)
     endif
 endif
 
+ifeq ($(strip $(MULTIAXIS_SHARED_EP)), yes)
+    OPT_DEFS += -DMULTIAXIS_SHARED_EP
+    SHARED_EP_ENABLE = yes
+endif
+
+ifeq ($(strip $(MULTIAXIS_ENABLE)), yes)
+    OPT_DEFS += -DMULTIAXIS_ENABLE
+    ifeq ($(strip $(SHARED_EP_ENABLE)), yes)
+        OPT_DEFS += -DMULTIAXIS_SHARED_EP
+        SHARED_EP_ENABLE = yes
+    endif
+endif
+
 ifeq ($(strip $(SHARED_EP_ENABLE)), yes)
     OPT_DEFS += -DSHARED_EP_ENABLE
 endif

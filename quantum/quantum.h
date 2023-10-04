@@ -189,6 +189,10 @@ extern layer_state_t layer_state;
 #    include "digitizer.h"
 #endif
 
+#ifdef MULTIAXIS_ENABLE
+#    include "multiaxis.h"
+#endif
+
 #ifdef XAP_ENABLE
 #    include "xap.h"
 #endif

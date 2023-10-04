@@ -951,6 +951,12 @@ ifeq ($(strip $(JOYSTICK_ENABLE)), yes)
     endif
 endif
 
+MULTIAXIS_ENABLE ?= no
+ifeq ($(strip $(MULTIAXIS_ENABLE)), yes)
+    OPT_DEFS += -DMULTIAXIS_ENABLE
+    SRC += $(QUANTUM_DIR)/multiaxis.c
+endif
+
 USBPD_ENABLE ?= no
 VALID_USBPD_DRIVER_TYPES = custom vendor
 USBPD_DRIVER ?= vendor

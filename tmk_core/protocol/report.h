@@ -32,7 +32,8 @@ enum hid_report_ids {
     REPORT_ID_PROGRAMMABLE_BUTTON,
     REPORT_ID_NKRO,
     REPORT_ID_JOYSTICK,
-    REPORT_ID_DIGITIZER
+    REPORT_ID_DIGITIZER,
+    REPORT_ID_MULTIAXIS
 };
 
 /* Mouse buttons */
@@ -252,6 +253,19 @@ typedef struct {
     uint8_t buttons[(JOYSTICK_BUTTON_COUNT - 1) / 8 + 1];
 #endif
 } __attribute__((packed)) report_joystick_t;
+
+typedef struct {
+#ifdef MULTIAXIS_SHARED_EP
+    uint8_t report_id;
+#endif
+#if MULTIAXIS_AXIS_COUNT > 0
+#    if MULTIAXIS_AXIS_RESOLUTION > 8
+    int16_t axes[MULTIAXIS_AXIS_COUNT];
+#    else
+    int8_t axes[MULTIAXIS_AXIS_COUNT];
+#    endif
+#endif
+} __attribute__((packed)) report_multiaxis_t;
 
 /* keycode to system usage */
 static inline uint16_t KEYCODE2SYSTEM(uint8_t key) {

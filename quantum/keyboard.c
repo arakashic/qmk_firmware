@@ -90,6 +90,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef JOYSTICK_ENABLE
 #    include "joystick.h"
 #endif
+#ifdef MULTIAXIS_ENABLE
+#    include "multiaxis.h"
+#endif
 #ifdef HD44780_ENABLE
 #    include "hd44780.h"
 #endif
@@ -707,6 +710,10 @@ void keyboard_task(void) {
 
 #ifdef JOYSTICK_ENABLE
     joystick_task();
+#endif
+
+#ifdef MULTIAXIS_ENABLE
+    multiaxis_task();
 #endif
 
 #ifdef BLUETOOTH_ENABLE

@@ -45,6 +45,10 @@
 #    include "joystick.h"
 #endif
 
+#ifdef MULTIAXIS_ENABLE
+#    include "multiaxis.h"
+#endif
+
 #ifdef OS_DETECTION_ENABLE
 #    include "os_detection.h"
 #endif
@@ -287,6 +291,59 @@ const USB_Descriptor_HIDReport_Datatype_t PROGMEM SharedReport[] = {
         HID_RI_END_COLLECTION(0),
     HID_RI_END_COLLECTION(0),
 #    ifndef DIGITIZER_SHARED_EP
+};
+#    endif
+#endif
+
+#ifdef MULTIAXIS_ENABLE
+#    ifndef MULTIAXIS_SHARED_EP
+const USB_Descriptor_HIDReport_Datatype_t PROGMEM MultiaxisReport[] = {
+#    elif !defined(SHARED_REPORT_STARTED)
+const USB_Descriptor_HIDReport_Datatype_t PROGMEM SharedReport[] = {
+#        define SHARED_REPORT_STARTED
+#    endif
+    HID_RI_USAGE_PAGE(8, 0x01),     // Generic Desktop
+    HID_RI_USAGE(8, 0x08),          // Multiaxis
+    HID_RI_COLLECTION(8, 0x01),     // Application
+#    ifdef MULTIAXIS_SHARED_EP
+        HID_RI_REPORT_ID(8, REPORT_ID_MULTIAXIS),
+#    endif
+        HID_RI_COLLECTION(8, 0x00), // Physical
+#    if MULTIAXIS_AXIS_COUNT > 0
+            HID_RI_USAGE_PAGE(8, 0x01), // Generic Desktop
+            HID_RI_USAGE(8, 0x30),      // X
+#        if MULTIAXIS_AXIS_COUNT > 1
+            HID_RI_USAGE(8, 0x31),      // Y
+#        endif
+#        if MULTIAXIS_AXIS_COUNT > 2
+            HID_RI_USAGE(8, 0x32),      // Z
+#        endif
+#        if MULTIAXIS_AXIS_COUNT > 3
+            HID_RI_USAGE(8, 0x33),      // Rx
+#        endif
+#        if MULTIAXIS_AXIS_COUNT > 4
+            HID_RI_USAGE(8, 0x34),      // Ry
+#        endif
+#        if MULTIAXIS_AXIS_COUNT > 5
+            HID_RI_USAGE(8, 0x35),      // Rz
+#        endif
+#        if MULTIAXIS_AXIS_RESOLUTION == 8
+            HID_RI_LOGICAL_MINIMUM(8, -MULTIAXIS_MAX_VALUE),
+            HID_RI_LOGICAL_MAXIMUM(8, MULTIAXIS_MAX_VALUE),
+            HID_RI_REPORT_COUNT(8, MULTIAXIS_AXIS_COUNT),
+            HID_RI_REPORT_SIZE(8, 0x08),
+#        else
+            HID_RI_LOGICAL_MINIMUM(16, -MULTIAXIS_MAX_VALUE),
+            HID_RI_LOGICAL_MAXIMUM(16, MULTIAXIS_MAX_VALUE),
+            HID_RI_REPORT_COUNT(8, MULTIAXIS_AXIS_COUNT),
+            HID_RI_REPORT_SIZE(8, 0x10),
+#        endif
+            HID_RI_INPUT(8, HID_IOF_DATA | HID_IOF_VARIABLE | HID_IOF_ABSOLUTE),
+#    endif
+
+        HID_RI_END_COLLECTION(0),
+    HID_RI_END_COLLECTION(0),
+#    ifndef MULTIAXIS_SHARED_EP
 };
 #    endif
 #endif
@@ -1075,6 +1132,46 @@ const USB_Descriptor_Configuration_t PROGMEM ConfigurationDescriptor = {
     },
 #endif
 
+#if defined(MULTIAXIS_ENABLE) && !defined(MULTIAXIS_SHARED_EP)
+    /*
+     * Multiaxis
+     */
+    .Multiaxis_Interface = {
+        .Header = {
+            .Size               = sizeof(USB_Descriptor_Interface_t),
+            .Type               = DTYPE_Interface
+        },
+        .InterfaceNumber        = MULTIAXIS_INTERFACE,
+        .AlternateSetting       = 0x00,
+        .TotalEndpoints         = 1,
+        .Class                  = HID_CSCP_HIDClass,
+        .SubClass               = HID_CSCP_NonBootSubclass,
+        .Protocol               = HID_CSCP_NonBootProtocol,
+        .InterfaceStrIndex      = NO_DESCRIPTOR
+    },
+    .Multiaxis_HID = {
+        .Header = {
+            .Size               = sizeof(USB_HID_Descriptor_HID_t),
+            .Type               = HID_DTYPE_HID
+        },
+        .HIDSpec                = VERSION_BCD(1, 1, 1),
+        .CountryCode            = 0x00,
+        .TotalReportDescriptors = 1,
+        .HIDReportType          = HID_DTYPE_Report,
+        .HIDReportLength        = sizeof(MultiaxisReport)
+    },
+    .Multiaxis_INEndpoint = {
+        .Header = {
+            .Size               = sizeof(USB_Descriptor_Endpoint_t),
+            .Type               = DTYPE_Endpoint
+        },
+        .EndpointAddress        = (ENDPOINT_DIR_IN | MULTIAXIS_IN_EPNUM),
+        .Attributes             = (EP_TYPE_INTERRUPT | ENDPOINT_ATTR_NO_SYNC | ENDPOINT_USAGE_DATA),
+        .EndpointSize           = MULTIAXIS_EPSIZE,
+        .PollingIntervalMS      = USB_POLLING_INTERVAL_MS
+    }
+#endif
+
 #ifdef XAP_ENABLE
     /*
      * QMK XAP
@@ -1275,6 +1372,13 @@ uint16_t get_usb_descriptor(const uint16_t wValue, const uint16_t wIndex, const 
                     break;
 #endif
 
+#if defined(MULTIAXIS_ENABLE) && !defined(MULTIAXIS_SHARED_EP)
+                case MULTIAXIS_INTERFACE:
+                    Address = &ConfigurationDescriptor.Multiaxis_HID;
+                    Size    = sizeof(USB_HID_Descriptor_HID_t);
+                    break;
+#endif
+
 #ifdef XAP_ENABLE
                 case XAP_INTERFACE:
                     Address = &ConfigurationDescriptor.Xap_HID;
@@ -1336,6 +1440,12 @@ uint16_t get_usb_descriptor(const uint16_t wValue, const uint16_t wIndex, const 
                 case DIGITIZER_INTERFACE:
                     Address = &DigitizerReport;
                     Size    = sizeof(DigitizerReport);
+                    break;
+#endif
+#if defined(MULTIAXIS_ENABLE) && !defined(MULTIAXIS_SHARED_EP)
+                case MULTIAXIS_INTERFACE:
+                    Address = &JoystickReport;
+                    Size    = sizeof(MultiaxisReport);
                     break;
 #endif
 
