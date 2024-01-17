@@ -1,6 +1,7 @@
 # Build Options
 #   comment out to disable the options.
 #
+BOOTLOADER = stm32-dfu
 BOOTMAGIC_ENABLE = yes		# Virtual DIP switch configuration
 MOUSEKEY_ENABLE = yes		# Mouse keys
 EXTRAKEY_ENABLE = yes		# Audio control and System control
