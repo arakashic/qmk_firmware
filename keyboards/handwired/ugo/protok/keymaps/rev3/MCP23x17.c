@@ -97,16 +97,14 @@ void mcp_reset(MCP23017_t *dev) {
     if (!dev->state_saved) {
         return;
     }
-    i2c_stop();
-    mcp_status = i2c_writeReg(MCP_ADDR_WRITE(dev), MCP_IOCONA, &dev->saved_reg[MCP_IOCONA], 1, I2C_TIMEOUT);
+    mcp_status = i2c_write_register(MCP_ADDR_WRITE(dev), MCP_IOCONA, &dev->saved_reg[MCP_IOCONA], 1, I2C_TIMEOUT);
     I2C_STATUS_CHECK(mcp_status);
-    mcp_status = i2c_writeReg(MCP_ADDR_WRITE(dev), MCP_IOCONB, &dev->saved_reg[MCP_IOCONB], 1, I2C_TIMEOUT);
+    mcp_status = i2c_write_register(MCP_ADDR_WRITE(dev), MCP_IOCONB, &dev->saved_reg[MCP_IOCONB], 1, I2C_TIMEOUT);
     I2C_STATUS_CHECK(mcp_status);
-    mcp_status = i2c_writeReg(MCP_ADDR_WRITE(dev), MCP_IODIRA, dev->saved_reg, MCP_NUM_REGS, I2C_TIMEOUT);
+    mcp_status = i2c_write_register(MCP_ADDR_WRITE(dev), MCP_IODIRA, dev->saved_reg, MCP_NUM_REGS, I2C_TIMEOUT);
     I2C_STATUS_CHECK(mcp_status);
 
   fn_exit:
-    i2c_stop();
     return;
   fn_fail:
     log_debug("failed in mcp reset\n");
@@ -114,11 +112,10 @@ void mcp_reset(MCP23017_t *dev) {
 }
 
 void mcp_read_register(MCP23017_t *dev, uint8_t addr) {
-    mcp_status = i2c_readReg(MCP_ADDR_READ(dev), addr, &dev->reg[addr], sizeof(uint8_t), I2C_TIMEOUT);
+    mcp_status = i2c_read_register(MCP_ADDR_READ(dev), addr, &dev->reg[addr], sizeof(uint8_t), I2C_TIMEOUT);
     I2C_STATUS_CHECK(mcp_status);
 
   fn_exit:
-    i2c_stop();
     return;
   fn_fail:
     log_debug("mcp_read_register\n");
@@ -132,14 +129,13 @@ void mcp_read_register16(MCP23017_t *dev, uint8_t addr) {
         log_error("Cannot operate 16 bit register without sequential mode enabled.\n");
         return;
     }
-    mcp_status = i2c_readReg(MCP_ADDR_READ(dev), addr, data, 2 * sizeof(uint8_t), I2C_TIMEOUT);
+    mcp_status = i2c_read_register(MCP_ADDR_READ(dev), addr, data, 2 * sizeof(uint8_t), I2C_TIMEOUT);
     I2C_STATUS_CHECK(mcp_status);
 
     dev->reg[addr] = data[0];
     dev->reg[addr+1] = data[1];
 
   fn_exit:
-    i2c_stop();
     return;
   fn_fail:
     log_debug("mcp_read_register16\n");
@@ -148,13 +144,12 @@ void mcp_read_register16(MCP23017_t *dev, uint8_t addr) {
 }
 
 void mcp_write_register(MCP23017_t *dev, uint8_t addr, uint8_t value) {
-    mcp_status = i2c_writeReg(MCP_ADDR_WRITE(dev), addr, &value, sizeof(uint8_t), I2C_TIMEOUT);
+    mcp_status = i2c_write_register(MCP_ADDR_WRITE(dev), addr, &value, sizeof(uint8_t), I2C_TIMEOUT);
     I2C_STATUS_CHECK(mcp_status);
 
     dev->reg[addr] = value;
 
   fn_exit:
-    i2c_stop();
     return;
   fn_fail:
     log_debug("mcp_write_register\n");
@@ -168,14 +163,13 @@ void mcp_write_register16(MCP23017_t *dev, uint8_t addr, uint16_t value) {
         log_error("Cannot operate 16 bit register without sequential mode enabled.\n");
         return;
     }
-    mcp_status = i2c_writeReg(MCP_ADDR_WRITE(dev), addr, data, 2 * sizeof(uint8_t), I2C_TIMEOUT);
+    mcp_status = i2c_write_register(MCP_ADDR_WRITE(dev), addr, data, 2 * sizeof(uint8_t), I2C_TIMEOUT);
     I2C_STATUS_CHECK(mcp_status);
 
     dev->reg[addr] = data[0];
     dev->reg[addr+1] = data[1];
 
   fn_exit:
-    i2c_stop();
     return;
   fn_fail:
     log_debug("mcp_write_register16\n");
@@ -186,18 +180,17 @@ void mcp_write_register16(MCP23017_t *dev, uint8_t addr, uint16_t value) {
 void mcp_read_all(MCP23017_t *dev) {
     int i = 0;
     if (MCP_SEQ_MODE_ON(dev)) {
-        mcp_status = i2c_readReg(MCP_ADDR_READ(dev), MCP_IODIRA, dev->reg,
+        mcp_status = i2c_read_register(MCP_ADDR_READ(dev), MCP_IODIRA, dev->reg,
                                  MCP_NUM_REGS * sizeof(uint8_t), I2C_TIMEOUT);
         I2C_STATUS_CHECK(mcp_status);
     } else {
         for (i = 0; i < MCP_NUM_REGS; i++) {
-            mcp_status = i2c_readReg(MCP_ADDR_READ(dev), i, &dev->reg[i], sizeof(uint8_t), I2C_TIMEOUT);
+            mcp_status = i2c_read_register(MCP_ADDR_READ(dev), i, &dev->reg[i], sizeof(uint8_t), I2C_TIMEOUT);
             I2C_STATUS_CHECK(mcp_status);
         }
     }
 
   fn_exit:
-    i2c_stop();
     return;
   fn_fail:
     mcp_reset(dev);
@@ -207,18 +200,17 @@ void mcp_read_all(MCP23017_t *dev) {
 void mcp_write_all(MCP23017_t *dev) {
     int i = 0;
     if (MCP_SEQ_MODE_ON(dev)) {
-        mcp_status = i2c_writeReg(MCP_ADDR_WRITE(dev), MCP_IODIRA, dev->reg,
+        mcp_status = i2c_write_register(MCP_ADDR_WRITE(dev), MCP_IODIRA, dev->reg,
                                   MCP_NUM_REGS * sizeof(uint8_t), I2C_TIMEOUT);
         I2C_STATUS_CHECK(mcp_status);
     } else {
         for (i = 0; i < MCP_NUM_REGS; i++) {
-            mcp_status = i2c_writeReg(MCP_ADDR_WRITE(dev), i, &dev->reg[i], sizeof(uint8_t), I2C_TIMEOUT);
+            mcp_status = i2c_write_register(MCP_ADDR_WRITE(dev), i, &dev->reg[i], sizeof(uint8_t), I2C_TIMEOUT);
             I2C_STATUS_CHECK(mcp_status);
         }
     }
 
   fn_exit:
-    i2c_stop();
     return;
   fn_fail:
     mcp_reset(dev);
