@@ -24,7 +24,8 @@ EEPROM_DRIVER = i2c
 
 SRC += matrix.c \
        analog.c \
-       MCP23x17.c
+       MCP23x17.c \
+	   rpt_macro.c
 
 QUANTUM_LIB_SRC = i2c_master.c
 
