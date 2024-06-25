@@ -11,5 +11,6 @@ void rpt_enable(void);
 void rpt_disable(void);
 void rpt_toggle(void);
 void rpt_runner(void);
+char* rpt_message(void);
 
 #endif /* end of include guard: RPT_MACRO_H_INCLUDED */
