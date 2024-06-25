@@ -314,6 +314,7 @@ bool oled_task_user(void) {
     uint16_t eeconfig_keymap = eeconfig_read_keymap();
     oled_write_P((eeconfig_keymap & EECONFIG_KEYMAP_SWAP_LALT_LGUI) ? PSTR("\x8a\x8b ") : PSTR("   "), false);
     oled_write_P((eeconfig_keymap & EECONFIG_KEYMAP_SWAP_RALT_RGUI) ? PSTR("SRAG ") : PSTR("     "), false);
+    oled_write_P(rpt_message(), false);
     oled_write_P(PSTR("\n"), false);
 
     // Line 4:

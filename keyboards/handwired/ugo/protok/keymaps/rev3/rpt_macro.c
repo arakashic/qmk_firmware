@@ -62,3 +62,12 @@ void rpt_runner(void)
     }
     t_master = timer_read32();
 }
+
+char* rpt_message(void)
+{
+    if (rpt_enabled) {
+        return "R";
+    } else {
+        return " ";
+    }
+}
