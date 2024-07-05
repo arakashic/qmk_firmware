@@ -34,6 +34,4 @@
 // #define REGISTER_LD_PIN B0
 #define REGISTER_CS_PIN C14
 #define REGISTER_LD_PIN C15
-// #define REGISTER_BYTES 13
-// TODO: testing left
 #define REGISTER_BYTES 13

@@ -66,21 +66,13 @@ bool matrix_scan_custom(void) {
         changed = true;
     }
 
-    // TODO: Testing left
-    raw_matrix[0] = ((uint16_t) buf_curr[0]);
-    raw_matrix[1] = ((uint16_t) buf_curr[1]);
-    raw_matrix[2] = ((uint16_t) buf_curr[2]);
-    raw_matrix[3] = ((uint16_t) buf_curr[3]);
-    raw_matrix[4] = ((uint16_t) buf_curr[4]);
-    raw_matrix[5] = ((uint16_t) buf_curr[5]);
-    // TODO: normal
-    // raw_matrix[0] = ((uint16_t) buf_curr[0]) | (((uint16_t) buf_curr[6]) << 8);
-    // raw_matrix[1] = ((uint16_t) buf_curr[1]) | (((uint16_t) buf_curr[7]) << 8);
-    // raw_matrix[2] = ((uint16_t) buf_curr[2]) | (((uint16_t) buf_curr[8]) << 8);
-    // raw_matrix[3] = ((uint16_t) buf_curr[3]) | (((uint16_t) buf_curr[9]) << 8);
-    // raw_matrix[4] = ((uint16_t) buf_curr[4]) | (((uint16_t) buf_curr[10]) << 8);
-    // raw_matrix[5] = ((uint16_t) buf_curr[5]) | (((uint16_t) buf_curr[11]) << 8);
-    // raw_matrix[6] =                            (((uint16_t) buf_curr[12]) << 8);
+    raw_matrix[0] = ((uint16_t) buf_curr[0]) | (((uint16_t) buf_curr[6]) << 8);
+    raw_matrix[1] = ((uint16_t) buf_curr[1]) | (((uint16_t) buf_curr[7]) << 8);
+    raw_matrix[2] = ((uint16_t) buf_curr[2]) | (((uint16_t) buf_curr[8]) << 8);
+    raw_matrix[3] = ((uint16_t) buf_curr[3]) | (((uint16_t) buf_curr[9]) << 8);
+    raw_matrix[4] = ((uint16_t) buf_curr[4]) | (((uint16_t) buf_curr[10]) << 8);
+    raw_matrix[5] = ((uint16_t) buf_curr[5]) | (((uint16_t) buf_curr[11]) << 8);
+    raw_matrix[6] =                      0x0 | (((uint16_t) buf_curr[12]) << 8);
     //
     // printf("%s\n", (changed ? "true" : "false"));
     //
