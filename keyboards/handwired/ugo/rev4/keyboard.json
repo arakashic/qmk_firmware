@@ -22,6 +22,9 @@
         ],
         "unlock_timeout": 5000
     },
+    "bootmagic": {
+        "matrix": [5, 0]
+    },
     "tapping": {
         "term_per_key": true,
         "permissive_hold_per_key": true,
