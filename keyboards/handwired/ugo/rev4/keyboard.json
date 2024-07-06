@@ -1,7 +1,4 @@
 {
-    "build": {
-        "lto": true
-    },
     "usb": {
         "device_version": "1.0.0",
         "pid": "0x0000",

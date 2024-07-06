@@ -91,7 +91,9 @@ bool matrix_scan_custom(matrix_row_t current_matrix[]) {
     // }
     // changed = false;
 
-    memcpy(current_matrix, raw_matrix, MATRIX_ROWS * sizeof(uint64_t));
+    for (int i = 0; i < MATRIX_ROWS; i++) {
+        current_matrix[i] = raw_matrix[i];
+    }
 
     // debounce(raw_matrix, current_matrix, MATRIX_ROWS, changed);
 

@@ -12,4 +12,5 @@ FLASH_DRIVER = spi
 
 QUANTUM_LIB_SRC += spi_master.c
 
-SRC += matrix.c
+SRC += matrix.c \
+	   common/rpt_macro.c

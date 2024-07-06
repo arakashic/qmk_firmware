@@ -11,7 +11,7 @@
 #endif
 #include "log.h"
 #include <stdbool.h>
-#include "rpt_macro.h"
+#include "common/rpt_macro.h"
 
 enum layer_names {
     L_DEF = 0,
