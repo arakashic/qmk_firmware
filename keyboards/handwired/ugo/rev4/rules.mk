@@ -1,5 +1,10 @@
-# This file intentionally left blank
 CUSTOM_MATRIX=lite
+
+DYNAMIC_TAPPING_TERM_ENABLE = yes
+# PROGRAMMABLE_BUTTON_ENABLE = yes
+
+OS_DETECTION_ENABLE = yes
+OS_DETECTION_DEBUG_ENABLE = yes
 
 QUANTUM_LIB_SRC += spi_master.c
 

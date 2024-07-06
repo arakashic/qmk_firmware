@@ -4,6 +4,7 @@
 #include QMK_KEYBOARD_H
 #include "debug.h"
 #include "rev4.h"
+#include "os_detection.h"
 
 enum custom_keycodes {
     SPI_READ = SAFE_RANGE,
@@ -24,6 +25,8 @@ enum layer_names {
 #define PK_SPC  RSFT_T(KC_SPC)
 #define PK_LCTL LCTL_T(KC_ESC)
 #define PK_TAB  LT(L_NAV, KC_TAB)
+
+os_variant_t os = OS_UNSURE;
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* base layer PC */
@@ -143,4 +146,59 @@ void keyboard_post_init_user(void) {
     // debug_matrix   = true;
     // debug_keyboard = true;
     // debug_mouse    = true;
+}
+
+void housekeeping_task_user(void)
+{
+    os_variant_t new_os = detected_host_os();
+    if (os != new_os) {
+        os = new_os;
+        keymap_config.raw = eeconfig_read_keymap();
+        if (os == OS_MACOS || os == OS_IOS) {
+            keymap_config.swap_lalt_lgui = true;
+        } else {
+            keymap_config.swap_lalt_lgui = false;
+        }
+        eeconfig_update_keymap(keymap_config.raw);
+    }
+}
+
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LT(1, KC_BSPC):
+            // Immediately select the hold action when another key is pressed.
+            return false;
+        default:
+            // Do not select the hold action when another key is pressed.
+            return true;
+    }
+}
+
+bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case RSFT_T(KC_SPC):
+            return true;
+        default:
+            return false;
+    }
+}
+
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case RSFT_T(KC_SPC):
+            return TAPPING_TERM;
+        /* case LT(1, KC_GRV): */
+            return 130;
+        default:
+            return TAPPING_TERM;
+    }
+}
+
+uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case RSFT_T(KC_SPC):
+            return 50;
+        default:
+            return QUICK_TAP_TERM;
+    }
 }
