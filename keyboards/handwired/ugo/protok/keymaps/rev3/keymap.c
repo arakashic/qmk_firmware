@@ -1,4 +1,4 @@
-#include "protok.h"
+#include QMK_KEYBOARD_H
 #include "analog.h"
 #include "quantum.h"
 #include "os_detection.h"
