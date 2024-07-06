@@ -8,7 +8,7 @@
     },
     "keyboard_name": "Protok Keyboard Model II",
     "processor": "atmega32u4",
-    "bootloader": "halfkey",
+    "bootloader": "halfkay",
     "features": {
         "bootmagic": true,
         "command": true,
