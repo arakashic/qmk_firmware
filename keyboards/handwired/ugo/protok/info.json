@@ -9,5 +9,13 @@
     "keyboard_name": "Protok Keyboard Model II",
     "processor": "STM32F411",
     "bootloader": "stm32-dfu",
-    "board": "BLACKPILL_STM32_F411"
+    "board": "BLACKPILL_STM32_F411",
+    "features": {
+        "bootmagic": true,
+        "command": true,
+        "console": true,
+        "extrakey": true,
+        "mousekey": true,
+        "nkro": false
+    }
 }
