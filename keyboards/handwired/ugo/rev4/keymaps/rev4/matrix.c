@@ -32,7 +32,7 @@ void matrix_init_custom(void) {
     debounce_init(MATRIX_ROWS);
 }
 
-bool matrix_scan_custom(void) {
+bool matrix_scan_custom(matrix_row_t current_matrix[]) {
     bool changed = false;
     bool ret = true;
 
@@ -91,7 +91,9 @@ bool matrix_scan_custom(void) {
     // }
     // changed = false;
 
-    debounce(raw_matrix, matrix, MATRIX_ROWS, changed);
+    memcpy(current_matrix, raw_matrix, MATRIX_ROWS * sizeof(uint64_t));
+
+    // debounce(raw_matrix, current_matrix, MATRIX_ROWS, changed);
 
     return changed;
 }

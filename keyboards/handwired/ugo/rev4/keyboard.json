@@ -1,7 +1,7 @@
 {
     "build": {
         "lto": true
-    }
+    },
     "usb": {
         "device_version": "1.0.0",
         "pid": "0x0000",
@@ -14,6 +14,13 @@
     "eeprom": {
         "driver": "wear_leveling",
         "wear_leveling": { "driver": "spi_flash" }
+    },
+    "secure": {
+        "idle_timeout": 60000,
+        "unlock_sequence": [
+            [5, 0]
+        ],
+        "unlock_timeout": 5000
     },
     "tapping": {
         "term_per_key": true,
