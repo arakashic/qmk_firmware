@@ -8,6 +8,8 @@ OS_DETECTION_DEBUG_ENABLE = yes
 
 KEYBOARD_SHARED_EP = yes
 
+FLASH_DRIVER = spi
+
 QUANTUM_LIB_SRC += spi_master.c
 
 SRC += matrix.c

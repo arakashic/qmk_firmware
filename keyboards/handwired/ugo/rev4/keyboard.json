@@ -8,6 +8,10 @@
     "processor": "STM32F411",
     "bootloader": "stm32-dfu",
     "diode_direction": "COL2ROW",
+    "eeprom": {
+        "driver": "wear_leveling",
+        "wear_leveling": { "driver": "spi_flash" }
+    },
     "layouts": {
         "LAYOUT_split": {
             "layout": [
