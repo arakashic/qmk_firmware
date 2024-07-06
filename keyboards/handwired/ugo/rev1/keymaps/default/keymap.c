@@ -1,4 +1,4 @@
-#include "protok.h"
+#include QMK_KEYBOARD_H
 
 bool d2r_auto_enabled = false;
 

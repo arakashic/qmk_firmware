@@ -3,6 +3,8 @@
 
 #include "config_common.h"
 
+#define REV1
+
 #ifdef REV1
 /* USB Device descriptor parameter */
 #define VENDOR_ID       0x0FAC

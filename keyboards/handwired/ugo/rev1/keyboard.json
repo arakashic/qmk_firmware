@@ -1,0 +1,20 @@
+{
+    "manufacturer": "UGO",
+    "maintainer": "ugo",
+    "usb": {
+        "vid": "0x1209",
+        "pid": "0x88BD",
+        "device_version": "0.0.1"
+    },
+    "keyboard_name": "Protok Keyboard Model II",
+    "processor": "atmega32u4",
+    "bootloader": "halfkey",
+    "features": {
+        "bootmagic": true,
+        "command": true,
+        "console": true,
+        "extrakey": true,
+        "mousekey": true,
+        "nkro": false
+    }
+}
