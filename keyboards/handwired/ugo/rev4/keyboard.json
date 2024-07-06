@@ -1,6 +1,4 @@
 {
-    "manufacturer": "UGO",
-    "maintainer": "UGO",
     "usb": {
         "device_version": "1.0.0",
         "pid": "0x0000",
@@ -10,15 +8,6 @@
     "processor": "STM32F411",
     "bootloader": "stm32-dfu",
     "diode_direction": "COL2ROW",
-    "features": {
-        "bootmagic": true,
-        "command": true,
-        "console": true,
-        "extrakey": true,
-        "mousekey": true,
-        "nkro": false
-    },
-    "url": "",
     "layouts": {
         "LAYOUT_split": {
             "layout": [

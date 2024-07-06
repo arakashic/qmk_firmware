@@ -1,6 +1,4 @@
 {
-    "manufacturer": "UGO",
-    "maintainer": "ugo",
     "usb": {
         "vid": "0x1209",
         "pid": "0x88BD",
@@ -9,15 +7,6 @@
     "keyboard_name": "Protok Keyboard Model II",
     "processor": "STM32F411",
     "bootloader": "stm32-dfu",
-    "board": "BLACKPILL_STM32_F411",
-    "features": {
-        "bootmagic": true,
-        "command": true,
-        "console": true,
-        "extrakey": true,
-        "mousekey": true,
-        "nkro": false
-    },
     "layouts": {
         "LAYOUT_gen2": {
             "layout": [

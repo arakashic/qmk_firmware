@@ -1,0 +1,12 @@
+{
+    "manufacturer": "UGO",
+    "maintainer": "ugo",
+    "features": {
+        "bootmagic": true,
+        "command": true,
+        "console": true,
+        "extrakey": true,
+        "mousekey": true,
+        "nkro": false
+    }
+}
