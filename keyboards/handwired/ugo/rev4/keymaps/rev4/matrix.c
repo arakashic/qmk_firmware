@@ -16,10 +16,10 @@ void matrix_init_custom(void) {
     // initialize key pins
     spi_init();
     wait_us(1000);
-    setPinOutput(REGISTER_CS_PIN);
-    writePinHigh(REGISTER_CS_PIN);
-    setPinOutput(REGISTER_LD_PIN);
-    writePinHigh(REGISTER_LD_PIN);
+    gpio_set_pin_output(REGISTER_CS_PIN);
+    gpio_write_pin_high(REGISTER_CS_PIN);
+    gpio_set_pin_output(REGISTER_LD_PIN);
+    gpio_write_pin_high(REGISTER_LD_PIN);
     memset(buf_curr, 0, REGISTER_BYTES);
     memset(buf_in, 0, REGISTER_BYTES);
 
@@ -39,9 +39,9 @@ bool matrix_scan_custom(void) {
     // Set row, read cols
     spi_status_t spi_ret = SPI_STATUS_SUCCESS;
 
-    writePinLow(REGISTER_LD_PIN);
+    gpio_write_pin_low(REGISTER_LD_PIN);
     matrix_output_select_delay();
-    writePinHigh(REGISTER_LD_PIN);
+    gpio_write_pin_high(REGISTER_LD_PIN);
     matrix_io_delay();
 
     ret = spi_start(REGISTER_CS_PIN, false, 0, 64);
