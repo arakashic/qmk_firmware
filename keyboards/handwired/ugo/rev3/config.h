@@ -44,11 +44,6 @@
 #define OLED_FONT_H "keyboards/handwired/ugo/rev3/keymaps/rev3/glcdfont.c"
 
 /* configurations for mod-tap keys */
-/* #define TAPPING_TERM 200 */
-#define TAPPING_TERM_PER_KEY
-#define PERMISSIVE_HOLD_PER_KEY
-// #define TAPPING_FORCE_HOLD
-#define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 #define QUICK_TAP_TERM_PER_KEY
 
 #ifdef CONSOLE_ENABLE

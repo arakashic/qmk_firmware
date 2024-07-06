@@ -7,6 +7,11 @@
     "keyboard_name": "Protok Keyboard Model II",
     "processor": "STM32F411",
     "bootloader": "stm32-dfu",
+    "tapping": {
+        "term_per_key": true,
+        "permissive_hold_per_key": true,
+        "hold_on_other_key_press_per_key": true
+    },
     "layouts": {
         "LAYOUT_gen2": {
             "layout": [

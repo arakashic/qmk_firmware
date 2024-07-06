@@ -47,10 +47,5 @@
 #define ONESHOT_TIMEOUT 5000
 
 /* configurations for mod-tap keys */
-/* #define TAPPING_TERM 200 */
-#define TAPPING_TERM_PER_KEY
-#define PERMISSIVE_HOLD_PER_KEY
-// #define TAPPING_FORCE_HOLD
-#define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 #define QUICK_TAP_TERM_PER_KEY
 
