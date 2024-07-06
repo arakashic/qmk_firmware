@@ -1,5 +1,5 @@
-#ifndef PROTOK_H
-#define PROTOK_H
+#ifndef REV2_H
+#define REV2_H
 
 #include "quantum.h"
 

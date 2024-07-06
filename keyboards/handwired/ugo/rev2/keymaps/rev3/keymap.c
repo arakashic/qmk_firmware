@@ -1,4 +1,4 @@
-#include "protok.h"
+#include QMK_KEYBOARD_H
 #include "song_list.h"
 #include "analog.h"
 #ifdef ANALOG_JOYSTICK_ENABLE
