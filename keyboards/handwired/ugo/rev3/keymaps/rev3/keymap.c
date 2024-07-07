@@ -9,7 +9,7 @@
 #ifdef THUMBSTICK_ENABLE
 #include "thumbstick.h"
 #endif
-#include "log.h"
+#include "common/log.h"
 #include <stdbool.h>
 #include "common/rpt_macro.h"
 

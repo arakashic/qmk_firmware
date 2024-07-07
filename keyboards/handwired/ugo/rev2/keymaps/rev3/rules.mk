@@ -28,7 +28,7 @@ OPT_DEFS += -DREV3 -DI2C_EEPROM
 # OPT_DEFS += -DREV3 -DSPI_EEPROM
 
 ifeq ($(strip $(CONSOLE_ENABLE)), yes)
-    SRC += log.c
+    SRC += common/log.c
 endif
 
 ifeq ($(strip $(THUMBSTICK_ENABLE)), yes)

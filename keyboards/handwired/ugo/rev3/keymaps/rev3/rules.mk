@@ -28,7 +28,7 @@ SRC += matrix.c \
 QUANTUM_LIB_SRC = i2c_master.c
 
 ifeq ($(strip $(CONSOLE_ENABLE)), yes)
-    SRC += log.c
+    SRC += common/log.c
 endif
 
 ifeq ($(strip $(THUMBSTICK_ENABLE)), yes)

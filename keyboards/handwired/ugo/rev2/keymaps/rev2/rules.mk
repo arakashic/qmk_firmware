@@ -23,7 +23,7 @@ QUANTUM_LIB_SRC = i2c_master.c
 OPT_DEFS += -DREV2 -DI2C_EEPROM
 
 ifeq ($(strip $(CONSOLE_ENABLE)), yes)
-    SRC += log.c
+    SRC += common/log.c
 endif
 
 ifeq ($(strip $(THUMBSTICK_ENABLE)), yes)

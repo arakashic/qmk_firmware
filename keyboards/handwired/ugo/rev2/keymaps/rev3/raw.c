@@ -1,6 +1,6 @@
 #include <stdint.h>
 #include "raw.h"
-#include "log.h"
+#include "common/log.h"
 #include "eeconfig.h"
 
 enum {

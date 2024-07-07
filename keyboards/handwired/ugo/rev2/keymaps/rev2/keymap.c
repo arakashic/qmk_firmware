@@ -7,7 +7,7 @@
 #ifdef THUMBSTICK_ENABLE
 #include "thumbstick.h"
 #endif
-#include "log.h"
+#include "common/log.h"
 #ifdef RAW_ENABLE
 #include "raw.h"
 #endif

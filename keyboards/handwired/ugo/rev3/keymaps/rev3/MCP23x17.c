@@ -1,6 +1,6 @@
 
 #include "MCP23x17.h"
-#include "log.h"
+#include "common/log.h"
 
 #include "i2c_master.h"
 
