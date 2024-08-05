@@ -16,6 +16,7 @@
 enum layer_names {
     L_DEF = 0,
     L_GAME,
+    L_D4,
     L_FUN,
     L_SYM,
     L_NAV,
@@ -46,6 +47,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            KC_END   , PK_LCTL,          KC_A   , KC_S   , KC_D   , KC_F   , KC_G   , KC_H   , KC_J   , KC_K   , KC_L   , KC_SCLN, KC_QUOT, KC_BSLS, MO(L_FUN),
            XXXXXXX  ,          SC_LSPO, KC_Z   , KC_X   , KC_C   , KC_V   , KC_B   , KC_N   , KC_M   , KC_COMM, KC_DOT , KC_SLSH,          SC_RSPC, KC_PGUP,
            MO(L_CMD), PB_1   , PB_2   , KC_HYPR, KC_LGUI,          KC_LALT, PK_BSPC, PK_SPC , KC_ENT , KC_RALT, KC_RGUI, KC_LCTL, XXXXXXX, KC_UP  , KC_PGDN,
+                                                                                                                                  KC_LEFT, KC_DOWN, KC_RGHT),
+    /* Game layer PC */
+    LAYOUT_gen2(
+           KC_ESC            , KC_F1  , KC_F2  , KC_F3  , KC_F4  , KC_F5  , KC_F6  , KC_F7  , KC_F8  , KC_F9  , KC_F10 , KC_F11 , KC_F12 , KC_CAPS, KC_INS ,
+           KC_ESC   , KC_GRV , KC_1   , KC_2   , KC_3   , KC_4   , KC_5   , KC_6   , KC_7   , KC_8   , KC_9   , KC_0   , KC_MINS, KC_EQL , KC_HOME, KC_END ,
+           KC_HOME  , KC_TAB ,          KC_Q   , KC_W   , KC_E   , KC_R   , KC_T   , KC_Y   , KC_U   , KC_I   , KC_O   , KC_P   , KC_LBRC, KC_RBRC, KC_BSPC,
+           KC_END   , PK_LCTL,          KC_A   , KC_S   , KC_D   , KC_F   , KC_G   , KC_H   , KC_J   , KC_K   , KC_L   , KC_SCLN, KC_QUOT, KC_BSLS, MO(L_FUN),
+           KC_DEL   ,          SC_LSPO, KC_Z   , KC_X   , KC_C   , KC_V   , KC_B   , KC_N   , KC_M   , KC_COMM, KC_DOT , KC_SLSH,          SC_RSPC, KC_PGUP,
+           MO(L_CMD), XXXXXXX, M_RPTS , KC_HYPR, KC_LGUI,          KC_LALT, KC_SPC , KC_SPC , KC_ENT , KC_RALT, KC_RGUI, KC_LCTL, XXXXXXX, KC_UP  , KC_PGDN,
                                                                                                                                   KC_LEFT, KC_DOWN, KC_RGHT),
     /* Game layer PC */
     LAYOUT_gen2(
@@ -99,7 +109,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* command jump layer */
     LAYOUT_gen2(
            XXXXXXX         , DT_PRNT,   DT_UP, DT_DOWN, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_BOOT, DB_TOGG,  EE_CLR,  QK_RBT, OSL(L_SET),
-           KC_ACL2, XXXXXXX,TO(L_DEF),TO(L_GAME),XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+           KC_ACL2, XXXXXXX,TO(L_DEF),TO(L_GAME),TO(L_D4), XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
            KC_ACL1, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
            KC_ACL0, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
            XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX,
@@ -267,6 +277,9 @@ bool oled_task_user(void) {
             break;
         case L_GAME:
             oled_write_P(PSTR("Game"), false);
+            break;
+        case L_D4:
+            oled_write_P(PSTR("Diablo 4"), false);
             break;
         case L_FUN:
             oled_write_P(PSTR("FN"), false);
